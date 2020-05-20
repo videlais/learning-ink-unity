@@ -213,7 +213,7 @@ A *String* is a special type of collection that can only contain **Characters**.
 Strings are created using the keyword `String`
 
 ```C#
-String example = "Hi!";
+string example = "Hi!";
 ```
 
 > **Note:** String values should *always* be enclosed in double-quotation marks.
