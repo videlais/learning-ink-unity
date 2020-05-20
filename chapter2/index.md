@@ -7,6 +7,11 @@
       - [`get`](#get)
       - [`set`](#set)
     - [Methods](#methods)
+      - [Method Return Type](#method-return-type)
+      - [Method Name](#method-name)
+      - [Method Parameters](#method-parameters)
+      - [Method Bodies](#method-bodies)
+      - [Method Return Statement](#method-return-statement)
   - [Object-Oriented Programming](#object-oriented-programming)
     - [Inheritances](#inheritances)
     - [Parent and Child Classes](#parent-and-child-classes)
@@ -122,11 +127,11 @@ A *method* is a function attached to a class. They should start with a capital l
 
 A *method* has five different parts:
 
-1) What they return
-2) What their name is
-3) What values they accept
-4) What they do
-5) What they return
+1) What they return (Method Return Type)
+2) What their name is (Method Name)
+3) What values they accept (Method Parameters)
+4) What they do (Method Bodies)
+5) What they return (Method Return Statement)
 
 A method borrows its meaning from mathematics where a *function* is something which accepts input, performs a task, and has output.
 
@@ -138,9 +143,97 @@ public string Greeting() {
 
 > **Note:** Methods, like the differences between fields and properties, can also use the keyword `private` and `public`. In either case, this defines if it can be used outside of the class or not.
 
+#### Method Return Type
+
+Methods can return data. They do so via a *return type* that matching existing data types.
+
+**Example:**
+
+```C#
+public string Greeting() {
+    return "Hi!";
+}
+```
+
+In the above example, the method's *return type* is **String**. That is the type of data returned.
+
+#### Method Name
+
+The name of a method, like with a variable, is how it is referenced by other objects or within its class. The name of a method follows the same rules as variables: it can contain letters, numbers, and the underscore. It **cannot** contain spaces.
+
+**Example:**
+
+```C#
+public string Greeting() {
+    return "Hi!";
+}
+```
+
+In the above example, the name of the method is **Greetings**.
+
+> **Note:** It is strongly recommended to start the name of a method with a capital letter. This is a common naming pattern found even within the C# documentation.
+
+#### Method Parameters
+
+Like its roots in mathematics, methods can accept data. What type and the name of the data accepts are called its *parameters*.
+
+The parameters of a method are included in the opening and closing parentheses after its name.
+
+**Example:**
+
+```C#
+public string Greeting(string name) {
+    return name;
+}
+```
+
+As with all data in C#, method parameters are a form of *variables* and thus must have a data type and name. However, unlike class fields and other variable usages, they can only be used inside of the method itself.
+
+#### Method Bodies
+
+The *body* of its method is the code found inside of the opening (`{`) and closing (`}`) curly brackets of a method. Its body is "what it does."
+
+As methods can do anything from calculate new values to work with existing, private fields, each method in a class is different.
+
+**Example:**
+
+```C#
+public string Greeting() {
+    return "Hi!";
+}
+```
+
+In the above example, the *body* of the method is a single line, `return "Hi!"`. Other, more complex methods could potentially have dozens to hundreds of lines.
+
+#### Method Return Statement
+
+In programming terminology, a single line of code is often called a *statement*. The phrase "return statement" borrows from this usage and means the use of the keyword `return` and whatever the methods "returns" to some external code.
+
+The *return statement* of a method is directly connected to the *return type* of the method. They have to match! A method **must** return data of the same type of its return statement and return type.
+
+**Example:**
+
+```C#
+public string Greeting() {
+    return "Hi!";
+}
+```
+
+In the above example, the return statement is the line `return "Hi!";`. The *type* of data is a **String**, which also matches the return type before the name!
+
 ---
 
 ## Object-Oriented Programming
+
+C# is *object-oriented*. This means that all interactions between code happens between *objects*. This also means that classes -- as the "blueprints" of an object -- are written to include fields, properties, and methods in order to calculate values and potentially communicate between objects.
+
+Object-oriented *programming* is a paradigm -- way of thinking -- that breaks up coding problems into their objects and how those objects relate to each other. The possible relationships exist in three possible options.
+
+To help understand these relationships, the metaphor of parents, children, and toys are used:
+
+- A child, being based on a parent, exists in a "is a" relationship to the parent.
+- A child whose has a toy is in a "has a" relationship to the toy.
+- Because the child has a toy, and the parent does not, there is no relationship between the parent and the toy.
 
 ### Inheritances
 
