@@ -1,6 +1,6 @@
-# Reviewing C Sharp
+# C\#: Variables, Data Types, and Collections
 
-- [Reviewing C Sharp](#reviewing-c-sharp)
+- [C\#: Variables, Data Types, and Collections](#c-variables-data-types-and-collections)
   - [Comments](#comments)
   - [Variables and Constants](#variables-and-constants)
     - [Common Data Types](#common-data-types)
