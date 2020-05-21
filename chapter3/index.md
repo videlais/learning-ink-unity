@@ -1,9 +1,12 @@
 # Chapter 3: C\#: Operators
 
 - [Chapter 3: C\#: Operators](#chapter-3-c-operators)
+  - [Assignment Operator](#assignment-operator)
   - [Arithmetic Operators](#arithmetic-operators)
     - [Addition](#addition)
+    - [Addition Assignment](#addition-assignment)
     - [Subtraction](#subtraction)
+    - [Subtraction Assignment](#subtraction-assignment)
     - [Multiplication](#multiplication)
     - [Division](#division)
     - [Modulus](#modulus)
@@ -21,6 +24,9 @@
     - [Greater-than](#greater-than)
     - [Less-Than-Or-Equal-To](#less-than-or-equal-to)
     - [Greater-Than-Or-Equal-To](#greater-than-or-equal-to)
+    - [Complex Comparisons](#complex-comparisons)
+      - [AND](#and)
+      - [OR](#or)
   - [Type-Testing Operators](#type-testing-operators)
     - [`is`](#is)
     - [`as`](#as)
@@ -29,6 +35,22 @@
 **Summary:** In this chapter, operators and conditionals in C# are reviewed.
 
 ---
+
+## Assignment Operator
+
+The most common operator in any programming language is the *assignment* operator, `=`. This "assigns" a value to a variable.
+
+```C#
+int example = 5;
+```
+
+While it most commonly appears when a variable is being created, it is also used to overwrite a value.
+
+```C#
+example = 6;
+```
+
+> **Note:** Trying to re-assign a value to a *constant* will result in an error. Once assigned a new value **cannot** be assigned.
 
 ## Arithmetic Operators
 
@@ -46,6 +68,16 @@ example = example + 5;
 
 > **Note:** If an **Integer** is added to a **Float** value, the result is a **Float** value.
 
+### Addition Assignment
+
+The addition assignment operator, `+=`, performs both actions. In the cases where a value would be added to a variable and then save again, the additional assignment operator combines the two.
+
+```C#
+int example = 5;
+// 10
+example += 5;
+```
+
 ### Subtraction
 
 The subtraction operator, `-`, can be used with any number values.
@@ -57,6 +89,16 @@ example = example - 5;
 ```
 
 > **Note:** If an **Integer** is subtracted from a **Float** value, the result is a **Float** value.
+
+### Subtraction Assignment
+
+The subtraction assignment operator, `-=`, performs both actions. In the cases where a value would be subtract from a variable and then saved again, the additional assignment operator combines the two.
+
+```C#
+int example = 5;
+// 0
+example -= 5;
+```
 
 ### Multiplication
 
@@ -190,17 +232,49 @@ In the above example, if the result of the comparison between one value, `"Hi!"`
 
 ### Equality
 
+The *equality* operator, `==`, compares any two values. If they are the same, the result is `true`.
+
+> **Note:** Objects and Collections in C# have a method called **Equals()** that accepts an object of the same data type (or one that can be converted via polymorphism) and compares them. When overridden in new classes, this allows new data types to be compared to each other.
+
 ### Inequality
+
+The *inequality* operator, `!=`, compares any two values. If they are *not* the same, the result is `true`.
 
 ### Negation
 
+All Booleans values can be *negated*. This "flips" a value from `true` to `false` or `false` to `true`. When used with a comparison, it changes to the "opposite" value (`true` to `false` or `false` to `true`).
+
 ### Less-than
+
+Numerical values can be compared using the less-than operator, `<`. If the value on the left-hand side is *less than* the value on the right-hand side, the result is `true`.
 
 ### Greater-than
 
+Numerical values can be compared using the greater-than operator, `>`. If the value on the left-hand side is *greater than* the value on the right-hand side, the result is `true`.
+
 ### Less-Than-Or-Equal-To
 
+Numerical values can be compared using the less-than-or-equal-to operator, `<=`. If the value on the left-hand side is *less than* **or** *equal to* the value on the right-hand side, the result is `true`.
+
 ### Greater-Than-Or-Equal-To
+
+Numerical values can be compared using the greater-than-or-equal-to operator, `>=`. If the value on the left-hand side is *greater than* **or** *equal to* the value on the right-hand side, the result is `true`.
+
+### Complex Comparisons
+
+The equality, inequality, less-than, greater-than, less-than-or-equal-to, and greater-than-or-equal-to are *binary* operators. They need both a *left-hand* and *right-hand* values between the operator. Two values.
+
+However, they can also be wrapped in opening (`)`) and closing (`)`) parentheses to make *complex* comparisons whose final result will be either `true` or `false`. This can also be combined with the negation operator, `!`, as well.
+
+To help with these, programming languages like C# have *Boolean logical operators* for combining multiple possible comparisons together in complex comparisons using *logical operators*.
+
+#### AND
+
+When testing values, any two Boolean values can be tested *together* using the *and* operator, `&&`. If *both* comparisons or values are `true`, the result is `true`.
+
+#### OR
+
+When testing values, any two Boolean values can be tested *together* using the *or* operator, `||`. If *either* value or comparison is `true`, the result is `true`.
 
 ## Type-Testing Operators
 
