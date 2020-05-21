@@ -7,7 +7,7 @@ Learn to use Ink + Unity
 - Introduction
 - C#: Variables, Data Types, and Collections
 - C#: Objects and Classes
-- C#: Operations and Operators
+- C#: Operators
 - Unity: Editor Basics
 - Unity: GameObjects
 - Unity: User Interface Objects

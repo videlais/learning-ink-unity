@@ -27,6 +27,15 @@
         - [**Main()**](#main)
         - [Cannot Access `this`](#cannot-access-this)
     - [Polymorphism](#polymorphism)
+      - [Run-Time Polymorphism](#run-time-polymorphism)
+      - [Accessing `base`](#accessing-base)
+      - [Overriding Base Methods](#overriding-base-methods)
+        - [Virtual Methods](#virtual-methods)
+        - [Abstract Methods](#abstract-methods)
+
+**Summary:** In this chapter, objects and objects in C# are reviewed.
+
+---
 
 ## Class Anatomy
 
@@ -441,6 +450,8 @@ Any method with the keyword `static` within a class cannot access the keyword `t
 
 In object-oriented programming, one object can be converted into another if they both share the same parent class. This is known as *polymorphism*.
 
+#### Run-Time Polymorphism
+
 ```C#
 public class Person {
   public string Name;
@@ -475,3 +486,107 @@ public class MainClass {
 In the above example, the variables *a* and *b* inside of the method **Main()** have the data type of **Person**. However, when created, the variable *a* is the object of the type **Alice** and *b* is an object of the type **Bob**.
 
 The variables are *polymorphed* during run-time from their parent **Person** into **Alice** and **Bob** individually.
+
+#### Accessing `base`
+
+A child class can access its parents fields, properties, and methods through the keyword `base`. This references its *base* class.
+
+```C#
+public class Person {
+  
+  public string Name;
+
+  public string Greeting() {
+    return "Hi!";
+  }
+
+}
+
+public class Alice : Person {
+  
+  public Alice() {
+    this.Name = "Alice";
+  }
+
+}
+
+public class Bob: Person {
+  
+  public Bob() {
+    this.Name = "Bob";
+  }
+
+  public string BobGreeting() {
+    return base.Greeting();
+  }
+
+}
+```
+
+#### Overriding Base Methods
+
+A child class can also *override* any fields, properties, and methods if a parent's methods use `virtual` or `abstract` and the child uses `override` on a method named the same.
+
+##### Virtual Methods
+
+Any method marked as `virtual` can be overridden in a child class. This *allows* future child classes the ability to override them as needed instead of using the keyword `base` to call it directly.
+
+```C#
+public class Person {
+  
+  public string Name;
+
+  public virtual string Greeting() {
+    return "Hi!";
+  }
+
+}
+
+public class Alice : Person {
+  
+  public Alice() {
+    this.Name = "Alice";
+  }
+
+}
+
+public class Bob: Person {
+  
+  public Bob() {
+    this.Name = "Bob";
+  }
+
+  public override string Greeting() {
+    return "Hello!";
+  }
+
+}
+```
+
+##### Abstract Methods
+
+Any method marked as `abstract` can be overridden in a child class. However, this *forces* future child classes to override it and does (and should) not provide its own method body.
+
+Abstract methods **must** be used in classes that are also *abstract*.
+
+```C#
+public abstract class Person {
+  
+  public string Name;
+
+  public abstract string Greeting();
+
+}
+
+public class Bob: Person {
+  
+  public Bob() {
+    this.Name = "Bob";
+  }
+
+  public override string Greeting() {
+    return "Hello!";
+  }
+
+}
+```
