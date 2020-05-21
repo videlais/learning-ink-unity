@@ -90,8 +90,10 @@ In C#, float value can be between `-3.4 x 1038` to `+3.4 x 1038`.
 **Floats** are created through the keyword `float`.
 
 ```C#
-float example = 3.14;
+float example = 3.14f;
 ```
+
+> **Note:** The use of the letter `f` after a **Float** value in C# is part of how decimal numbers are written. It lets C# know not to convert the value into something else and leave it a "float" value.
 
 #### Booleans
 
@@ -126,10 +128,10 @@ Variables change. However, there is a special type of variable called a *constan
 Constants are created using the keyword `const`. It appears *before* the label for any other data type.
 
 ```C#
-const int PI = 3.14159;
+const float Pi = 3.14159f;
 ```
 
-> **Note:** A common pattern when creating constants is to write them in all capital letters. This signals their importance and inability of their values to be changed.
+> **Note:** A common pattern when creating constants is to write starting with a capital letter. This signals their importance and inability of their values to be changed.
 
 ## Collections
 
