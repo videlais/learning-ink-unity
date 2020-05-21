@@ -19,10 +19,13 @@
       - [Constructor](#constructor)
       - [Variable Scope](#variable-scope)
     - [`this`](#this)
+    - [`new`](#new)
   - [Object-Oriented Programming](#object-oriented-programming)
     - [Inheritance](#inheritance)
       - [Inheriting Fields, Properties, and Methods](#inheriting-fields-properties-and-methods)
-      - [Introducing `static`](#introducing-static)
+      - [Using `static`](#using-static)
+        - [**Main()**](#main)
+        - [Cannot Access `this`](#cannot-access-this)
     - [Polymorphism](#polymorphism)
 
 ## Class Anatomy
@@ -321,6 +324,32 @@ class Person {
 
 Inside of a constructor, values can be "constructed" through using the keyword `this` to refer its its private fields.
 
+### `new`
+
+An object is created through using the keyword `new`. This creates a *new* object based on the "blueprint" of a class.
+
+Internally, it calls the *constructor* of that class. Combined with the ability of a method to accept arguments, this allows a new object to receive values.
+
+```C#
+class Person {
+
+  private string _name;
+
+  Person(string name) {
+
+    this._name = name;
+  
+  }
+
+}
+
+class Example {
+  
+  public Person p = new Person("Fred");
+
+}
+```
+
 ---
 
 ## Object-Oriented Programming
@@ -367,16 +396,82 @@ class Fred : Person {
     this.Name = "Fred";
     this.Height = 5.4f;
   }
+
+}
+```
+
+#### Using `static`
+
+The keyword `static` creates a field, property, or method that is "static" to a single class. It **cannot** be inherited.
+
+Any method with the keyword `static` can also be called from outside of a class *without* creating an object.
+
+```C#
+class Example {
   
-  public static void Main (string[] args) {
+  static public int Add(int x, int y) {
+    return x + y;
+  }
+
+}
+
+Example.Add(2, 2);
+```
+
+##### **Main()**
+
+In C#, the special combination of `public`, `static` and `void Main()` signals that this is the *starting* method of the entire project. This will be *called first* before any other method.
+
+```C#
+class Example {
+
+  public static void Main () {
+  }
+
+}
+```
+
+> **Note:** The data type `void` is special. It cannot be used with variables, but signals that a method *does not return a value*.
+
+##### Cannot Access `this`
+
+Any method with the keyword `static` within a class cannot access the keyword `this`.
+
+### Polymorphism
+
+In object-oriented programming, one object can be converted into another if they both share the same parent class. This is known as *polymorphism*.
+
+```C#
+public class Person {
+  public string Name;
+}
+
+public class Alice : Person {
+  public Alice() {
+    this.Name = "Alice";
+  }
+}
+
+public class Bob: Person {
+  public Bob() {
+    this.Name = "Bob";
+  }
+}
+
+public class MainClass {
+
+  public static void Main () {
+
+    Person a = new Alice();
+    Person b = new Bob();
+
+    Console.WriteLine("Hi!");
 
   }
 
 }
 ```
 
-#### Introducing `static`
+In the above example, the variables *a* and *b* inside of the method **Main()** have the data type of **Person**. However, when created, the variable *a* is the object of the type **Alice** and *b* is an object of the type **Bob**.
 
-The keyword `static` creates a field, property, or method that is "static"
-
-### Polymorphism
+The variables are *polymorphed* during run-time from their parent **Person** into **Alice** and **Bob** individually.
