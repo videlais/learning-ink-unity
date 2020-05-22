@@ -29,7 +29,6 @@
       - [OR](#or)
   - [Type-Testing Operators](#type-testing-operators)
     - [`is`](#is)
-    - [`as`](#as)
     - [`typeof`](#typeof)
 
 **Summary:** In this chapter, operators and conditionals in C# are reviewed.
@@ -272,14 +271,45 @@ To help with these, programming languages like C# have *Boolean logical operator
 
 When testing values, any two Boolean values can be tested *together* using the *and* operator, `&&`. If *both* comparisons or values are `true`, the result is `true`.
 
+```C#
+if(1 == 1 && 2 != 3) {
+ // Run this code
+}
+```
+
 #### OR
 
 When testing values, any two Boolean values can be tested *together* using the *or* operator, `||`. If *either* value or comparison is `true`, the result is `true`.
 
+```C#
+if(2 != 4 || 1 == 1) {
+  // Run this code
+}
+```
+
 ## Type-Testing Operators
+
+Because C# has a focus on the types of data used, it also provides functionality to test the type of an object.
 
 ### `is`
 
-### `as`
+The `is` keyword compares an object with a known data type. It is a *binary* operator, which means that a value appears on the left-hand side and a known data type appears on the right-hand side.
+
+```C#
+
+string name = "Fred";
+
+if(name is string) {
+  // Run this code
+}
+
+```
 
 ### `typeof`
+
+The keyword `typeof` returns a **Type** object containing the *type*.
+
+```C#
+// System.String
+typeof(string)
+```
