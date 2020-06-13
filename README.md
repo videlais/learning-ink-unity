@@ -1,30 +1,36 @@
 # Learning Ink + Unity
 
-Learn to use Ink + Unity
+Welcome to the online, open-course textbook *Learning Ink + Unity*!
+
+This book is designed for those who may not have used Ink, Unity, or any programming before with the goal to get you started on creating projects using the Ink-Unity Plugin! It doesn't cover *everything*, but it should be enough to start making things and preparing the way to move on to more advanced topics and concepts.
+
+The content is divided into three sections: Code Basics, Editor Basics, and Using Plugins and Libraries. The first two sections introduce the concepts needed to better understand the last section. While the book *can* be read in a different order, it is strongly recommended to start with some of the chapters on the code *before* moving over to the chapters on the Unity Editor and finally on using the Ink-Unity Plugin itself.
 
 ## Table of Contents
 
-- Introduction
+### Code Basics
+
+- [Chapter 1: C#: Variables, Data Types, and Collections](./chapter1/index.md)
+- [Chapter 2: C#: Objects and Classes](./chapter2/index.md)
+- [Chapter 3: C#: Operators](./chapter3/index.md)
 
 ---
 
-- C#: Variables, Data Types, and Collections
-- C#: Objects and Classes
-- C#: Operators
+### Editor Basics
+
+- Chapter 4: Unity: Editor Basics
+- Chapter 5: Unity: GameObjects
+- Chapter 6: Unity: User Interface Objects
+- Chapter 7: Unity: Components
 
 ---
 
-- Unity: Editor Basics
-- Unity: GameObjects
-- Unity: User Interface Objects
-- Unity: Components
+### Using Plugins and Libraries
 
----
-
-- Ink: Loading Ink-Unity Plugin
-- Ink: Story API
-- Ink: Runtime API
-- Ink: Profiler API
+- Chapter 8: Ink: Loading Ink-Unity Plugin
+- Chapter 9: Ink: Story API
+- Chapter 10: Ink: Runtime API
+- Chapter 11: Ink: Profiler API
 
 ---
 
