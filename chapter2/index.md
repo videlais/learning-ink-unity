@@ -2,35 +2,17 @@
 
 - [Chapter 2: C#: Classes and Objects](#chapter-2-c-classes-and-objects)
   - [Class Anatomy](#class-anatomy)
-    - [Fields](#fields)
     - [Properties](#properties)
-      - [`get`](#get)
       - [`set`](#set)
-    - [Methods](#methods)
-      - [Method Anatomy](#method-anatomy)
         - [Method Return Type](#method-return-type)
-        - [Method Name](#method-name)
         - [Method Parameters](#method-parameters)
-        - [Method Bodies](#method-bodies)
         - [Method Return Statement](#method-return-statement)
-      - [Calling Methods](#calling-methods)
         - [Arguments](#arguments)
-        - [Returning Values](#returning-values)
       - [Constructor](#constructor)
-      - [Variable Scope](#variable-scope)
-    - [`this`](#this)
     - [`new`](#new)
-  - [Object-Oriented Programming](#object-oriented-programming)
-    - [Inheritance](#inheritance)
       - [Inheriting Fields, Properties, and Methods](#inheriting-fields-properties-and-methods)
-      - [Using `static`](#using-static)
         - [**Main()**](#main)
-        - [Cannot Access `this`](#cannot-access-this)
-    - [Polymorphism](#polymorphism)
-      - [Run-Time Polymorphism](#run-time-polymorphism)
       - [Accessing `base`](#accessing-base)
-      - [Overriding Base Methods](#overriding-base-methods)
-        - [Virtual Methods](#virtual-methods)
         - [Abstract Methods](#abstract-methods)
 
 **Summary:** In this chapter, objects and objects in C# are reviewed.
@@ -138,6 +120,10 @@ class MainClass {
 In the above example class named **MainClass**, it has a property named *Name*. It has both a getter and a setter. When used in its getting context, it *returns* the internal, private field. When used as a setter, the keyword `value` is whatever is used to set the value.
 
 > **Note:** The keyword `return` is used whenever a value needs to be "returned" to an external block of code. While used with getters, it is most commonly part of methods.
+
+#### PascalCase Naming
+
+Variables internal to a program are often capitalized in different ways. For properties in C#, it is generally expected that they follow the PascalCase pattern where the first letter of each word is capitalized.
 
 ### Methods
 
@@ -358,6 +344,10 @@ class Example {
 
 }
 ```
+
+#### PascalCase Method Naming
+
+Like with properties, it is generally expected that method follow the PascalCase pattern where the first letter of each word is capitalized.
 
 ---
 

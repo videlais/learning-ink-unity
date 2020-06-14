@@ -18,8 +18,9 @@ The content is divided into three sections: Code Basics, Editor Basics, and Usin
 
 ### Editor Basics
 
-- Chapter 4: Unity: Common Terms and Concepts
+- [Chapter 4: Unity: Terms, Concepts, and Scripting Basics](./chapter4/index.md)
 - Chapter 5: Unity: Editor Basics
+- Chapter 6: Unity: Scripting Basics
 
 ---
 

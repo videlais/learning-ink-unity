@@ -1,6 +1,6 @@
-# Chapter 4: Common Terms and Concepts
+# Chapter 4: Terms, Concepts, and Scripting Basics
 
-- [Chapter 4: Common Terms and Concepts](#chapter-4-common-terms-and-concepts)
+- [Chapter 4: Terms, Concepts, and Scripting Basics](#chapter-4-terms-concepts-and-scripting-basics)
   - [Common Terms](#common-terms)
     - [Project](#project)
     - [Scene](#scene)
@@ -11,6 +11,10 @@
     - [Entity-Component Model](#entity-component-model)
     - [Game Loops](#game-loops)
     - [Composition Over Inheritance](#composition-over-inheritance)
+    - [**Debug.Log()**](#debuglog)
+    - [Private and Public Properties](#private-and-public-properties)
+
+---
 
 ## Common Terms
 
@@ -51,6 +55,8 @@ While the foundation of scenes, GameObjects are actually containers for Componen
 Every GameObject has its own set of *Components*. Each is used to change or augment functionality associated with that GameObject. Each, in turn, has *properties* that describe its relationship to the project and often other GameObjects in the scene.
 
 **Every** GameObject has a built-in component called *Transform* that represents its position, rotation, and scale. Every GameObject, then, has a position in the project, even if not visible to the player or as part of the current view.
+
+---
 
 ## Concepts
 
@@ -121,8 +127,154 @@ public class NewBehaviourScript : MonoBehaviour
     {
     }
 }
+
 ```
 
 Using these scripts (C# code), Unity strongly prefers that developers *compose* projects that start from scene, move to GameObjects, and then use scripted components on those objects. Instead of creating new objects that are used to create more specific ones, Unity strongly prefers the Entity-Component Model where GameObjects are the entities and any scripting (C# programming) is are scripted components on those entities.
 
 In other words, instead of starting with code building up, Unity starts with GameObjects within a scene. If a GameObject needs some extra scripting, it is added as a *scripted component*. Otherwise, no new code is added and components such as the built-in Transform component are used to adjust properties and relationships.
+
+---
+
+## Scripting Basics
+
+Because all GameObjects can have scripting components, their behaviors can be changed through writing C# code. The *scripting component* is additional code that is written that is run as part of the GameObject and can generally be adjusted alongside its other components. However, unlike other components, scripting components (behavior scripts) are edited in an external program: Visual Studio.
+
+Packaged with Unity, Visual Studio allows for writing C# within an integrated development environment (IDE) specialized for writing and testing code.
+
+Attempting to open a behavior script in Unity opens the code in Visual Studio.
+
+### Anatomy of a MonoBehavior Script
+
+```C#
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+```
+
+Three libraries are added by default to all scripts: **System.Collections**, **System.Collections.Generic**, and **UnityEngine**. The first two, **System.Collections**, **System.Collections.Generic**, allow for using the built-in collection data types in C#. The third, **UnityEngine**, gives access to a large number of built-in data types that come with Unity. These allows for manipulating GameObjects and any values associated with their components.
+
+```C#
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class NewBehaviourScript : MonoBehaviour
+{}
+```
+
+The library **UnityEngine** also allows access to the object **MonoBehaviour** from which all behavior scripts inherit. This provides a number of methods such as **Start()** and **Update()**. As Unity uses the Entity-Component Model as part of its order of execution, these methods will be called as part of the GameObject in the scene.
+
+```C#
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class NewBehaviourScript : MonoBehaviour
+{
+    // Start is called before the first frame update
+    void Start()
+    {
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+    }
+}
+```
+
+Notably, and as comments remind, **Start()** is called before the first frame of the scene and the method **Update()** is called once per frame. Between these two initial methods, some basic behaviors can be constructed.
+
+As part of the Initialization step of the GameObject, values can also be added to the class. Because all scripts are, in fact, C# objects, this allows for changing values as part of the Game Logic step in the order of execution. Because this occurs after Input Event and before Rendering steps, any code written within the script can process input and adjust the Transform component values of the GameObject before it is drawn to the screen.
+
+### **Debug.Log()**
+
+Inherited along with many other classes via **UnityEngine** is access to the class **Debug**. As its name implies, this is a class that can be used to *debug*. For example, it has a method, **Log()**, that can be used to display string data.
+
+```C#
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class NewBehaviourScript : MonoBehaviour
+{
+    // Start is called before the first frame update
+    void Start()
+    {
+      Debug.Log("Hey, there!");
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+    }
+}
+```
+
+In the above example, the method **Debug.Log()** is used as part of the **Start()** method. When the scene starts and the GameObject is initialized, the code would run and its message `Hey, there!` would be printed to the Console window in Unity.
+
+While developing C# code in Visual Studio and testing in the Unity Editor, the method **Debug.Log()** is a very useful tool. Because it can be used as part of any method within the behavior script, it has the ability to show information while code is running in the Unity Editor.
+
+### Local **gameObject**
+
+In order to access the GameObject the scripting component is attached to, all scripts have access to a local **gameObject** object that is inherited from the **MonoBehaviour**. This means that the script has access to the object, its properties, and any other components attached to it through existing methods inherited from the parent **MonoBehaviour**.
+
+For example, when using the **Debug.Log()** method, the name of the GameObject the current scripting component is currently attached to can be shown in the Console window in the Unity Editor.
+
+```C#
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class NewBehaviourScript : MonoBehaviour
+{
+    // Start is called before the first frame update
+    void Start()
+    {
+      Debug.Log(gameObject.name);
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+    }
+}
+```
+
+### Private and Public Properties
+
+As with any other class in C#, any private field in an object cannot be accessed outside of that object. However, while setting a field as `public` may seem to allow access outside of the object, it has an additional aspect when used in a scripting component in Unity. All public properties in a scripting components can *also* be accessed in the Unity Editor itself.
+
+While not obvious, using public properties and then adjusting their values from inside of the Unity Editor is a standard and encouraged practice when using scripting components and the Unity Editor. In fact, many tutorials, guides, and other resources demonstrate this practice frequently.
+
+**Note:** The reasoning behind this practice is because Unity uses the Entity-Component Model. Scripting components are just that, *components*. Any scripting added to a GameObject is not the object itself, but *additional* components added to that entity. The code is **not** the GameObject. It is scripting *added* to the GameObject to adjust its default behaviors.
+
+**Example Public Property:**
+
+```C#
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class NewBehaviourScript : MonoBehaviour
+{
+    public int Example;
+    // Start is called before the first frame update
+    void Start()
+    {
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+    }
+}
+
+```
+
+![alt text](./Properties.png "Properties in Unity")
+
+As the above example demonstrates, when a public property is added within the code representing the scripting component matching its name, it is added in the Unity Editor.
+
+**Reminder:** It is general style convention in C# to name properties and methods using PascalCase where the first letter of each word is capitalized. The Unity Editor also supports this and will capitalize the first letter of any public property if it is not already capitalized as it should be.
