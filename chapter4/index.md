@@ -1,27 +1,20 @@
-# Chapter 4: Unity Basics
+# Chapter 4: Common Terms and Concepts
 
-- [Chapter 4: Unity Basics](#chapter-4-unity-basics)
+- [Chapter 4: Common Terms and Concepts](#chapter-4-common-terms-and-concepts)
   - [Common Terms](#common-terms)
-    - [Projects](#projects)
-    - [Scenes](#scenes)
+    - [Project](#project)
+    - [Scene](#scene)
     - [Asset](#asset)
     - [GameObject](#gameobject)
     - [Component](#component)
   - [Concepts](#concepts)
     - [Entity-Component Model](#entity-component-model)
-    - [Game Loop](#game-loop)
-  - [Views](#views)
-    - [Hierarchy View](#hierarchy-view)
-    - [Inspector View](#inspector-view)
-  - [Scripting Files](#scripting-files)
-  - [Modes](#modes)
-    - [Editor](#editor)
-    - [Runtime](#runtime)
-  - [Unity Concepts](#unity-concepts)
+    - [Game Loops](#game-loops)
+    - [Composition Over Inheritance](#composition-over-inheritance)
 
 ## Common Terms
 
-### Projects
+### Project
 
 Everything in Unity starts with *projects*. These are configurations, files, and builds based on their name as created in Unity or through the Unity Hub. They contain scenes, assets, game objects, and components needed to create, run, and build the project.
 
@@ -31,7 +24,7 @@ When creating a project in Unity or the Unity Hub, there are also two general ty
 
 A single Unity project will often have multiple scenes.
 
-### Scenes
+### Scene
 
 Unity organizes projects into units called *scenes*. In order to use Unity, a scene must be *open*, and running anything means running a scene.
 
@@ -71,32 +64,65 @@ Unity is based on the *Entity-Component Model*. Generally, the Entity-Component 
 
 - **System**: one or more processes that work on entities. For example, in Unity, there are rendering and physics systems. These each work separately, but understand a scene through its GameObject and the components each has that define itself and its relationships.
 
-### Game Loop
+### Game Loops
 
-TODO
+Unity is based on different *systems*. As a project runs, each one performs different tasks, and they all have the possibility of influencing each other.
 
-## Views
+Consider, for example, a 2D platformer game where a player presses a button and a character moves on the screen. Such an interaction, while seemingly simple, works through these different systems. These could include a Physics system that performed calculations that kept the character from passing through the floor of a level. It would also include an Event system that accepted keyboard presses and translated those into character movement.
 
-### Hierarchy View
+In game design terms, this is known as a *game loop*. While a game "runs," it is actually performing a loop (in programming terms) of the same systems as a series of steps each time. One runs, the next runs, and then then loop resets and they all run again.
 
-The central view is the Hierarchy View. It contains game objects, the smallest unit in Unity. When working with images on the screen or even different user interface elements, these are all game objects. In Unity, the primary way to add new game objects is through the Hierarchy View.
+Unity uses the term "order of execution" to describe these steps. In general terms, the following steps are run for **every** GameObject in the scene.
 
-### Inspector View
+1) **Initialization**: Values are created and if the GameObject has a **Start()** method, it is run.
 
-When working with a single game object, the Inspector View shows details about it. Depending on the object and its own components, different details such as its position, appearance, and how it interacts with events can be changed directly. The Inspector View is also how new components are added to a game object.
+1) **Physics**: Any internal physics calculations are run and the properties of the Transform component of any affected GameObjects are updated.
 
-## Scripting Files
+1) **Input Events**: Input values are collected from devices such as keyboard, mice, or controllers.
 
-Unity uses the C# programming language for scripting purposes. Files are added through being attached as a new component to a game object. This allows the script to access details about the game object it is associated with and react or manipulate it as a result.
+1) **Game Logic**: If the GameObject should react to input or other existing values, it does.
 
-## Modes
+1) **Renderering**: If a GameObject's Transform component is changed and have a visual element, it is updated.
 
-The Unity Editor has two modes: runtime and editor mode. While in runtime mode, Unity is displaying any game objects in the current scene and running any code. The properties and settings of game objects can be changed while in runtime and they will be updated in real-time. However, any changes made during the runtime mode will not be retained when it ends.
+1) **Decommissioning**: As a GameObject is removed (destroyed), it can perform final actions.
 
-The editor mode is the main mode for editing game objects in Unity. Any changes made during this mode are retained into the next runtime mode.
+As a scene is running, the Physics, Input Events, Game Logic, and Rendering systems run in sequence each loop. In fact, they run every *frame*.
 
-### Editor
+In animation terms, a *frame* is a single image that is part of a sequence that creates the illusion of motion. Depending on the frames per second (FPS), Unity will perform calculations to match the visual frequency of the images shown.
 
-### Runtime
+As a scene is running, Unity creates the visual elements of the game through using a *camera* (a select area of a larger possible game space). The camera's view is what a player would see as the game runs. Images (frames) are created based on what the camera is viewing and if any GameObjects are within the selected area of the camera. If they are, the player can "see" them; if not, the player cannot.
 
-## Unity Concepts
+A game loop runs different systems (Physics, Input Events, Game Logic, and Rendering) on the GameObjects that are active in the scene to calculate their interactions and relationships, updating each frame to create motion on screen.
+
+### Composition Over Inheritance
+
+Unity understands the programming language C#. However, while it uses this object-oriented programming language (OOP), Unity strongly prefers *composition* over using inheritance. In the more classic object-oriented programming model, objects can *inherit* from each other through creating a more generic version and then inheriting its properties and methods to create a more specific object.
+
+Instead, Unity uses scenes to organize GameObjects. Each, in turn, has its own components. Any of these could be *scripted components* that are C# code that are used to adjust the behavior of that GameObject. In fact, these are what Unity calls *Behavior Scripts*.
+
+Any GameObject can have a behavior script. Any created inherit from an object called **MonoBehavior** that provides a set of basic methods that allow a script to interact with the GameObject.
+
+**Example Behavior Script:**
+
+```C#
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class NewBehaviourScript : MonoBehaviour
+{
+    // Start is called before the first frame update
+    void Start()
+    {
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+    }
+}
+```
+
+Using these scripts (C# code), Unity strongly prefers that developers *compose* projects that start from scene, move to GameObjects, and then use scripted components on those objects. Instead of creating new objects that are used to create more specific ones, Unity strongly prefers the Entity-Component Model where GameObjects are the entities and any scripting (C# programming) is are scripted components on those entities.
+
+In other words, instead of starting with code building up, Unity starts with GameObjects within a scene. If a GameObject needs some extra scripting, it is added as a *scripted component*. Otherwise, no new code is added and components such as the built-in Transform component are used to adjust properties and relationships.

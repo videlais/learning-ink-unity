@@ -1,6 +1,6 @@
 # Learning Ink + Unity
 
-Welcome to the online, open-course textbook *Learning Ink + Unity*!
+Welcome to the online, open-source textbook *Learning Ink + Unity*!
 
 This book is designed for those who may not have used Ink, Unity, or any programming before with the goal to get you started on creating projects using the Ink-Unity Plugin! It doesn't cover *everything*, but it should be enough to start making things and preparing the way to move on to more advanced topics and concepts.
 
@@ -18,10 +18,8 @@ The content is divided into three sections: Code Basics, Editor Basics, and Usin
 
 ### Editor Basics
 
-- Chapter 4: Unity: Editor Basics
-- Chapter 5: Unity: GameObjects
-- Chapter 6: Unity: User Interface Objects
-- Chapter 7: Unity: Components
+- Chapter 4: Unity: Common Terms and Concepts
+- Chapter 5: Unity: Editor Basics
 
 ---
 
