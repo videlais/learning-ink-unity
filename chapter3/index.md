@@ -39,13 +39,13 @@
 
 The most common operator in any programming language is the *assignment* operator, `=`. This "assigns" a value to a variable.
 
-```C#
+```CSharp
 int example = 5;
 ```
 
 While it most commonly appears when a variable is being created, it is also used to overwrite a value.
 
-```C#
+```CSharp
 example = 6;
 ```
 
@@ -59,7 +59,7 @@ All number values can be used with *arithmetic* operators that exist in C#.
 
 The addition operator, `+`, can be used with any number values.
 
-```C#
+```CSharp
 int example = 5;
 // 10
 example = example + 5;
@@ -71,7 +71,7 @@ example = example + 5;
 
 The addition assignment operator, `+=`, performs both actions. In the cases where a value would be added to a variable and then save again, the additional assignment operator combines the two.
 
-```C#
+```CSharp
 int example = 5;
 // 10
 example += 5;
@@ -81,7 +81,7 @@ example += 5;
 
 The subtraction operator, `-`, can be used with any number values.
 
-```C#
+```CSharp
 float example = 10.5f;
 // 5.5f
 example = example - 5;
@@ -93,7 +93,7 @@ example = example - 5;
 
 The subtraction assignment operator, `-=`, performs both actions. In the cases where a value would be subtract from a variable and then saved again, the additional assignment operator combines the two.
 
-```C#
+```CSharp
 int example = 5;
 // 0
 example -= 5;
@@ -103,7 +103,7 @@ example -= 5;
 
 The multiplication operator, `*`, can be used with any number values.
 
-```C#
+```CSharp
 int example = 5;
 // 10
 example = example * 2;
@@ -115,7 +115,7 @@ example = example * 2;
 
 The addition operator, `/`, can be used with any number values.
 
-```C#
+```CSharp
 int example = 10;
 // 2
 example = example / 5;
@@ -133,7 +133,7 @@ In programming terminology, the *modulus* operation returns the reminder of divi
 
 The increment operator, `++`, can be used with any number value. It *increases* the value by `1`. Unlike other operators, the increment operator *follows* the variable.
 
-```C#
+```CSharp
 int example = 4;
 // 5
 example++;
@@ -143,7 +143,7 @@ example++;
 
 The decrement operator, `--`, can be used with any number value. It *decreases* the value by `1`. Unlike other operators, the decrement operator *follows* the variable.
 
-```C#
+```CSharp
 int example = 4;
 // 3
 example--;
@@ -157,7 +157,7 @@ The **String** data type supports the addition operator, `+`. This "adds" the va
 
 All non-collection built-in data types have a special method called **toString()**. This converts or otherwise represents the value as a **String**. This allows data types like **Integer** to be "added" to a **String** to create a new **String** value.
 
-```C#
+```CSharp
 string example = "Hi" + 5;
 ```
 
@@ -182,7 +182,7 @@ When a string escape sequence is "printed" (shown on console or written to a fil
 
 For example, the following string value --
 
-```C#
+```CSharp
 "Hi\nmy\nname\nis\nFred."
 ```
 
@@ -202,7 +202,7 @@ The escape sequence `\n` represents a new line and thus, when the string value i
 
 Often, even when using the addition operator, `+`, it can become confusing when different values are used with strings. To help with this, strings also support *interpolation*. This allows, instead of concatenating values together, to create a final value that *interpolates* other variables.
 
-```C#
+```CSharp
 string name = "Fred";
 
 // Is your name, Fred?
@@ -221,7 +221,7 @@ When combined with the keyword `if`, a comparison operator moves the control of 
 
 **Example:**
 
-```C#
+```CSharp
 if("Hi!" == "Hi!") {
   // Run this code!
 }
@@ -271,7 +271,7 @@ To help with these, programming languages like C# have *Boolean logical operator
 
 When testing values, any two Boolean values can be tested *together* using the *and* operator, `&&`. If *both* comparisons or values are `true`, the result is `true`.
 
-```C#
+```CSharp
 if(1 == 1 && 2 != 3) {
  // Run this code
 }
@@ -281,7 +281,7 @@ if(1 == 1 && 2 != 3) {
 
 When testing values, any two Boolean values can be tested *together* using the *or* operator, `||`. If *either* value or comparison is `true`, the result is `true`.
 
-```C#
+```CSharp
 if(2 != 4 || 1 == 1) {
   // Run this code
 }
@@ -295,7 +295,7 @@ Because C# has a focus on the types of data used, it also provides functionality
 
 The `is` keyword compares an object with a known data type. It is a *binary* operator, which means that a value appears on the left-hand side and a known data type appears on the right-hand side.
 
-```C#
+```CSharp
 
 string name = "Fred";
 
@@ -309,7 +309,7 @@ if(name is string) {
 
 The keyword `typeof` returns a **Type** object containing the *type*.
 
-```C#
+```CSharp
 // System.String
 typeof(string)
 ```
