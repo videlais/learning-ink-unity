@@ -12,8 +12,22 @@
       - [Inspecting Assets](#inspecting-assets)
     - [Project](#project)
   - [Views](#views)
-    - [Game](#game)
     - [Scene](#scene)
+      - [Draw Mode](#draw-mode)
+      - [2D / 3D](#2d--3d)
+      - [Scene Lighting](#scene-lighting)
+      - [Scene Audio](#scene-audio)
+      - [Effects](#effects)
+      - [Hidden Objects](#hidden-objects)
+      - [Grid Visibility](#grid-visibility)
+    - [Game](#game)
+      - [Displays](#displays)
+      - [Resolution Aspect](#resolution-aspect)
+      - [Scale](#scale)
+      - [Maximize on Play](#maximize-on-play)
+      - [Mute Audio](#mute-audio)
+      - [Stats](#stats)
+      - [Gizmo Options](#gizmo-options)
   - [Tools](#tools)
     - [Transform](#transform)
     - [Gizmo Settings](#gizmo-settings)
@@ -87,28 +101,131 @@ Clicking "Create and Add" (assuming a script does not already exist with the sam
 
 Double-clicking the file will open it in Visual Studio.
 
-TODO
-
 #### Inspecting Assets
 
-allows you to view and edit all the properties of the currently selected GameObject. Because different types of GameObjects have different sets of properties, the layout and contents of the Inspector window change each time you select a different GameObject.
+![alt text](./AssetInspector.png "Asset Inspector")
+
+If an Asset is selected from the Project window, its properties and contents will be shown in the Inspector window. Depending on the type, different settings, properties, and options will be available.
 
 ### Project
 
-displays your library of Assets that are available to use in your Project. When you import Assets into your Project, they appear here.
+![alt text](./ProjectWindow.png "Project Window")
+
+The Project windows shows all assets that are part of the current project. This also include any imported assets or files added to the asset folder outside of using the Unity Editor to create them.
+
+The contents of the Project Window can be sorted through creating new folders using either the "+" menu under its title or using the right-click context menu. By default, the Project window includes a folder "Scenes" containing the current scene. (This is "SampleScene" by default).
+
+It is recommended to create folders for all types of Assets using in the Project sorted by either scene or by type of data. In a project with multiple scenes, for example, sorting assets by scene can help in organizing them. For smaller project, or those with only one scene, sorting by type is a good approach. Creating a folder called "Scripts" for all files related to scripting components and other for "Tiles", if they are used in the Project, for example.
 
 ## Views
 
-### Game
-
-view simulates what your final rendered game will look like through your Scene Cameras
-. When you click the Play button, the simulation begins.
+In the default layout, there are two views in the center of the Unity Editor window: Scene and Game.
 
 ### Scene
 
- The Scene view allows you to visually navigate and edit your Scene. The Scene view can show a 3D or 2D perspective, depending on the type of Project you are working on.
+![alt text](./Scene.png "Scene View")
+
+As GameObjects are added to the scene, they appear in both the Hierarchy window and Scene view. Through selecting GameObjects in the Scene view, they can be manipulated through their gizmos or using the toolbar.
+
+#### Draw Mode
+
+![alt text](./DrawMode.png "Draw Mode")
+
+Under the Scene title is the Draw Mode. By default "Shaded" is selected. However, other shading and baked lighting options can be chosen if the GameObjects in the scene support them.
+
+#### 2D / 3D
+
+![alt text](./2D.png "2D")
+
+If a project is created in 2D, the 2D option and button will be selected.
+
+![alt text](./3D.png "3D")
+
+If the project is using 3D, the 2D option will be disabled and an additional 3D gizmo is added to the scene for changing the viewing orientation and perspective.
+
+#### Scene Lighting
+
+![alt text](./SceneLighting.png "Scene Lighting")
+
+Depending on toggle, the scene will use the scene lighting or a light attached to the Scene camera view.
+
+#### Scene Audio
+
+![alt text](./SceneAudio.png "Scene Audio")
+
+Depending on the toggle, audio will play in the scene or not.
+
+#### Effects
+
+![alt text](./SceneEffects.png "Scene Effects")
+
+Different scene effects such as the Skybox, Fog, and Particle Systems can be toggled on and off.
+
+#### Hidden Objects
+
+![alt text](./SceneVisibility.png "Hidden Objects")
+
+If any GameObjects have been hidden in the Hierarchy window, the current count is shown. The entire scene can also be hidden.
+
+#### Grid Visibility
+
+![alt text](./GridVisibility.png "Grid Visibility")
+
+Depending on the orientation, the visibility of the axis (X, Y, or Z) can be adjusted along with its opacity.
+
+### Game
+
+![alt text](./GameView.png "GameView")
+
+When a Scene is running, the Game View shows a simulation of what the rendered game would look like using the Scene camera.
+
+If the Play button is clicked, the Unity Editor will automatically shift from the Scene View to the Game View.
+
+#### Displays
+
+![alt text](./GameDisplays.png "Game Displays")
+
+Depending on the cameras and their settings used in the scene, Unity supports up to eight different displays.
+
+#### Resolution Aspect
+
+![alt text](./ResolutionAspect.png "Resolution Aspect")
+
+The current resolution and aspect ration can be adjusted when simulating the rendering of the scene.
+
+#### Scale
+
+![alt text](./Scale.png "Scale")
+
+The current scaling of the game View can be adjusted.
+
+#### Maximize on Play
+
+![alt text](./MaximizeonPlay.png "Maximize on Play")
+
+If Maximize on Play is selected, the Game View will fill all available horizontal and vertical space in the Unity Editor while the scene is running.
+
+#### Mute Audio
+
+![alt text](./MuteAudio.png "Mute Audio")
+
+Scene audio can be muted.
+
+#### Stats
+
+![alt text](./Stats.png "Stats")
+
+Clicking on the "Stats" button shows the current graphical and computational statistics of the scene.
+
+#### Gizmo Options
+
+![alt text](./GizmoOptions.png "Gizmo Options")
+
+The Gizmos menu allows for enabling or disabling the gizmos for types of GameObjects.
 
 ---
+
+TODO
 
 ## Tools
 
