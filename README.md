@@ -20,14 +20,14 @@ The content is divided into three sections: Code Basics, Editor Basics, and Usin
 
 - [Chapter 4: Unity: Terms and Concepts](./chapter4/index.md)
 - [Chapter 5: Unity: Scripting Basics](./chapter5/index.md)
-- Chapter 6: Unity: Windows, Views, and Tools
+- [Chapter 6: Unity: Windows, Views, and Tools](./chapter6/index.md)
 
 ### Using Plugins and Libraries
 
-- Chapter 8: Ink: Loading Ink-Unity Plugin
-- Chapter 9: Ink: Story API
-- Chapter 10: Ink: Runtime API
-- Chapter 11: Ink: Profiler API
+- Chapter 7: Ink: Loading Ink-Unity Plugin
+- Chapter 8: Ink: Story API
+- Chapter 9: Ink: Runtime API
+- Chapter 10: Ink: Profiler API
 
 ---
 

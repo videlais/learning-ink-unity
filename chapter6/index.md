@@ -34,7 +34,7 @@
       - [Position](#position)
       - [Rotation](#rotation)
     - [Play, Pause, and Step](#play-pause-and-step)
-      - [Modes](#modes)
+      - [Runtime Editing](#runtime-editing)
     - [Collaborate](#collaborate)
     - [Cloud](#cloud)
     - [Account](#account)
@@ -225,11 +225,15 @@ The Gizmos menu allows for enabling or disabling the gizmos for types of GameObj
 
 ---
 
-TODO
-
 ## Tools
 
 ### Transform
+
+![alt text](./TransformTools.png "Transform Tools")
+
+When a GameObject is selected, it can be manipulated through the Transform tools. This allows for moving, positioning, rotating, selecting multiple GameObjects (Rect Tool), and then adjusting those GameObjects.
+
+If any custom tools have been added, they can also be accessed through the Custom Tool menu button.
 
 ### Gizmo Settings
 
@@ -265,26 +269,44 @@ The Play, Pause, and Step buttons control if the scene is running and its curren
 
 - If debugging is being used, the Step button will move to the next debugging point, if available. If there are no debugging points in the current scene, the Step button will not be available.
 
-#### Modes
+#### Runtime Editing
 
-The Unity Editor has two modes: runtime and editor mode. While in runtime mode, Unity is displaying any game objects in the current scene and running any code. The properties and settings of game objects can be changed while in runtime and they will be updated in real-time. However, any changes made during the runtime mode will not be retained when it ends.
+When a scene is running, GameObjects can be manipulated and the values of its properties and components changed. However, **these changes are not saved.** Any changes made while a scene is running only affect that scene. They are not saved.
 
 ### Collaborate
 
-Launch Unity Collaborate from the Collab drop-down menu.
+![alt text](./Collab.png "Collaborate")
+
+Clicking on the "Collab" menu for the first time (assuming the user is signed in) provides the option to "Start now!". Clicking the button synchronizes the current project remotely and allows for accessing the project, when saved remotely, from another computer running Unity.
+
+![alt text](./Sync.png "Sync")
+
+Through synchronizing changes, files can be saved remotely and accessed from either another device or by other users.
+
+(Clicking on the Teams button in the lower, right-hand corner opens the Unity Dashboard in a browser and allows for adjusting organization and group settings for the project.)
 
 ### Cloud
 
-Click the Cloud button to open the Unity Services window.
+![alt text](./Cloud.png "Cloud")
+
+Clicking on the Cloud button opens the currently available Cloud options and their current settings.
 
 ### Account
 
-Access your Unity Account from the Account drop-down menu.
+![alt text](./Account.png "Account")
+
+Clicking on the Account button shows the current signed-in user and the option to upgrade account access.
 
 ### Layers
 
-You can control which objects appear in Scene view from the Layers drop-down menu.
+![alt text](./Layers.png "Layers")
+
+The "Layers" menu allows access to which objects appear in the Scene view. If a GameObject is associated with the layer and that layer is hidden, those GameObjects will not be shown.
 
 ### Layout
 
-ou can change the arrangement of your views and then save the new layout or load an existing from the Layout drop-down menu.
+![alt text](./Layout.png "Layout")
+
+Clicking on the "Layout" button allows for quickly changing the layout of the windows and views within the Unity Editor.
+
+Once windows and views are arranged, the layout can also be saved as either an option to be used at a later time.
