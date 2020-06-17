@@ -177,6 +177,50 @@ Returning to Unity will trigger the Project window to check for any changes in a
 
 > **Reminder:** Because the JSON file is associated with "Ink JSON Asset" property, it was also always be updated when the scene runs.
 
-TODO
-
 ## Setting up Story API
+
+With the Ink and compiled JSON setup, the compiled file will be used when the scene starts. However, even with the compiled file associated, one more step is needed. A **Story** object is needed.
+
+```CSharp
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+// Add the Ink Runtime
+using Ink.Runtime;
+
+public class NewBehaviourScript : MonoBehaviour
+{
+    // Add a TextAsset representing the compiled Ink Asset
+    public TextAsset InkJSONAsset;
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        Story exampleStory = new Story(InkJSONAsset.text);
+        Debug.Log(exampleStory.Continue());
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+    }
+}
+```
+
+The **Story** object allows for using the Story API. It exposes methods like **Continue()** that load parts of the story.
+
+In the above example, a new **Story** object is created and is passed the **InkJSONAsset** property that is associated with the `New Ink.json` via Unity during its Initialization step.
+
+> **Note:** The property *text* is used from the **TextAsset** object. This exposes the text content of the associated text asset file.
+
+When run, the code will start with the property during the Initialization order of execution.
+
+Next, the method **Start()** is called on the GameObject.
+
+A **Story** object is then created and its constructor method is passed the *InkJSONAsset.text* property of the **InkJSONAsset** object.
+
+Finally, inside of the **Start()** method, **Debug.Log()** is called with the argument **exampleStory.Continue()**.
+
+![alt text](./InkExampleConsole.png "Ink Example Console")
+
+As will be covered in the next chapter, the Story API has methods for loading content from a story (compiled JSON file). The method **Continue()** loads the next chunk in the story. In this example, it will load the current text of the story (`Hey, there!`) and display it on the Console.

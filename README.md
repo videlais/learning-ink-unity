@@ -24,10 +24,10 @@ The content is divided into three sections: Code Basics, Editor Basics, and Usin
 
 ### Using Plugins and Libraries
 
-- Chapter 7: Ink: Loading Ink-Unity Plugin
-- Chapter 8: Ink: Story API
-- Chapter 9: Ink: Runtime API
-- Chapter 10: Ink: Profiler API
+- [Chapter 7: Ink: Loading Ink-Unity Plugin](./chapter7/index.md)
+- Chapter 8: Ink: Introducing Story API
+- Chapter 9: Ink: Introducing Runtime API
+- Chapter 10: Ink: Introducing Profiler API
 
 ---
 
