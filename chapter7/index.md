@@ -4,7 +4,8 @@
   - [Accessing and Importing Ink Unity Integration](#accessing-and-importing-ink-unity-integration)
   - [Creating Example Scripting Component](#creating-example-scripting-component)
   - [Loading a Compiled Ink File](#loading-a-compiled-ink-file)
-  - [Running an Example Ink Story](#running-an-example-ink-story)
+  - [Editing the Ink File](#editing-the-ink-file)
+  - [Setting up Story API](#setting-up-story-api)
 
 ---
 
@@ -100,12 +101,82 @@ public class NewBehaviourScript : MonoBehaviour
 }
 ```
 
+## Loading a Compiled Ink File
+
 Ink runs *compiled* files created by Inky or the Ink compiler now added to the project. However, before it can run a file, there needs to be a property added to the file so that it can be used in the Unity Editor.
 
 > **Reminder:** All (public) properties added to script file can be accessed and its values changes in the Unity Editor.
 
+```CSharp
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+// Add the Ink Runtime
+using Ink.Runtime;
+
+public class NewBehaviourScript : MonoBehaviour
+{
+    // Add a TextAsset representing the compiled Ink Asset
+    public TextAsset InkJSONAsset;
+
+    // Start is called before the first frame update
+    void Start()
+    {
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+    }
+}
+```
+
+Adding the property **InkJSONAsset** of type **[TextAsset](https://docs.unity3d.com/Manual/class-TextAsset.html)** helps in connecting the text asset from the Project window with the property during the Initialization step of the order of execution for the GameObject.
+
+![alt text](./JSONProperty.png "Ink JSON Asset Property")
+
+With the Ink Unity Integration plugin loaded, any `.ink` files added to the project will be automatically compiled into `.json` files. The context menu for the Project window also now has a "Ink Script" option for creating Ink files quickly.
+
+![alt text](./CreateInkScript.png "Create Ink Script")
+
+To create a Ink Script file using this functionality, use the Add or right-click menu and then click on "Ink Script".
+
+![alt text](./NewScriptFile.png "New Script Files")
+
+A new file named `New Ink.ink` will be created. After clicking outside of the name, the built-in Ink compiler will automatically produce a new file `New Ink.json`. It is this file that should be associated with the behavior script.
+
+![alt text](./NewInkJSONProperty.png "New Ink JSON Property")
+
+With Main Camera selected in the Hierarchy window (so that its components appear in the Inspector window), drag and drop the new `New Ink.json` file on the "Ink JSON Asset" property.
+
+With the `New Ink.json` file now associated with the scripting component, any saved changes to the `New Ink.ink` file will result in the JSON file being re-compiled. As it is now associated with the scripting component, its content will always be updated.
+
+## Editing the Ink File
+
+Unless otherwise setup, `.ink` files are not associated with a program for editing. Double-clicking or clicking the "Open" button in the Inspector window will prompt to pick a program to edit in Windows.
+
+It is strongly recommended to use the [Inky](https://www.inklestudios.com/ink/) editor for editing `.ink` files. However, Notepad (in Windows) or any other plain text editors can be used.
+
+> **Note:** This chapter will use screenshots from Inky.
+
+![alt text](./EmptyInky.png "Empty Inky")
+
+**New Ink.ink:**
+
+```ink
+Hey, there!
+```
+
+![alt text](./ExampleInkText.png "Example Ink Text")
+
+Adding the text `Hey, there!` in the left-hand side of Inky will show the compiled results on the right-hand side.
+
+Once added, save the file through using Ctrl-S or using File -> Save.
+
+Returning to Unity will trigger the Project window to check for any changes in any existing Ink files. If they have changed, the built-in Ink compiler will re-compile and produce an updated JSON file.
+
+> **Reminder:** Because the JSON file is associated with "Ink JSON Asset" property, it was also always be updated when the scene runs.
+
 TODO
 
-## Loading a Compiled Ink File
-
-## Running an Example Ink Story
+## Setting up Story API
