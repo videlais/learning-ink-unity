@@ -25,14 +25,14 @@ The content is divided into four sections: Code Basics, Editor Basics, Using Plu
 ### Using Plugins and Libraries
 
 - [Chapter 7: Ink: Loading Ink-Unity Plugin](./chapter7/index.md)
-- Chapter 8: Ink: Introducing Story API
+- [Chapter 8: Ink: Introducing Story API](./chapter8/index.md)
 - Chapter 9: Ink: Introducing Runtime API
 
 ### Building an Ink-Based UI in Unity
 
-- Chapter 10: Unity UI: Introducing Canvas and Buttons
-- Chapter 11: Unity UI: User Input and Dynamic Loading
-- Chapter 12: Unity UI: Advanced Example Game
+- Chapter 10: Unity UI: Introducing Canvas and Text
+- Chapter 11: Unity UI: User Input and Buttons
+- Chapter 12: Unity UI: Dynamic Story Loading
 
 ---
 

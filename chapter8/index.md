@@ -14,6 +14,9 @@
       - [**ChooseChoiceIndex()**](#choosechoiceindex)
       - [Choice Out of Range Error](#choice-out-of-range-error)
   - [Loading Tags](#loading-tags)
+    - [*currentTags*](#currenttags)
+    - [**Continue()** versus **ContinueMaximally()** with Tags](#continue-versus-continuemaximally-with-tags)
+    - [Dialogue Tags](#dialogue-tags)
 
 ---
 
@@ -339,11 +342,11 @@ The usages of *canContinue*, **ContinueMaximally()**, and then *currentChoices* 
 
 ### The *canContinue*-**ContinueMaximally()**-*currentChoices* Pattern
 
-Previously, the methods **ContinueMaximally()** and **Continue()** were explained as "loading the next story chunk." While they have been used as part of showing text chunks of stories with the **Debug.Log()** method, an important part of their definitions and usage fall on the word *loading* as part of that explanation. They **load** the next part of the story. As a result, they return the text chunk, but their primary focus is actually the loading of the next story chunk.
+Previously, the methods **ContinueMaximally()** and **Continue()** were explained as "loading the next story chunk." While they have been used as part of showing text chunks of stories with the **Debug.Log()** method, an important part of their definitions and usage fall on the word *load* as part of that explanation. They **load** the next part of the story. As a result, they return the text chunk, but their primary focus is actually the loading of the next story chunk.
 
 In the previous examples in this chapter, the combination of *canContinue* and then **ContinueMaximally()** and **Continue()** were key to preventing the error of attempting to load more story after it had ended. They are and should always be used in connection with each other.
 
-Generally, then, the property *canContinue* is used first and then followed by one of the method calls to load the next part of the story. Most of the time, the method **ContinueMaximally()** is a good option because it will "load all text content until it encounters a set of choices or the end of the story." (There are important cases where **Continue()** is a better option, but they will be explained as part of working with tags later in this chapter.)
+Generally, the property *canContinue* is used first and then followed by one of the method calls to load the next part of the story. Most of the time, the method **ContinueMaximally()** is a good option because it will "load all text content until it encounters a set of choices or the end of the story." (There are important cases where **Continue()** is a better option, but they will be explained as part of working with tags later in this chapter.)
 
 Because **ContinueMaximally()** handles the loading, the next in the pattern is using the *currentChoices* property, as it will be populated with the choices loaded by the previous loading cycle. In other words, the pattern starts with using *canContinue*, moves into loading with **ContinueMaximally()**, and then moves to working with any choices within the current story chunk with the property *currentChoices*.
 
@@ -473,7 +476,7 @@ public class NewBehaviourScript : MonoBehaviour
 
 ![alt text](./ChoiceOutOfRange.png "Choice Out of Range")
 
-In the above code, the *canContinue*-**ContinueMaximally()**-*currentChoices* pattern is used. Following that, the method **ChooseChoiceIndex()** is used. For the first set of choices, this produces the out of the *text* of the **Choice** `She stayed where she was.` that is then followed by the method **ContinueMaximally()** loading the result of the choice `The princess stopped moving and looked around again.`
+In the above code, the *canContinue*-**ContinueMaximally()**-*currentChoices* pattern is used. Following that, the method **ChooseChoiceIndex()** is used. For the first set of choices, this produces the out of the *text* of the **Choice**: `She stayed where she was.` This is then followed by the method **ContinueMaximally()**, loading the result of the choice `The princess stopped moving and looked around again.`
 
 However, this produces an error on the second major loop. The exception "Choice Out of Range" is raised when the method **ChooseChoiceIndex()** is called a second time when there are no choices to "choose" from via the property *currentChoices*.
 
@@ -532,6 +535,231 @@ public class NewBehaviourScript : MonoBehaviour
 }
 ```
 
-TODO
-
 ## Loading Tags
+
+In Ink, tags are processed on a per-line basis. Since they are associated with the line they follow, or the preceding line when used by themselves, they require understanding their placement, parsing them, and then proceeding with loading the story.
+
+### *currentTags*
+
+The Story API property *currentTags* is a **List\<String\>** of all current tags collected during the last loading event (from calling the methods **Continue()** or **ContinueMaximally()**).
+
+**New Ink.ink:**
+
+```ink
+"What do you think of this?" #Dan
+
+"I'm not sure." #Liam
+```
+
+**NewBehaviourScript.cs:**
+
+```CSharp
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+// Add the Ink Runtime
+using Ink.Runtime;
+
+public class NewBehaviourScript : MonoBehaviour
+{
+    // Add a TextAsset representing the compiled Ink Asset
+    public TextAsset InkJSONAsset;
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        // Create a new Story object using the compiled (JSON) Ink story text
+        Story exampleStory = new Story(InkJSONAsset.text);
+
+        // Each loop, check if there is more story to load
+        while(exampleStory.canContinue)
+        {
+            // Load the next story chunk and return the current text
+            string currentTextChunk = exampleStory.ContinueMaximally();
+
+            // Get any tags loaded in the current story chunk
+            List<string> currentTags = exampleStory.currentTags;
+
+            // For each tag in currentTag, set its values to the new variable 'tag'
+            foreach (string tag in currentTags)
+            {
+                // Print current tag
+                Debug.Log(tag);
+            }
+
+            // Show the current story text in the Console window
+            Debug.Log(currentTextChunk);
+        }
+    }
+}
+```
+
+![alt text](./TagParsing.png "Tag Parsing")
+
+Following code examples from earlier in this chapter, the method **ContinueMaximally()** is used to load all content to the next set of choices or until the end of the story.
+
+However, as the screenshot shows, this presents a problem. When **ContinueMaximally()** is used, it loads everything. This means that the use of the tag `#Dan` is overwritten with the story chunk that follows it.
+
+In order to parse tags per line, the method **Continue()** is needed.
+
+### **Continue()** versus **ContinueMaximally()** with Tags
+
+While **ContinueMaximally()** can be very useful when loading large chunks of a Ink story, the method **Continue()** allows for a more fine-tuned usage. Paired with the Story API property *canContinue*, and the internally loops of parsing tags and choices, each part of a line can be processed individually.
+
+**New Ink.ink:**
+
+```ink
+"What do you think of this?" #Dan
+
+"I'm not sure." #Liam
+```
+
+**NewBehaviourScript.cs:**
+
+```CSharp
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+// Add the Ink Runtime
+using Ink.Runtime;
+
+public class NewBehaviourScript : MonoBehaviour
+{
+    // Add a TextAsset representing the compiled Ink Asset
+    public TextAsset InkJSONAsset;
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        // Create a new Story object using the compiled (JSON) Ink story text
+        Story exampleStory = new Story(InkJSONAsset.text);
+
+        // Each loop, check if there is more story to load
+        while (exampleStory.canContinue)
+        {
+            // Load the next story chunk and return the current text
+            string currentTextChunk = exampleStory.Continue();
+
+            // Get any tags loaded in the current story chunk
+            List<string> currentTags = exampleStory.currentTags;
+
+            // Create a blank line of dialogue
+            string line = "";
+
+            // For each tag in currentTag, set its values to the new variable 'tag'
+            foreach (string tag in currentTags)
+            {
+                // Concatenate the tag and a colon
+                line += tag + ": ";
+            }
+
+            // Concatenate the current text chunk
+            // (This will either have a tag before it or be by itself.)
+            line += currentTextChunk;
+
+            // Print the current line using the combined string
+            //  created from the current tag and story chunk.
+            Debug.Log(line);
+        }
+    }
+}
+```
+
+![alt text](./UsingTags.png "Using Tags")
+
+Now, in the above code, a "line" of dialogue is created using **string** *line* that is then used as part of parsing the tags of the current story chunk. If there is a tag, it is concatenated to the current line. Next, the current text chunk is also concatenated.
+
+Based on the tag usage in the example story, this creates the output of the following:
+
+```text
+Dan: "What do you think of this?"
+
+Liam: "I'm not sure."
+```
+
+### Dialogue Tags
+
+There are many different ways to use tags in Ink. Their purpose is not clearly defined in part to give developers and writers the option to use them as they would like. However, one common way to use tags is as *dialogue tags*. That is, dialogue is written in the story and then the speaker of any particular line is named in the tag of that line. This allows, as later chapters will demonstrate, to use the value of the "speaker" to react in different ways programmatically.
+
+For example, a line of dialogue might look like the following:
+
+```ink
+"I want a dialogue system!" #Dan
+```
+
+In the above example, the tag `#Dan` is used to signal that Dan (whomever that might be in the story) is speaking that line. In order to parse it, the code from the previous section can be re-used.
+
+**NewBehaviourScript.cs:**
+
+```CSharp
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+// Add the Ink Runtime
+using Ink.Runtime;
+
+public class NewBehaviourScript : MonoBehaviour
+{
+    // Add a TextAsset representing the compiled Ink Asset
+    public TextAsset InkJSONAsset;
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        // Create a new Story object using the compiled (JSON) Ink story text
+        Story exampleStory = new Story(InkJSONAsset.text);
+
+        // Each loop, check if there is more story to load
+        while (exampleStory.canContinue)
+        {
+            // Load the next story chunk and return the current text
+            string currentTextChunk = exampleStory.Continue();
+
+            // Get any tags loaded in the current story chunk
+            List<string> currentTags = exampleStory.currentTags;
+
+            // Create a blank line of dialogue
+            string line = "";
+
+            // For each tag in currentTag, set its values to the new variable 'tag'
+            foreach (string tag in currentTags)
+            {
+                // Concatenate the tag and a colon
+                line += tag + ": ";
+            }
+
+            // Concatenate the current text chunk
+            // (This will either have a tag before it or be by itself.)
+            line += currentTextChunk;
+
+            // Print the current line using the combined string 
+            //  created from the current tag and story chunk.
+            Debug.Log(line);
+        }
+    }
+}
+```
+
+A more advanced Ink example, using the same C\# code, might look like the following:
+
+```ink
+The genie waited as the person in front of them considered their wording.
+
+"I want a dialogue system!" #Dan
+
+The genie nodded and then snapped their fingers.
+```
+
+![alt text](./DialogeTags.png "Dialogue Tags")
+
+When run, the advanced Ink example would produce the following three lines:
+
+```text
+The genie waited as the person in front of them considered their wording.
+
+Dan: "I want a dialogue system!"
+
+The genie nodded and then snapped their fingers.
+```
+
+The tag `#Dan` would be changed into the string value "Dan: " and added to the existing line *before* the current text chunk. Additionally, if no tags are used, the text would be added to *line*.
