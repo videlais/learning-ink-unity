@@ -6,8 +6,8 @@
     - [Removing Scripting Components](#removing-scripting-components)
     - [Attaching Existing Scripting Components](#attaching-existing-scripting-components)
   - [Working With **Canvas**](#working-with-canvas)
+    - [Using **GetComponentInChildren\<GameObject\>()**](#using-getcomponentinchildrengameobject)
   - [Adjusting **Text** Properties](#adjusting-text-properties)
-  - [Accessing **Text** Components During Runtime](#accessing-text-components-during-runtime)
   - [Working With Rich Text Content](#working-with-rich-text-content)
 
 ---
@@ -103,12 +103,197 @@ public class NewBehaviourScript : MonoBehaviour
 }
 ```
 
+**New Ink.ink:**
+
+```ink
+The genie waited as the person in front of them considered their wording.
+
+"I want a dialogue system!" #Dan
+
+The genie nodded and then snapped their fingers.
+```
+
 ## Working With **Canvas**
 
-TODO
+With the new scripting component added, running the Scene will produce the same results in the Console as was previously shown when using the **Main Camera** in previous chapters.
+
+![alt text](./ConsoleWindow.png "Console Window")
+
+However, the contents of the Game View has changed. With a user interface GameObject added, it now shows the *text* content of the **Text** GameObject: "New Text."
+
+![alt text](./NewText.png "New Text")
+
+In the lower, left-hand corner is the black "New Text" on a blue background. While hard to see, it shows that the **Text** GameObject is now being rendered.
+
+### Using **GetComponentInChildren\<GameObject\>()**
+
+Opening `NewBehaviourScript.cs` in Visual Studio allows for changing its contents.
+
+> **Reminder:** Double-clicking on a C\# file in the Project window will open it in Visual Studio for editing.
+
+Because the script will now be accessing and working with UI elements, an additional library is needed in the script. Along with its existing libraries, it also needs the namespace **UnityEngine.UI**.
+
+```CSharp
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+// Add the Ink Runtime
+using Ink.Runtime;
+// Add Unity UI
+using UnityEngine.UI;
+```
+
+> **Note:** The [namespace **UnityEngine.UI**](https://docs.unity3d.com/Packages/com.unity.ugui@1.0/api/UnityEngine.UI.html) contains the classes for working with user interface objects like **Text**
+
+Within the existing code, two new lines are needed. The first will access the child **Text** GameObject and the second will change its content. Instead of showing "New Text", it will be set to whatever is generated from the Ink Story API.
+
+In order to do this, the [method **GetComponentInChildren\<GameObject\>()**](https://docs.unity3d.com/ScriptReference/Component.GetComponentInChildren.html) is used. This accesses the components of the current GameObject (in this case **Canvas**) and all of its children. It looks for the type supplied. Since the type to look for is "Text", this is supplied instead of "GameObject".
+
+```CSharp
+// From this GameObject, look in its children for a component of the type "Text".
+// Return a reference to this component and save it locally.
+Text childText = GetComponentInChildren<Text>();
+```
+
+With the namespace **UnityEngine.UI**, the class **Text** can be used. Paired with the method **GetComponentInChildren\<Text\>()** looking for the type "Text", the child component of **Canvas**, **Text**, can be found and a reference to it saved locally. This will allow for the second step, editing its content.
+
+All **Text** objects have [a property named *text*](https://docs.unity3d.com/Packages/com.unity.ugui@1.0/api/UnityEngine.UI.Text.html#UnityEngine_UI_Text_text) that exposes their **string** content.
+
+```CSharp
+// Edit the 'text' property to change its content
+childText.text = "Testing";
+```
+
+Placed in the larger context of the existing Ink Story API code, the two above lines would replace the previously used **Debug.Log()** as the last lines inside of the outer `while()` loop.
+
+**NewBehaviourScript.cs:**
+
+```CSharp
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+// Add the Ink Runtime
+using Ink.Runtime;
+// Add Unity UI
+using UnityEngine.UI;
+
+public class NewBehaviourScript : MonoBehaviour
+{
+    // Add a TextAsset representing the compiled Ink Asset
+    public TextAsset InkJSONAsset;
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        // Create a new Story object using the compiled (JSON) Ink story text
+        Story exampleStory = new Story(InkJSONAsset.text);
+
+        // Each loop, check if there is more story to load
+        while (exampleStory.canContinue)
+        {
+            // Load the next story chunk and return the current text
+            string currentTextChunk = exampleStory.Continue();
+
+            // Get any tags loaded in the current story chunk
+            List<string> currentTags = exampleStory.currentTags;
+
+            // Create a blank line of dialogue
+            string line = "";
+
+            // For each tag in currentTag, set its values to the new variable 'tag'
+            foreach (string tag in currentTags)
+            {
+                // Concatenate the tag and a colon
+                line += tag + ": ";
+            }
+
+            // Concatenate the current text chunk
+            // (This will either have a tag before it or be by itself.)
+            line += currentTextChunk;
+
+            // From this GameObject, look in its children for a component of the type "Text".
+            // Return a reference to this component and save it locally.
+            Text childText = GetComponentInChildren<Text>();
+            // Edit the 'text' property to change its content
+            childText.text = "Testing";
+        }
+    }
+}
+```
+
+![alt text](./Testing.png "Testing")
+
+Now, in the updated code, the previous **Text** content of "New Text" is replaced when the Scene is run with the text of "Testing". This shows that the method **GetComponentInChildren\<Text\>()** is working correctly and that the content of the child GameObject can be changed.
+
+The property *text* is a **string**. This means, like with *line* in the existing code, its contents can also be concatenated as well. Instead of showing "Testing", the content of each *line* can be added to the existing *text* and shown on the screen when the Scene is run.
+
+However, while the previous location of the two added lines showed how the content of a **Text** child GameObject could be accessed and changed, they do not need to be part of the loop. They can be set initially and then the concatenation process can work inside of the outer loop.
+
+**NewBehaviourScript.cs:**
+
+```CSharp
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+// Add the Ink Runtime
+using Ink.Runtime;
+// Add Unity UI
+using UnityEngine.UI;
+
+public class NewBehaviourScript : MonoBehaviour
+{
+    // Add a TextAsset representing the compiled Ink Asset
+    public TextAsset InkJSONAsset;
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        // Create a new Story object using the compiled (JSON) Ink story text
+        Story exampleStory = new Story(InkJSONAsset.text);
+
+        // From this GameObject, look in its children for a component of the type "Text".
+        // Return a reference to this component and save it locally.
+        Text childText = GetComponentInChildren<Text>();
+
+        // Reset the existing text of "New Text" to an empty string
+        childText.text = "";
+
+        // Each loop, check if there is more story to load
+        while (exampleStory.canContinue)
+        {
+            // Load the next story chunk and return the current text
+            string currentTextChunk = exampleStory.Continue();
+
+            // Get any tags loaded in the current story chunk
+            List<string> currentTags = exampleStory.currentTags;
+
+            // Create a blank line of dialogue
+            string line = "";
+
+            // For each tag in currentTag, set its values to the new variable 'tag'
+            foreach (string tag in currentTags)
+            {
+                // Concatenate the tag and a colon
+                line += tag + ": ";
+            }
+
+            // Concatenate the current text chunk
+            // (This will either have a tag before it or be by itself.)
+            line += currentTextChunk;
+
+            // Concatenate the content of 'line' to the existing text
+            childText.text += line;
+        }
+    }
+}
+```
+
+![alt text](./ChangingTextProperty.png "Changing Text Property")
+
+With the new code, the first line of the Ink file is shown before it is cut off. While not ideal, it shows that all of the Ink Story API and child GameObject code is working. It is time to adjust the properties of the **Text** GameObject itself.
 
 ## Adjusting **Text** Properties
 
-## Accessing **Text** Components During Runtime
+TODO
 
 ## Working With Rich Text Content
