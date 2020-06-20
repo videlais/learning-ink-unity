@@ -5,10 +5,10 @@
     - [Adding **Text**](#adding-text)
     - [Removing Scripting Components](#removing-scripting-components)
     - [Attaching Existing Scripting Components](#attaching-existing-scripting-components)
-  - [Working With **Canvas**](#working-with-canvas)
+  - [Working With **Canvas** and **Text**](#working-with-canvas-and-text)
     - [Using **GetComponentInChildren\<GameObject\>()**](#using-getcomponentinchildrengameobject)
-  - [Adjusting **Text** Properties](#adjusting-text-properties)
-  - [Working With Rich Text Content](#working-with-rich-text-content)
+    - [Adjusting **Text** Properties](#adjusting-text-properties)
+    - [Working with Layouts](#working-with-layouts)
 
 ---
 
@@ -95,7 +95,7 @@ public class NewBehaviourScript : MonoBehaviour
             // (This will either have a tag before it or be by itself.)
             line += currentTextChunk;
 
-            // Print the current line using the combined string 
+            // Print the current line using the combined string
             //  created from the current tag and story chunk.
             Debug.Log(line);
         }
@@ -113,7 +113,7 @@ The genie waited as the person in front of them considered their wording.
 The genie nodded and then snapped their fingers.
 ```
 
-## Working With **Canvas**
+## Working With **Canvas** and **Text**
 
 With the new scripting component added, running the Scene will produce the same results in the Console as was previously shown when using the **Main Camera** in previous chapters.
 
@@ -292,8 +292,70 @@ public class NewBehaviourScript : MonoBehaviour
 
 With the new code, the first line of the Ink file is shown before it is cut off. While not ideal, it shows that all of the Ink Story API and child GameObject code is working. It is time to adjust the properties of the **Text** GameObject itself.
 
-## Adjusting **Text** Properties
+### Adjusting **Text** Properties
 
-TODO
+Given that the text is being cut off, an immediate solution may seem to increase the width of **Text**.
 
-## Working With Rich Text Content
+![alt text](./TextWidth.png "Text Width")
+
+After all, given its current size of 160, that does seem like a valid solution to the problem. Changing it to, say, 500 or 600 seems like a better size.
+
+> **Reminder:** The values of properties can be changed while a Scene is running. This is often a good way to test values and see their results. Any changes made while the Scene is running **will not be saved**.
+
+![alt text](./TestingWidth.png "Testing Width")
+
+Adjusting the width will not have the desired affect.
+
+![alt text](./LargerWidth.png "Larger Width")
+
+As can be seen when adjusting the value, the width of the text would increase, but its position remains the same, relative to the **Canvas**. The problem is not with **Text**, but with its parent.
+
+### Working with Layouts
+
+The **Canvas** GameObject is both a collection and an abstraction of the user interface space it contains. To help in organizing UI GameObjects, **Canvas** has access to Layouts. These are ways to automatically arrange other, child GameObjects that are a part of **Canvas** GameObjects.
+
+![alt text](./AddComponentLayout.png "Add Component -> Layout")
+
+Layout components can be added to a **Canvas** GameObject through viewing its Inspector Window, clicking on "Add Component" and going to "Layout".
+
+![alt text](./VerticalLayoutGroup.png "Vertical Layout Group")
+
+While there are several options, a Vertical Layout Group is a good solution to organizing multiple UI GameObjects within a **Canvas**. It allows for setting equal spacing and will help with eventually adding more UI GameObjects for interacting with choices later as well.
+
+![alt text](./VerticalLayoutProperties.png "Vertical Layout Properties")
+
+Generally, setting Control Child Size and Use Child Scale for both Width and Height are worth checking. This will allow the layout to enforce the size of the child GameObjects and will scale them to match the **Canvas**.
+
+![alt text](./AdjustedTextLayout.png "Adjusted Text Layout")
+
+Now, when the Scene is run, the content of the **Text** will appear in the upper left corner and will be scaled to match the greater **Canvas** parent.
+
+In fact, through adjusting the Child Alignment menu from "Upper Left" to "Middle Center" within the Layout settings, the text will also move to the center.
+
+![alt text](./MiddleCenterText.png "Middle Center Aligned")
+
+At this point, the layout is handling the positioning of the text and will scale it to match the parent **Canvas**. However, it is still small and hard to read. To fix that, it is time to return to the properties of the **Text** itself.
+
+![alt text](./TextProperties.png "Text Properties")
+
+Selecting **Text** from the Hierarchy Window will open it in the Inspector Window.
+
+![alt text](./AdjustingFontSize.png "Adjusting Font Size")
+
+> **Reminder:** Different font sizes and options can be tried through playing the Scene and adjusting the values during runtime.
+
+A good general font size is 30 for higher resolutions.
+
+![alt text](./LargerFontSize.png "Larger Font Size")
+
+To adjust the color of the **Text** content, click on "Color" and choose something in higher contrast to the existing blue like white.
+
+![alt text](./TextColor.png "Text Color")
+
+Finally, to adjust the default blue background, click on **Main Camera** in the Hierarchy Window. In its Inspector Window, click on its "Background" property and adjust the color to a darker one.
+
+![alt text](./CameraBackground.png "Camera Background")
+
+With the **Text** color set to a lighter one and the **Main Camera** background color set to a darker one, the now centered text is far more readable.
+
+![alt text](./AdjustedBackgroundColor.png "Adjusted Background Color")
