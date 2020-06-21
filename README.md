@@ -30,8 +30,8 @@ The content is divided into four sections: Code Basics, Editor Basics, Using Plu
 
 ### Building an Ink-Based UI in Unity
 
-- Chapter 10: Unity UI: Introducing Canvas and Text
-- Chapter 11: Unity UI: User Input and Buttons
+- [Chapter 10: Unity UI: Introducing Canvas and Text](./chapter10/index.md)
+- Chapter 11: Unity UI: Buttons and User Input
 - Chapter 12: Unity UI: Dynamic Story Loading
 
 ---
