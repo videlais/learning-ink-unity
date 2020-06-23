@@ -26,13 +26,18 @@ The content is divided into four sections: Code Basics, Editor Basics, Using Plu
 
 - [Chapter 7: Ink: Loading Ink-Unity Plugin](./chapter7/index.md)
 - [Chapter 8: Ink: Introducing Story API](./chapter8/index.md)
-- Chapter 9: Ink: Introducing Runtime API
 
 ### Building an Ink-Based UI in Unity
 
 - [Chapter 10: Unity UI: Introducing Canvas and Text](./chapter10/index.md)
 - [Chapter 11: Unity UI: Buttons and User Input](./chapter11/index.md)
-- Chapter 12: Unity UI: User Events and Dynamic Story Loading
+- [Chapter 12: Unity UI: User Events and Dynamic Story Loading](./chapter12/index.md)
+
+### Organizing and Optimizing
+
+- Chapter 13: Ink: Selective Output and Story Organization
+- Chapter 14: Unity: Organizing Project Files
+- Chapter 15: Unity UI: Line Breaks and Rich Text
 
 ---
 

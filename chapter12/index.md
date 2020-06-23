@@ -534,8 +534,186 @@ With more story to load, the new code will load the next part of the story after
 
 ![alt text](./SecondSetOfChoices.png "Second Set of Choices")
 
-This time, the code only seems to load the choices and not the text. Internally, however, the text is being loaded, it is just that the code no longer has access to **Text**. It was destroyed along with all of the other children.
+This time, the code only seems to load the choices and not the text. Internally, though, the text is being loaded. It is just that the code no longer has access to **Text**. It was destroyed along with all of the other children.
 
 ### Creating Text
 
-TODO
+One solution to the problem would be to prevent **Text** from being destroyed along with all of the other children. However, there is also another solution: make **Text** a Prefab. That way, along with **Button**, it could be created and destroyed as needed.
+
+![alt text](./TextPrefab.png "Text Prefab")
+
+To make this change, drag and drop the existing **Text** GameObject into the Project window.
+
+![alt text](./DeleteText.png "Delete Text")
+
+Then, right-click on the **Text** GameObject and click on "Delete".
+
+Next, add a public property to represent the **Text** Prefab in the existing code.
+
+```CSharp
+public class NewBehaviourScript : MonoBehaviour
+{
+    // Add a TextAsset representing the compiled Ink Asset
+    public TextAsset InkJSONAsset;
+
+    // Add a Button representing the ButtonPrefab
+    public Button ButtonPrefab;
+
+    // Add a Text representing the Text Prefab
+    public Text TextPrefab;
+
+    // Add a Story
+    private Story exampleStory;
+
+    // Add a Text
+    private Text childText;
+}
+```
+
+Like was done with the **Button** Prefab in a previous chapter, drag and drop the **Text** Prefab from the Project window onto the new property in the **Canvas** Inspector window.
+
+![alt text](./TextPrefabProperty.png "Text Prefab Property")
+
+With the **Text** Prefab associated with the property, it is time to change the rest of the code.
+
+Two major changes need to be made around how **Text** is now handled. Previously, the method **GetComponentInChildren\<Text\>()** was used to search for the **Text** GameObject as part of **Start()**. This is no longer needed and should be removed.
+
+Second, the method **Instantiate()** needs to be used as part of the **Refresh()** method to create a new **Text** GameObject. The object **childText** is already part of the class, so code can be changed to use this existing object without changing other lines of code.
+
+```CSharp
+// Start is called before the first frame update
+void Start()
+{
+  // Create a new Story object using the compiled (JSON) Ink story text
+  exampleStory = new Story(InkJSONAsset.text);
+
+  // Load the story for the first time
+  Refresh();
+}
+
+void Refresh()
+{
+  // Create a new GameObject based on a Prefab and set its parent to this.transform
+  childText = Instantiate(TextPrefab, this.transform);
+
+  // Reset the existing text of "New Text" to an empty string
+  childText.text = "";
+
+  // ...
+}
+```
+
+In the updated code, the **Start()** method loads the compiled Ink (JSON) file and calls **Refresh()**, which handles parsing the Ink story and creating **Text** and **Button** GameObjects as needed.
+
+![alt text](./DynamicGameObjects.png "Dynamic GameObjects")
+
+The new code dynamically creates GameObjects, destroys them when they are no longer needed, and will use the Ink Story API to load and parse both text content and choices as they are encountered.
+
+**NewBehaviourScript.cs:**
+
+```CSharp
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+// Add the Ink Runtime
+using Ink.Runtime;
+// Add Unity UI
+using UnityEngine.UI;
+
+public class NewBehaviourScript : MonoBehaviour
+{
+    // Add a TextAsset representing the compiled Ink Asset
+    public TextAsset InkJSONAsset;
+
+    // Add a Button representing the Button Prefab
+    public Button ButtonPrefab;
+
+    // Add a Text representing the Text Prefab
+    public Text TextPrefab;
+
+    // Add a Story
+    private Story exampleStory;
+
+    // Add a Text
+    private Text childText;
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        // Create a new Story object using the compiled (JSON) Ink story text
+        exampleStory = new Story(InkJSONAsset.text);
+
+        // Load the story for the first time
+        Refresh();
+    }
+
+    void Refresh()
+    {
+        // Create a new GameObject based on a Prefab and set its parent to this.transform
+        childText = Instantiate(TextPrefab, this.transform);
+
+        // Reset the existing text of "New Text" to an empty string
+        childText.text = "";
+
+        // Each loop, check if there is more story to load
+        while (exampleStory.canContinue)
+        {
+            // Load the next story chunk and return the current text
+            string currentTextChunk = exampleStory.Continue();
+
+            // Get any tags loaded in the current story chunk
+            List<string> currentTags = exampleStory.currentTags;
+
+            // Create a blank line of dialogue
+            string line = "";
+
+            // For each tag in currentTag, set its values to the new variable 'tag'
+            foreach (string tag in currentTags)
+            {
+                // Concatenate the tag and a colon
+                line += tag + ": ";
+            }
+
+            // Concatenate the current text chunk
+            // (This will either have a tag before it or be by itself.)
+            line += currentTextChunk;
+
+            // Concatenate the content of 'line' to the existing text
+            childText.text += line;
+
+            // For each choice in currentChoices, set its values to the new variable 'choice'
+            foreach (Choice choice in exampleStory.currentChoices)
+            {
+                // Create a new GameObject based on a Prefab and set its parent to this.transform
+                Button choiceButton = Instantiate(ButtonPrefab, this.transform);
+
+                // Add a delegate as an event listener
+                choiceButton.onClick.AddListener(delegate {
+
+                    // Call the method ChooseChoiceIndex() with the current choice index
+                    exampleStory.ChooseChoiceIndex(choice.index);
+
+                    // For each Transform object in transform, set its values to the new variable 'child'
+                    foreach (Transform child in transform)
+                    {
+                        // Destroy the GameObject associated with the transform
+                        Destroy(child.gameObject);
+                    }
+
+                    // Refresh the text and choices
+                    Refresh();
+
+                });
+
+                // From choiceButton, look in its children for a component of the type "Text".
+                // Return a reference to this component and save it locally.
+                Text choiceText = choiceButton.GetComponentInChildren<Text>();
+
+                // Set the button's text to the choice's text
+                choiceText.text = choice.text;
+            }
+
+        }
+    }
+}
+```
