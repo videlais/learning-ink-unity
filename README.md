@@ -36,8 +36,8 @@ The content is divided into four sections: Code Basics, Editor Basics, Using Plu
 ### Organizing and Optimizing
 
 - [Chapter 13: Ink: Selective Output and Story Organization](./chapter13/index.md)
-- Chapter 14: Unity: Organizing Project Files
-- Chapter 15: Unity UI: Line Breaks and Rich Text
+- [Chapter 14: Unity: Organizing Project Files](./chapter14/index.md)
+- Chapter 15: Unity UI: Integrating Line Breaks and Rich Text Support
 
 ---
 
