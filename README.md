@@ -37,7 +37,12 @@ The content is divided into four sections: Code Basics, Editor Basics, Using Plu
 
 - [Chapter 13: Ink: Selective Output and Story Organization](./chapter13/index.md)
 - [Chapter 14: Unity: Organizing Project Files](./chapter14/index.md)
-- Chapter 15: Unity UI: Integrating Line Breaks and Rich Text Support
+- [Chapter 15: Unity UI: Integrating Line Breaks and Rich Text Support](./chapter15/index.md)
+
+### Advanced Ink Story API Usage
+
+- [Chapter 16: Ink + Unity: Accessing and Observing Ink Variables](./chapter16/index.md)
+- Chapter 17: Ink + Unity: Calling Ink Functions
 
 ---
 

@@ -732,7 +732,7 @@ public class NewBehaviourScript : MonoBehaviour
             // (This will either have a tag before it or be by itself.)
             line += currentTextChunk;
 
-            // Print the current line using the combined string 
+            // Print the current line using the combined string
             //  created from the current tag and story chunk.
             Debug.Log(line);
         }
