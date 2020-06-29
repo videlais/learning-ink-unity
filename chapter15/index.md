@@ -6,7 +6,6 @@
     - [HTML in Inky](#html-in-inky)
     - [Italics](#italics)
     - [Bold](#bold)
-    - [Color](#color)
 
 ---
 
@@ -130,7 +129,3 @@ Only <b>this</b> word will be bold.
 ```
 
 ![alt text](./BoldDemo.png "Bold Demo")
-
-### Color
-
-TODO
