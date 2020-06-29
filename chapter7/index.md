@@ -1,226 +1,312 @@
-# Chapter 7: Ink: Loading Ink-Unity Plugin
+# Chapter 7: Windows, Views, and Tools
 
-- [Chapter 7: Ink: Loading Ink-Unity Plugin](#chapter-7-ink-loading-ink-unity-plugin)
-  - [Accessing and Importing Ink Unity Integration](#accessing-and-importing-ink-unity-integration)
-  - [Creating Example Scripting Component](#creating-example-scripting-component)
-  - [Loading a Compiled Ink File](#loading-a-compiled-ink-file)
-  - [Editing the Ink File](#editing-the-ink-file)
-  - [Setting up Story API](#setting-up-story-api)
+- [Chapter 7: Windows, Views, and Tools](#chapter-7-windows-views-and-tools)
+  - [Windows](#windows)
+    - [Hierarchy](#hierarchy)
+      - [Visibility and Picking](#visibility-and-picking)
+      - [Searching](#searching)
+    - [Inspector](#inspector)
+      - [Transform Component](#transform-component)
+      - [Adding Components](#adding-components)
+        - [Adding Scripting Components](#adding-scripting-components)
+      - [Inspecting Assets](#inspecting-assets)
+    - [Project](#project)
+  - [Views](#views)
+    - [Scene](#scene)
+      - [Draw Mode](#draw-mode)
+      - [2D / 3D](#2d--3d)
+      - [Scene Lighting](#scene-lighting)
+      - [Scene Audio](#scene-audio)
+      - [Effects](#effects)
+      - [Hidden Objects](#hidden-objects)
+      - [Grid Visibility](#grid-visibility)
+    - [Game](#game)
+      - [Displays](#displays)
+      - [Resolution Aspect](#resolution-aspect)
+      - [Scale](#scale)
+      - [Maximize on Play](#maximize-on-play)
+      - [Mute Audio](#mute-audio)
+      - [Stats](#stats)
+      - [Gizmo Options](#gizmo-options)
+  - [Tools](#tools)
+    - [Transform](#transform)
+    - [Gizmo Settings](#gizmo-settings)
+      - [Position](#position)
+      - [Rotation](#rotation)
+    - [Play, Pause, and Step](#play-pause-and-step)
+      - [Runtime Editing](#runtime-editing)
+    - [Collaborate](#collaborate)
+    - [Cloud](#cloud)
+    - [Account](#account)
+    - [Layers](#layers)
+    - [Layout](#layout)
 
 ---
 
-## Accessing and Importing Ink Unity Integration
+The user interface of the Unity Editor is divided up into three central metaphors: windows, views, and tools.
 
-Open Unity or Unity Hub and create a new project. (This project is for testing purposes. Its name can be whatever is most convenient including the default "New Unity Project".)
+## Windows
 
-![alt text](./OpenAssetStore.png "Open Asset Store")
+### Hierarchy
 
-Go to Window -> Asset Store.
+![alt text](./Hierarchy.png "Hierarchy")
 
-![alt text](./AssetStore.png "Asset Store")
+The Hierarchy window lists every GameObject in the Scene.
 
-In the Asset Store view, click on the search box and type "Ink Unity".
+The name "hierarchy" also comes from the representation of relationships between GameObjects in the Scene. If one GameObject is the parent or container of one or more GameObjects, their names will be under their parent's name in the listing.
 
-Once the search finishes, click on "Ink Unity Integration" by Inkle.
+Through dragging-and-dropping one or more GameObjects, they can be placed under a parent or removed from that parent through moving them out from "under" their name.
 
-![alt text](./DownloadAndImport.png "Download and Import")
+#### Visibility and Picking
 
-As "Ink Unity Integration" is a free Asset, click on "Download" and then "Import".
+![alt text](./VisibilityandPicking.png "Visibility and Picking")
 
-![alt text](./ImportInkPackage.png "Import Ink Package")
+As the number of GameObjects can potentially be quite large, the Hierarchy window also includes visibility settings for every GameObject. Through clicking on the eye icon to the left of one or more GameObjects, it will be hidden in the Scene view.
 
-Once the Asset has downloaded and loaded itself, a new Import Unity Package window will open.
+Next to the Scene Visibility icon is also the Picking icon. Through clicking on a GameObject's picking icon, it becomes selected in the Scene View. This allows for quickly selecting certain GameObjects without also potentially excluding others.
 
-Click on "All" to make sure all of the file are selected and them "Import".
+#### Searching
 
-Once loaded, the Ink Compiler, Run-Time, and Example will be added to the current project.
+![alt text](./Searching.png "Searching")
 
-## Creating Example Scripting Component
+To help with finding a GameObject by its name, the Hierarchy window includes a search bar. As the name of a GameObject is typed, the results are shown under the name of the current Scene.
 
-In the Hierarchy Window, click on the Main Camera GameObject. This will show its components in the Inspector Window.
+### Inspector
 
-> **Note:** In the default layout, the Hierarchy Window will be on the far left and the Inspector Window on the far right.
+![alt text](./Inspector.png "Inspector")
 
-![alt text](./NewScript.png "New Script")
+When a GameObject or Asset is selected in the Hierarchy window, its components will appear in the Inspector window.
 
-In the Inspector Window, click on "Add Component" and scroll to "Add Script".
+Depending on the type of object, it may have multiple built-in components whose values can be adjusted directly.
 
-![alt text](./AddingScripting.png "Adding Scripting")
+#### Transform Component
 
-Click on "Add Script" and then the "Create and Add Script" button.
+![alt text](./TransformComponent.png "Transform Component")
 
-> **Note:** Normally, the default name of "NewBehaviorScript" would be changed. However, as this is an example, that step is being skipped.
+All GameObjects have a Transform Component for adjusting their Position, Rotation, and Scale.
 
-![alt text](./ProjectScript.png "Project Script")
+#### Adding Components
 
-Whenever a new scripting component is added, its C\# file is added to the Assets folder. With the Ink Unity Integration plugin installed, it will be the newest file.
+![alt text](./AddComponent.png "Transform Component")
 
-Double-click this file to open it in Visual Studio.
+Clicking on the "Add Component" button open a menu for selecting new components to add.
 
-```CSharp
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+##### Adding Scripting Components
 
-public class NewBehaviourScript : MonoBehaviour
-{
-    // Start is called before the first frame update
-    void Start()
-    {
-    }
+![alt text](./AddingScriptComponent.png "Adding Scripting Component")
 
-    // Update is called once per frame
-    void Update()
-    {
-    }
-}
-```
+Selecting "New script" from the "Add Component" menu prompts for the new of a new behavior script.
 
-As reviewed in [Chapter 5 on Scripting Basics](../chapter5/index.md), a new behavior script will have two methods: **Start()** and **Update()**. The method **Start()** will be called before the first rendered frame and the method **Update()** will be called every frame.
+Clicking "Create and Add" (assuming a script does not already exist with the same name) will create the script in the Project window and attach it as a scripting component to the current GameObject.
 
-In order to use Ink and its Runtime classes, it needs to be added to the file.
+Double-clicking the file will open it in Visual Studio.
 
-```CSharp
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-// Add the Ink Runtime
-using Ink.Runtime;
+#### Inspecting Assets
 
-public class NewBehaviourScript : MonoBehaviour
-{
-    // Start is called before the first frame update
-    void Start()
-    {
-    }
+![alt text](./AssetInspector.png "Asset Inspector")
 
-    // Update is called once per frame
-    void Update()
-    {
-    }
-}
-```
+If an Asset is selected from the Project window, its properties and contents will be shown in the Inspector window. Depending on the type, different settings, properties, and options will be available.
 
-## Loading a Compiled Ink File
+### Project
 
-Ink runs *compiled* files created by Inky or the Ink compiler now added to the project. However, before it can run a file, there needs to be a property added to the file so that it can be used in the Unity Editor.
+![alt text](./ProjectWindow.png "Project Window")
 
-> **Reminder:** All (public) properties added to script file can be accessed and its values changes in the Unity Editor.
+The Project windows shows all assets that are part of the current project. This also include any imported assets or files added to the asset folder outside of using the Unity Editor to create them.
 
-```CSharp
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-// Add the Ink Runtime
-using Ink.Runtime;
+The contents of the Project Window can be sorted through creating new folders using either the "+" menu under its title or using the right-click context menu. By default, the Project window includes a folder "Scenes" containing the current scene. (This is "SampleScene" by default).
 
-public class NewBehaviourScript : MonoBehaviour
-{
-    // Add a TextAsset representing the compiled Ink Asset
-    public TextAsset InkJSONAsset;
+It is recommended to create folders for all types of Assets using in the Project sorted by either scene or by type of data. In a project with multiple scenes, for example, sorting assets by scene can help in organizing them. For smaller project, or those with only one scene, sorting by type is a good approach. Creating a folder called "Scripts" for all files related to scripting components and other for "Tiles", if they are used in the Project, for example.
 
-    // Start is called before the first frame update
-    void Start()
-    {
-    }
+## Views
 
-    // Update is called once per frame
-    void Update()
-    {
-    }
-}
-```
+In the default layout, there are two views in the center of the Unity Editor window: Scene and Game.
 
-Adding the property **InkJSONAsset** of type **[TextAsset](https://docs.unity3d.com/Manual/class-TextAsset.html)** helps in connecting the text asset from the Project window with the property during the Initialization step of the order of execution for the GameObject.
+### Scene
 
-![alt text](./JSONProperty.png "Ink JSON Asset Property")
+![alt text](./Scene.png "Scene View")
 
-With the Ink Unity Integration plugin loaded, any `.ink` files added to the project will be automatically compiled into `.json` files. The context menu for the Project window also now has a "Ink Script" option for creating Ink files quickly.
+As GameObjects are added to the scene, they appear in both the Hierarchy window and Scene view. Through selecting GameObjects in the Scene view, they can be manipulated through their gizmos or using the toolbar.
 
-![alt text](./CreateInkScript.png "Create Ink Script")
+#### Draw Mode
 
-To create a Ink Script file using this functionality, use the Add or right-click menu and then click on "Ink Script".
+![alt text](./DrawMode.png "Draw Mode")
 
-![alt text](./NewScriptFile.png "New Script Files")
+Under the Scene title is the Draw Mode. By default "Shaded" is selected. However, other shading and baked lighting options can be chosen if the GameObjects in the scene support them.
 
-A new file named `New Ink.ink` will be created. After clicking outside of the name, the built-in Ink compiler will automatically produce a new file `New Ink.json`. It is this file that should be associated with the behavior script.
+#### 2D / 3D
 
-![alt text](./NewInkJSONProperty.png "New Ink JSON Property")
+![alt text](./2D.png "2D")
 
-With Main Camera selected in the Hierarchy window (so that its components appear in the Inspector window), drag and drop the new `New Ink.json` file on the "Ink JSON Asset" property.
+If a project is created in 2D, the 2D option and button will be selected.
 
-With the `New Ink.json` file now associated with the scripting component, any saved changes to the `New Ink.ink` file will result in the JSON file being re-compiled. As it is now associated with the scripting component, its content will always be updated.
+![alt text](./3D.png "3D")
 
-## Editing the Ink File
+If the project is using 3D, the 2D option will be disabled and an additional 3D gizmo is added to the scene for changing the viewing orientation and perspective.
 
-Unless otherwise setup, `.ink` files are not associated with a program for editing. Double-clicking or clicking the "Open" button in the Inspector window will prompt to pick a program to edit in Windows.
+#### Scene Lighting
 
-It is strongly recommended to use the [Inky](https://www.inklestudios.com/ink/) editor for editing `.ink` files. However, Notepad (in Windows) or any other plain text editors can be used.
+![alt text](./SceneLighting.png "Scene Lighting")
 
-> **Note:** This chapter will use screenshots from Inky.
+Depending on toggle, the scene will use the scene lighting or a light attached to the Scene camera view.
 
-![alt text](./EmptyInky.png "Empty Inky")
+#### Scene Audio
 
-**New Ink.ink:**
+![alt text](./SceneAudio.png "Scene Audio")
 
-```ink
-Hey, there!
-```
+Depending on the toggle, audio will play in the scene or not.
 
-![alt text](./ExampleInkText.png "Example Ink Text")
+#### Effects
 
-Adding the text `Hey, there!` in the left-hand side of Inky will show the compiled results on the right-hand side.
+![alt text](./SceneEffects.png "Scene Effects")
 
-Once added, save the file through using Ctrl-S or using File -> Save.
+Different scene effects such as the Skybox, Fog, and Particle Systems can be toggled on and off.
 
-Returning to Unity will trigger the Project window to check for any changes in any existing Ink files. If they have changed, the built-in Ink compiler will re-compile and produce an updated JSON file.
+#### Hidden Objects
 
-> **Reminder:** Because the JSON file is associated with "Ink JSON Asset" property, it was also always be updated when the scene runs.
+![alt text](./SceneVisibility.png "Hidden Objects")
 
-## Setting up Story API
+If any GameObjects have been hidden in the Hierarchy window, the current count is shown. The entire scene can also be hidden.
 
-With the Ink and compiled JSON setup, the compiled file will be used when the scene starts. However, even with the compiled file associated, one more step is needed. A **Story** object is needed.
+#### Grid Visibility
 
-```CSharp
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-// Add the Ink Runtime
-using Ink.Runtime;
+![alt text](./GridVisibility.png "Grid Visibility")
 
-public class NewBehaviourScript : MonoBehaviour
-{
-    // Add a TextAsset representing the compiled Ink Asset
-    public TextAsset InkJSONAsset;
+Depending on the orientation, the visibility of the axis (X, Y, or Z) can be adjusted along with its opacity.
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        Story exampleStory = new Story(InkJSONAsset.text);
-        Debug.Log(exampleStory.Continue());
-    }
+### Game
 
-    // Update is called once per frame
-    void Update()
-    {
-    }
-}
-```
+![alt text](./GameView.png "GameView")
 
-The **Story** object allows for using the Story API. It exposes methods like **Continue()** that load parts of the story.
+When a Scene is running, the Game View shows a simulation of what the rendered game would look like using the Scene camera.
 
-In the above example, a new **Story** object is created and is passed the **InkJSONAsset** property that is associated with the `New Ink.json` via Unity during its Initialization step.
+If the Play button is clicked, the Unity Editor will automatically shift from the Scene View to the Game View.
 
-> **Note:** The property *text* is used from the **TextAsset** object. This exposes the text content of the associated text asset file.
+#### Displays
 
-When run, the code will start with the property during the Initialization order of execution.
+![alt text](./GameDisplays.png "Game Displays")
 
-Next, the method **Start()** is called on the GameObject.
+Depending on the cameras and their settings used in the scene, Unity supports up to eight different displays.
 
-A **Story** object is then created and its constructor method is passed the *InkJSONAsset.text* property of the **InkJSONAsset** object.
+#### Resolution Aspect
 
-Finally, inside of the **Start()** method, **Debug.Log()** is called with the argument **exampleStory.Continue()**.
+![alt text](./ResolutionAspect.png "Resolution Aspect")
 
-![alt text](./InkExampleConsole.png "Ink Example Console")
+The current resolution and aspect ration can be adjusted when simulating the rendering of the scene.
 
-As will be covered in the next chapter, the Story API has methods for loading content from a story (compiled JSON file). The method **Continue()** loads the next chunk in the story. In this example, it will load the current text of the story (`Hey, there!`) and display it on the Console.
+#### Scale
+
+![alt text](./Scale.png "Scale")
+
+The current scaling of the game View can be adjusted.
+
+#### Maximize on Play
+
+![alt text](./MaximizeonPlay.png "Maximize on Play")
+
+If Maximize on Play is selected, the Game View will fill all available horizontal and vertical space in the Unity Editor while the scene is running.
+
+#### Mute Audio
+
+![alt text](./MuteAudio.png "Mute Audio")
+
+Scene audio can be muted.
+
+#### Stats
+
+![alt text](./Stats.png "Stats")
+
+Clicking on the "Stats" button shows the current graphical and computational statistics of the scene.
+
+#### Gizmo Options
+
+![alt text](./GizmoOptions.png "Gizmo Options")
+
+The Gizmos menu allows for enabling or disabling the gizmos for types of GameObjects.
+
+---
+
+## Tools
+
+### Transform
+
+![alt text](./TransformTools.png "Transform Tools")
+
+When a GameObject is selected, it can be manipulated through the Transform tools. This allows for moving, positioning, rotating, selecting multiple GameObjects (Rect Tool), and then adjusting those GameObjects.
+
+If any custom tools have been added, they can also be accessed through the Custom Tool menu button.
+
+### Gizmo Settings
+
+![alt text](./GizmoSettings.png "Gizmo Settings")
+
+> **Note:** In Unity terminology, a *gizmo* is a graphical overlay associated with a GameObject when selected in the Scene view.
+
+#### Position
+
+The Pivot/Center button adjusts the position of the Gizmo.
+
+When Pivot is selected, the Gizmo is positioned at the pivot point of the GameObject as defined by the Transform component.
+
+If Center is selected, the Gizmo position is set to the center position of the GameObject.
+
+#### Rotation
+
+The Local/Global button adjusts rotation of the Gizmo in relation to the GameObject.
+
+- When Local is selected, the Gizmo's rotation is relative to the GameObject.
+
+- When Global is selected, the Gizmo is oriented to the world space.
+
+### Play, Pause, and Step
+
+![alt text](./PlayPauseStep.png "Play, Pause, and Step")
+
+The Play, Pause, and Step buttons control if the scene is running and its current status.
+
+- Clicking on the Play button will start to play the scene and will continue until clicked again or an error occurs that prevents the scene from continuing.
+
+- The Pause button stops the scene from playing. It can be resumed through clicking on the Pause button a second time or clicking on the Play button.
+
+- If debugging is being used, the Step button will move to the next debugging point, if available. If there are no debugging points in the current scene, the Step button will not be available.
+
+#### Runtime Editing
+
+When a scene is running, GameObjects can be manipulated and the values of its properties and components changed. However, **these changes are not saved.** Any changes made while a scene is running only affect that scene. They are not saved.
+
+### Collaborate
+
+![alt text](./Collab.png "Collaborate")
+
+Clicking on the "Collab" menu for the first time (assuming the user is signed in) provides the option to "Start now!". Clicking the button synchronizes the current project remotely and allows for accessing the project, when saved remotely, from another computer running Unity.
+
+![alt text](./Sync.png "Sync")
+
+Through synchronizing changes, files can be saved remotely and accessed from either another device or by other users.
+
+(Clicking on the Teams button in the lower, right-hand corner opens the Unity Dashboard in a browser and allows for adjusting organization and group settings for the project.)
+
+### Cloud
+
+![alt text](./Cloud.png "Cloud")
+
+Clicking on the Cloud button opens the currently available Cloud options and their current settings.
+
+### Account
+
+![alt text](./Account.png "Account")
+
+Clicking on the Account button shows the current signed-in user and the option to upgrade account access.
+
+### Layers
+
+![alt text](./Layers.png "Layers")
+
+The "Layers" menu allows access to which objects appear in the Scene view. If a GameObject is associated with the layer and that layer is hidden, those GameObjects will not be shown.
+
+### Layout
+
+![alt text](./Layout.png "Layout")
+
+Clicking on the "Layout" button allows for quickly changing the layout of the windows and views within the Unity Editor.
+
+Once windows and views are arranged, the layout can also be saved as either an option to be used at a later time.

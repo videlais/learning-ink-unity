@@ -1,315 +1,244 @@
-# Chapter 3: C\#: Operators
+# Chapter 3: C\#: Object-Oriented Programming
 
-- [Chapter 3: C\#: Operators](#chapter-3-c-operators)
-  - [Assignment Operator](#assignment-operator)
-  - [Arithmetic Operators](#arithmetic-operators)
-    - [Addition](#addition)
-    - [Addition Assignment](#addition-assignment)
-    - [Subtraction](#subtraction)
-    - [Subtraction Assignment](#subtraction-assignment)
-    - [Multiplication](#multiplication)
-    - [Division](#division)
-    - [Modulus](#modulus)
-    - [Increment](#increment)
-    - [Decrement](#decrement)
-  - [String Operators](#string-operators)
-    - [Concatenation](#concatenation)
-    - [String Escape Sequences](#string-escape-sequences)
-    - [String Interpolation](#string-interpolation)
-  - [Comparison Operators](#comparison-operators)
-    - [Equality](#equality)
-    - [Inequality](#inequality)
-    - [Negation](#negation)
-    - [Less-than](#less-than)
-    - [Greater-than](#greater-than)
-    - [Less-Than-Or-Equal-To](#less-than-or-equal-to)
-    - [Greater-Than-Or-Equal-To](#greater-than-or-equal-to)
-    - [Complex Comparisons](#complex-comparisons)
-      - [AND](#and)
-      - [OR](#or)
-  - [Type-Testing Operators](#type-testing-operators)
-    - [`is`](#is)
-    - [`typeof`](#typeof)
-
-**Summary:** In this chapter, operators and conditionals in C# are reviewed.
+- [Chapter 3: C\#: Object-Oriented Programming](#chapter-3-c-object-oriented-programming)
+  - [Inheritance](#inheritance)
+    - [Inheriting Fields, Properties, and Methods](#inheriting-fields-properties-and-methods)
+    - [Using `static`](#using-static)
+      - [**Main()**](#main)
+      - [Cannot Access `this`](#cannot-access-this)
+  - [Polymorphism](#polymorphism)
+    - [Run-Time Polymorphism](#run-time-polymorphism)
+    - [Accessing `base`](#accessing-base)
+    - [Overriding Base Methods](#overriding-base-methods)
+      - [Virtual Methods](#virtual-methods)
+      - [Abstract Methods](#abstract-methods)
 
 ---
 
-## Assignment Operator
+C\# is *object-oriented*. This means that all interactions between code happens between *objects*. This also means that classes, as the "blueprints" of an object, are written to include fields, properties, and methods in order to calculate values and potentially communicate between objects.
 
-The most common operator in any programming language is the *assignment* operator, `=`. This "assigns" a value to a variable.
+Object-oriented *programming* is a paradigm (way of thinking) that breaks up coding problems into their objects and how those objects relate to each other. The possible relationships exist in three options covering the options of "is a", "has a", and none.
 
-```CSharp
-int example = 5;
-```
+To help understand these relationships, the metaphor of parents, children, and toys are used:
 
-While it most commonly appears when a variable is being created, it is also used to overwrite a value.
+- A child, being based on a parent, exists in a "is a" relationship to the parent.
+- A child, whose has a toy, is in a "has a" relationship to the toy.
+- Because the child has a toy, and the parent does not, there is no relationship between the parent and the toy.
 
-```CSharp
-example = 6;
-```
+## Inheritance
 
-> **Note:** Trying to re-assign a value to a *constant* will result in an error. Once assigned a new value **cannot** be assigned.
+Classes that exists in a "is a" relationship to another are often called *child classes* to the *parent class*. In fact, this metaphor is also extended into an important concept for object-oriented programming: *inheritance*.
 
-## Arithmetic Operators
-
-All number values can be used with *arithmetic* operators that exist in C#.
-
-### Addition
-
-The addition operator, `+`, can be used with any number values.
+A class is said to *inherit* from another class in C\# when a colon and then the name of another class follows its own when being defined.
 
 ```CSharp
-int example = 5;
-// 10
-example = example + 5;
-```
+class Person {
+}
 
-> **Note:** If an **Integer** is added to a **Float** value, the result is a **Float** value.
-
-### Addition Assignment
-
-The addition assignment operator, `+=`, performs both actions. In the cases where a value would be added to a variable and then save again, the additional assignment operator combines the two.
-
-```CSharp
-int example = 5;
-// 10
-example += 5;
-```
-
-### Subtraction
-
-The subtraction operator, `-`, can be used with any number values.
-
-```CSharp
-float example = 10.5f;
-// 5.5f
-example = example - 5;
-```
-
-> **Note:** If an **Integer** is subtracted from a **Float** value, the result is a **Float** value.
-
-### Subtraction Assignment
-
-The subtraction assignment operator, `-=`, performs both actions. In the cases where a value would be subtract from a variable and then saved again, the additional assignment operator combines the two.
-
-```CSharp
-int example = 5;
-// 0
-example -= 5;
-```
-
-### Multiplication
-
-The multiplication operator, `*`, can be used with any number values.
-
-```CSharp
-int example = 5;
-// 10
-example = example * 2;
-```
-
-> **Note:** If an **Integer** is multiplied with a **Float** value, the result is a **Float** value.
-
-### Division
-
-The addition operator, `/`, can be used with any number values.
-
-```CSharp
-int example = 10;
-// 2
-example = example / 5;
-```
-
-> **Note:** If an **Integer** is divided by a **Float** value or would produce a decimal value, the result is a **Float** value.
-
-### Modulus
-
-The modulus operator, `%`, can be used with any number values.
-
-In programming terminology, the *modulus* operation returns the reminder of division. For example, if `10 / 2` the value becomes `5`. However, if `10 % 9`, the result would be `1`.
-
-### Increment
-
-The increment operator, `++`, can be used with any number value. It *increases* the value by `1`. Unlike other operators, the increment operator *follows* the variable.
-
-```CSharp
-int example = 4;
-// 5
-example++;
-```
-
-### Decrement
-
-The decrement operator, `--`, can be used with any number value. It *decreases* the value by `1`. Unlike other operators, the decrement operator *follows* the variable.
-
-```CSharp
-int example = 4;
-// 3
-example--;
-```
-
-## String Operators
-
-The **String** data type supports the addition operator, `+`. This "adds" the values together in an operation named as *concatenation*.
-
-### Concatenation
-
-All non-collection built-in data types have a special method called **toString()**. This converts or otherwise represents the value as a **String**. This allows data types like **Integer** to be "added" to a **String** to create a new **String** value.
-
-```CSharp
-string example = "Hi" + 5;
-```
-
-### String Escape Sequences
-
-When using strings, there is often a need to represent values such as "the end of a line" or "a single quotation mark." For these purposes, string also support *escape sequences*. These start with the backslash character, `\`, and then a character to mark a sequence.
-
-| Escape Sequence | Represents            |
-|-----------------| ----------------------|
-| `\b`            | Backspace             |
-| `\f`            | Form feed             |
-| `\n`            | New line              |
-| `\r`            | Carriage return       |
-| `\t`            | Horizontal tab        |
-| `\v`            | Vertical tab          |
-| `\'`            | Single quotation mark |
-| `\"`            | Double quotation mark |
-| `\\`            | Backslash             |
-| `\?`            | Literal question mark |
-
-When a string escape sequence is "printed" (shown on console or written to a file), what it represents rather than its value is used.
-
-For example, the following string value --
-
-```CSharp
-"Hi\nmy\nname\nis\nFred."
-```
-
--- would produce the following output:
-
-```bash
-Hi
-my
-name
-is
-Fred
-```
-
-The escape sequence `\n` represents a new line and thus, when the string value is printed, each sequence within the string value would start a new line.
-
-### String Interpolation
-
-Often, even when using the addition operator, `+`, it can become confusing when different values are used with strings. To help with this, strings also support *interpolation*. This allows, instead of concatenating values together, to create a final value that *interpolates* other variables.
-
-```CSharp
-string name = "Fred";
-
-// Is your name, Fred?
-$"Is your name, {name}?";
-```
-
-String *interpolations* start with a dollar sign, `$`, before the opening double-quotation mark. Any values, including variables or methods that returning a value, can be used inside of opening (`{`) and closing (`}`) curly brackets.
-
-## Comparison Operators
-
-Beyond saving values, the other most common operation in programming is to compare them. Built into languages like C# as part of its use of the keywords `if` and `else`, *comparison* operators produce Boolean values.
-
-> **Note:** Booleans values are either `true` or `false`.
-
-When combined with the keyword `if`, a comparison operator moves the control of the code into its *block*, section marked with opening (`{`) and closing (`}`) curly brackets, if the result of the comparison is `true`.
-
-**Example:**
-
-```CSharp
-if("Hi!" == "Hi!") {
-  // Run this code!
+class Fred : Person {
 }
 ```
 
-In the above example, if the result of the comparison between one value, `"Hi!"`, is equal to (the same as) the value `"Hi!"`, the code block of the `if` *statement* would be run.
+In the above code, for example, the parent class is *Person* and the child is **Fred**.
 
-### Equality
+### Inheriting Fields, Properties, and Methods
 
-The *equality* operator, `==`, compares any two values. If they are the same, the result is `true`.
-
-> **Note:** Objects and Collections in C# have a method called **Equals()** that accepts an object of the same data type (or one that can be converted via polymorphism) and compares them. When overridden in new classes, this allows new data types to be compared to each other.
-
-### Inequality
-
-The *inequality* operator, `!=`, compares any two values. If they are *not* the same, the result is `true`.
-
-### Negation
-
-All Booleans values can be *negated*. This "flips" a value from `true` to `false` or `false` to `true`. When used with a comparison, it changes to the "opposite" value (`true` to `false` or `false` to `true`).
-
-### Less-than
-
-Numerical values can be compared using the less-than operator, `<`. If the value on the left-hand side is *less than* the value on the right-hand side, the result is `true`.
-
-### Greater-than
-
-Numerical values can be compared using the greater-than operator, `>`. If the value on the left-hand side is *greater than* the value on the right-hand side, the result is `true`.
-
-### Less-Than-Or-Equal-To
-
-Numerical values can be compared using the less-than-or-equal-to operator, `<=`. If the value on the left-hand side is *less than* **or** *equal to* the value on the right-hand side, the result is `true`.
-
-### Greater-Than-Or-Equal-To
-
-Numerical values can be compared using the greater-than-or-equal-to operator, `>=`. If the value on the left-hand side is *greater than* **or** *equal to* the value on the right-hand side, the result is `true`.
-
-### Complex Comparisons
-
-The equality, inequality, less-than, greater-than, less-than-or-equal-to, and greater-than-or-equal-to are *binary* operators. They need both a *left-hand* and *right-hand* values between the operator. Two values.
-
-However, they can also be wrapped in opening (`)`) and closing (`)`) parentheses to make *complex* comparisons whose final result will be either `true` or `false`. This can also be combined with the negation operator, `!`, as well.
-
-To help with these, programming languages like C# have *Boolean logical operators* for combining multiple possible comparisons together in complex comparisons using *logical operators*.
-
-#### AND
-
-When testing values, any two Boolean values can be tested *together* using the *and* operator, `&&`. If *both* comparisons or values are `true`, the result is `true`.
+If a class *inherits* from another class, it gains all of its fields, properties, and methods. In fact, this design is how objects should be treated when programming in C\#! A more generic object of, for example, **Person** is created with fields, properties, and methods, and then a more specific version of the **Person** class is created (**Fred**) that builds on that original blueprint.
 
 ```CSharp
-if(1 == 1 && 2 != 3) {
- // Run this code
+class Person {
+  public string Name;
+  public float Height;
+}
+
+class Fred : Person {
+
+  Fred() {
+    this.Name = "Fred";
+    this.Height = 5.4f;
+  }
+
 }
 ```
 
-#### OR
+### Using `static`
 
-When testing values, any two Boolean values can be tested *together* using the *or* operator, `||`. If *either* value or comparison is `true`, the result is `true`.
+The keyword `static` creates a field, property, or method that is "static" to a single class. It **cannot** be inherited.
+
+Any method with the keyword `static` can also be called from outside of a class *without* creating an object.
 
 ```CSharp
-if(2 != 4 || 1 == 1) {
-  // Run this code
+class Example {
+  
+  static public int Add(int x, int y) {
+    return x + y;
+  }
+
+}
+
+Example.Add(2, 2);
+```
+
+#### **Main()**
+
+In C\#, the special combination of `public`, `static` and `void Main()` signals that this is the *starting* method of the entire project. This will be *called first* before any other method.
+
+```CSharp
+class Example {
+
+  public static void Main () {
+  }
+
 }
 ```
 
-## Type-Testing Operators
+> **Note:** The data type `void` is special. It cannot be used with variables, but signals that a method *does not return a value*.
 
-Because C# has a focus on the types of data used, it also provides functionality to test the type of an object.
+#### Cannot Access `this`
 
-### `is`
+Any method with the keyword `static` within a class cannot access the keyword `this`.
 
-The `is` keyword compares an object with a known data type. It is a *binary* operator, which means that a value appears on the left-hand side and a known data type appears on the right-hand side.
+## Polymorphism
+
+In object-oriented programming, one object can be converted into another if they both share the same parent class. This is known as *polymorphism*.
+
+### Run-Time Polymorphism
 
 ```CSharp
-
-string name = "Fred";
-
-if(name is string) {
-  // Run this code
+public class Person {
+  public string Name;
 }
 
+public class Alice : Person {
+  public Alice() {
+    this.Name = "Alice";
+  }
+}
+
+public class Bob: Person {
+  public Bob() {
+    this.Name = "Bob";
+  }
+}
+
+public class MainClass {
+
+  public static void Main () {
+
+    Person a = new Alice();
+    Person b = new Bob();
+
+    Console.WriteLine("Hi!");
+
+  }
+
+}
 ```
 
-### `typeof`
+In the above example, the variables *a* and *b* inside of the method **Main()** have the data type of **Person**. However, when created, the variable *a* is the object of the type **Alice** and *b* is an object of the type **Bob**.
 
-The keyword `typeof` returns a **Type** object containing the *type*.
+The variables are *polymorphed* during run-time from their parent **Person** into **Alice** and **Bob** individually.
+
+### Accessing `base`
+
+A child class can access its parents fields, properties, and methods through the keyword `base`. This references its *base* class.
 
 ```CSharp
-// System.String
-typeof(string)
+public class Person {
+  
+  public string Name;
+
+  public string Greeting() {
+    return "Hi!";
+  }
+
+}
+
+public class Alice : Person {
+  
+  public Alice() {
+    this.Name = "Alice";
+  }
+
+}
+
+public class Bob: Person {
+  
+  public Bob() {
+    this.Name = "Bob";
+  }
+
+  public string BobGreeting() {
+    return base.Greeting();
+  }
+
+}
+```
+
+### Overriding Base Methods
+
+A child class can also *override* any fields, properties, and methods if a parent's methods use `virtual` or `abstract` and the child uses `override` on a method named the same.
+
+#### Virtual Methods
+
+Any method marked as `virtual` can be overridden in a child class. This *allows* future child classes the ability to override them as needed instead of using the keyword `base` to call it directly.
+
+```CSharp
+public class Person {
+  
+  public string Name;
+
+  public virtual string Greeting() {
+    return "Hi!";
+  }
+
+}
+
+public class Alice : Person {
+  
+  public Alice() {
+    this.Name = "Alice";
+  }
+
+}
+
+public class Bob: Person {
+  
+  public Bob() {
+    this.Name = "Bob";
+  }
+
+  public override string Greeting() {
+    return "Hello!";
+  }
+
+}
+```
+
+#### Abstract Methods
+
+Any method marked as `abstract` can be overridden in a child class. However, this *forces* future child classes to override it and does (and should) not provide its own method body.
+
+Abstract methods **must** be used in classes that are also *abstract*.
+
+```CSharp
+public abstract class Person {
+  
+  public string Name;
+
+  public abstract string Greeting();
+
+}
+
+public class Bob: Person {
+  
+  public Bob() {
+    this.Name = "Bob";
+  }
+
+  public override string Greeting() {
+    return "Hello!";
+  }
+
+}
 ```

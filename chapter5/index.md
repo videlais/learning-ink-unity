@@ -1,40 +1,112 @@
-# Chapter 5: Scripting Basics
+# Chapter 5: Terms and Concepts
 
-- [Chapter 5: Scripting Basics](#chapter-5-scripting-basics)
-  - [Anatomy of a MonoBehavior Script](#anatomy-of-a-monobehavior-script)
-  - [**Debug.Log()**](#debuglog)
-  - [Local **gameObject**](#local-gameobject)
-  - [Private and Public Properties](#private-and-public-properties)
-  - [Connecting Assets to Properties](#connecting-assets-to-properties)
+- [Chapter 5: Terms and Concepts](#chapter-5-terms-and-concepts)
+  - [Common Terms](#common-terms)
+    - [Project](#project)
+    - [Scene](#scene)
+    - [Asset](#asset)
+    - [GameObject](#gameobject)
+    - [Component](#component)
+  - [Concepts](#concepts)
+    - [Entity-Component Model](#entity-component-model)
+    - [Game Loops](#game-loops)
+    - [Composition Over Inheritance](#composition-over-inheritance)
 
 ---
 
-Because all GameObjects can have scripting components, their behaviors can be changed through writing C# code. The *scripting component* is additional code that is written that is run as part of the GameObject and can generally be adjusted alongside its other components. However, unlike other components, scripting components (behavior scripts) are edited in an external program: Visual Studio.
+## Common Terms
 
-Packaged with Unity, Visual Studio allows for writing C# within an integrated development environment (IDE) specialized for writing and testing code.
+### Project
 
-Attempting to open a behavior script in Unity opens the code in Visual Studio.
+Everything in Unity starts with *projects*. These are configurations, files, and builds based on their name as created in Unity or through the Unity Hub. They contain scenes, assets, game objects, and components needed to create, run, and build the project.
 
-## Anatomy of a MonoBehavior Script
+It is often helpful to think of each project as its own *game*, but the name "project" is a general description for any collection of settings and files used to create something in Unity.
 
-```CSharp
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-```
+When creating a project in Unity or the Unity Hub, there are also two general types are available: 2D and 3D. The difference between the two concern what general camera options are available; however, one type of project can easily become another.
 
-Three libraries are added by default to all scripts: **System.Collections**, **System.Collections.Generic**, and **UnityEngine**. The first two, **System.Collections**, **System.Collections.Generic**, allow for using the built-in collection data types in C#. The third, **UnityEngine**, gives access to a large number of built-in data types that come with Unity. These allows for manipulating GameObjects and any values associated with their components.
+A single Unity project will often have multiple scenes.
 
-```CSharp
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+### Scene
 
-public class NewBehaviourScript : MonoBehaviour
-{}
-```
+Unity organizes projects into units called *scenes*. In order to use Unity, a scene must be *open*, and running anything means running a scene.
 
-The library **UnityEngine** also allows access to the object **MonoBehaviour** from which all behavior scripts inherit. This provides a number of methods such as **Start()** and **Update()**. As Unity uses the Entity-Component Model as part of its order of execution, these methods will be called as part of the GameObject in the scene.
+It is often helpful to think of a scene as a level, environment, or other section of a larger game. Because they contain other useful functionality such as cameras and game objects, Unity starts with scenes and then then breaks organization down into other concepts.
+
+A single scene will often have many assets.
+
+### Asset
+
+An *asset* is any file or data that is added to a project. These can be images, text files, or more complicated things such as character models or multiple scenes.
+
+Unity has an *Asset Store* where signed-in users can download and use *assets* created by others for different purposes. These include everything from plugins for working with different languages and tools to 3D models or even templates for creating games.
+
+Assets are used with working with GameObjects.
+
+### GameObject
+
+Anything that appears in or is used as part of a scene is a *GameObject*. This includes cameras, 3D models, text, and many other things. In Unity, GameObjects are the fundamental entities of any project. Adding or changing *anything* to a scene means working with a GameObject in some form or another.
+
+While the foundation of scenes, GameObjects are actually containers for Components.
+
+### Component
+
+Every GameObject has its own set of *Components*. Each is used to change or augment functionality associated with that GameObject. Each, in turn, has *properties* that describe its relationship to the project and often other GameObjects in the scene.
+
+**Every** GameObject has a built-in component called *Transform* that represents its position, rotation, and scale. Every GameObject, then, has a position in the project, even if not visible to the player or as part of the current view.
+
+---
+
+## Concepts
+
+### Entity-Component Model
+
+Unity is based on the *Entity-Component Model*. Generally, the Entity-Component Model is broken up into three terms that can also be used to help understand Unity.
+
+- **Entity**: The smallest unit in a project. In Unity, every GameObject is an *entity*. This means that it has a unique identification. For example, every character added to a scene would have a different name.
+
+- **Component**: these are properties, relationships, or other data that describes the entity. In Unity, because every GameObject has a Transform component among others depending on its type, values are adjusted in a component to influence its relationships to the project and other GameObjects in the scene.
+
+- **System**: one or more processes that work on entities. For example, in Unity, there are rendering and physics systems. These each work separately, but understand a scene through its GameObjects and the components each has that define itself and its relationships.
+
+### Game Loops
+
+Unity is based on different *systems*. As a project runs, each one performs different tasks, and they all have the possibility of influencing each other.
+
+Consider, for example, a 2D platformer game where a player presses a button and a character moves on the screen. Such an interaction, while seemingly simple, works through these different systems. These could include a physics system that performed calculations that kept the character from passing through the floor of a level. It would also include an event system that accepted keyboard presses and translated those into character movement.
+
+In game design terms, this is known as a *game loop*. While a game "runs," it is actually performing a loop (in programming terms) of the same systems as a series of steps each time. One runs, the next runs, and then then loop resets and they all run again.
+
+Unity uses the term "order of execution" to describe these steps. In general terms, the following steps are run for **every** GameObject in the scene.
+
+1) **Initialization**: Values are created and if the GameObject has a **Start()** method, it is run.
+
+1) **Physics**: Any internal physics calculations are run and the properties of the Transform component of any affected GameObjects are updated.
+
+1) **Input Events**: Input values are collected from devices such as keyboard, mice, or controllers.
+
+1) **Game Logic**: If the GameObject should react to input or other existing values, it does.
+
+1) **Renderering**: If a GameObject's Transform component is changed and have a visual element, it is updated.
+
+1) **Decommissioning**: As a GameObject is removed (destroyed), it can perform final actions.
+
+As a scene is running, the Physics, Input Events, Game Logic, and Rendering systems run in sequence each loop. In fact, they run every *frame*.
+
+In animation terms, a *frame* is a single image that is part of a sequence that creates the illusion of motion. Depending on the frames per second (FPS), Unity will perform calculations to match the visual frequency of the images shown.
+
+As a scene is running, Unity creates the visual elements of the game through using a *camera* (a select area of a larger possible game space). The camera's view is what a player would see as the game runs. Images (frames) are created based on what the camera is viewing and if any GameObjects are within the selected area of the camera. If they are, the player can "see" them; if not, the player cannot.
+
+A game loop runs different systems (Physics, Input Events, Game Logic, and Rendering) on the GameObjects that are active in the scene to calculate their interactions and relationships, updating each frame to create motion on screen.
+
+### Composition Over Inheritance
+
+Unity understands the programming language C\#. However, while it uses this object-oriented programming language (OOP), Unity strongly prefers *composition* over using inheritance. In the object-oriented programming model, objects can *inherit* from each other through creating a more generic version and then inheriting its properties and methods to create a more specific object.
+
+Unity uses scenes to organize GameObjects. Each, in turn, has its own components. Any of these could be *scripted components* that are C\# code that are used to adjust the behavior of that GameObject. In fact, these are what Unity calls *Behavior Scripts*.
+
+Any GameObject can have a behavior script. Any created inherit from an object called **MonoBehavior** that provides a set of basic methods that allow a script to interact with the GameObject.
+
+**Example Behavior Script:**
 
 ```CSharp
 using System.Collections;
@@ -53,151 +125,9 @@ public class NewBehaviourScript : MonoBehaviour
     {
     }
 }
-```
-
-Notably, and as comments remind, **Start()** is called before the first frame of the scene and the method **Update()** is called once per frame. Between these two initial methods, some basic behaviors can be constructed.
-
-As part of the Initialization step of the GameObject, values can also be added to the class. Because all scripts are, in fact, C# objects, this allows for changing values as part of the Game Logic step in the order of execution. Because this occurs after Input Event and before Rendering steps, any code written within the script can process input and adjust the Transform component values of the GameObject before it is drawn to the screen.
-
-## **Debug.Log()**
-
-Inherited along with many other classes via **UnityEngine** is access to the class **Debug**. As its name implies, this is a class that can be used to *debug*. For example, it has a method, **Log()**, that can be used to display string data.
-
-```CSharp
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public class NewBehaviourScript : MonoBehaviour
-{
-    // Start is called before the first frame update
-    void Start()
-    {
-      Debug.Log("Hey, there!");
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-    }
-}
-```
-
-In the above example, the method **Debug.Log()** is used as part of the **Start()** method. When the scene starts and the GameObject is initialized, the code would run and its message `Hey, there!` would be printed to the Console window in Unity.
-
-While developing C# code in Visual Studio and testing in the Unity Editor, the method **Debug.Log()** is a very useful tool. Because it can be used as part of any method within the behavior script, it has the ability to show information while code is running in the Unity Editor.
-
-## Local **gameObject**
-
-In order to access the GameObject the scripting component is attached to, all scripts have access to a local **gameObject** object that is inherited from the **MonoBehaviour**. This means that the script has access to the object, its properties, and any other components attached to it through existing methods inherited from the parent **MonoBehaviour**.
-
-For example, when using the **Debug.Log()** method, the name of the GameObject the current scripting component is currently attached to can be shown in the Console window in the Unity Editor.
-
-```CSharp
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public class NewBehaviourScript : MonoBehaviour
-{
-    // Start is called before the first frame update
-    void Start()
-    {
-      Debug.Log(gameObject.name);
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-    }
-}
-```
-
-## Private and Public Properties
-
-As with any other class in C#, any private field in an object cannot be accessed outside of that object. However, while setting a field as `public` may seem to allow access outside of the object, it has an additional aspect when used in a scripting component in Unity. All public properties in a scripting components can *also* be accessed in the Unity Editor itself.
-
-While not obvious, using public properties and then adjusting their values from inside of the Unity Editor is a standard and encouraged practice when using scripting components and the Unity Editor. In fact, many tutorials, guides, and other resources demonstrate this practice frequently.
-
-**Note:** The reasoning behind this practice is because Unity uses the Entity-Component Model. Scripting components are just that, *components*. Any scripting added to a GameObject is not the object itself, but *additional* components added to that entity. The code is **not** the GameObject. It is scripting *added* to the GameObject to adjust its default behaviors.
-
-**Example Public Property:**
-
-```CSharp
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public class NewBehaviourScript : MonoBehaviour
-{
-    public int Example;
-    // Start is called before the first frame update
-    void Start()
-    {
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-    }
-}
 
 ```
 
-![alt text](./Properties.png "Properties in Unity")
+When using these scripts (C\# code), Unity strongly prefers that developers *compose* projects that start from scene, move to GameObjects, and then use scripted components on those objects. Instead of creating new objects that are used to create more specific ones, Unity strongly prefers the Entity-Component Model where GameObjects are the entities and any scripting (C\# programming) is scripted components on those entities.
 
-As the above example demonstrates, when a public property is added within the code representing the scripting component matching its name, it is added in the Unity Editor as part of that component.
-
-**Reminder:** It is general style convention in C# to name properties and methods using PascalCase where the first letter of each word is capitalized. The Unity Editor also supports this and will capitalize the first letter of any public property if it is not already capitalized as it should be.
-
-This allows it to be changed without updating the code. Changing the value in the Unity Editor will update the value during the Initialization step of the order of execution. This means that the code will have the value *before* its **Start()** method is called.
-
-## Connecting Assets to Properties
-
-Because scripting components are *components* and any public properties within the code can be accessed within the Unity Editor, this creates the ability to connect different values. This is also a common and efficient way to create explicit connections between Assets and scripting code through creating a public property representing that data and then dragging-and-dropping an Asset onto that value in the Unity Editor. For scripts that need to parse or otherwise have access to certain data sources, this creates an easy way to connect an Asset to the scripting component.
-
-Any public properties available in the Unity Editor will has its values updated during the Initialization step of the GameObject, thus giving it a value *before* its **Start()** method is called.
-
-Consider the following example:
-
-**NewBehaviourScript.cs:**
-
-```CSharp
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public class NewBehaviourScript : MonoBehaviour
-{
-    public TextAsset ExampleTextFile;
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        Debug.Log(ExampleTextFile.text);
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-    }
-}
-```
-
-**Example.txt:**
-
-```txt
-Hey, there!
-```
-
-![alt text](./TextFileAsset.png "Text File Asset in Unity Editor")
-
-Through creating a file `Example.txt` within the project and then dragging-and-dropping the asset on the public property "Example Text File", Unity connects the Asset with the public property **ExampleTextFile** of the type **TextAsset**.
-
-> **Note:** The datatype **TextAsset** is one of many built-in objects in Unity to help with certain common types of assets. In this case, **[TextAsset](https://docs.unity3d.com/ScriptReference/TextAsset.html)** is used when working with textual data.
-
-Now, when the scene is run, Unity will associate with the Asset `Example.txt` with the file property **ExampleTextFile** during the Initialization step of the order of execution. Before the **Start()** method is called in the **NewBehaviourScript** object, it will have the loaded asset.
-
-![alt text](./DebugLog.png "Debug Log")
-
-Using the property *[text](https://docs.unity3d.com/ScriptReference/TextAsset-text.html)* of the **ExampleTextFile** object, the **Debug.Log()** method can display the content of the file in the Console window in Unity.
+In other words, instead of starting with code building up, Unity starts with GameObjects within a scene. If a GameObject needs some extra scripting, it is added as a *scripted component*. Otherwise, no new code is added and components, such as the built-in Transform component, are used to adjust properties and relationships.

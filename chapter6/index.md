@@ -1,312 +1,207 @@
-# Chapter 6: Windows, Views, and Tools
+# Chapter 6: Scripting Basics
 
-- [Chapter 6: Windows, Views, and Tools](#chapter-6-windows-views-and-tools)
-  - [Windows](#windows)
-    - [Hierarchy](#hierarchy)
-      - [Visibility and Picking](#visibility-and-picking)
-      - [Searching](#searching)
-    - [Inspector](#inspector)
-      - [Transform Component](#transform-component)
-      - [Adding Components](#adding-components)
-        - [Adding Scripting Components](#adding-scripting-components)
-      - [Inspecting Assets](#inspecting-assets)
-    - [Project](#project)
-  - [Views](#views)
-    - [Scene](#scene)
-      - [Draw Mode](#draw-mode)
-      - [2D / 3D](#2d--3d)
-      - [Scene Lighting](#scene-lighting)
-      - [Scene Audio](#scene-audio)
-      - [Effects](#effects)
-      - [Hidden Objects](#hidden-objects)
-      - [Grid Visibility](#grid-visibility)
-    - [Game](#game)
-      - [Displays](#displays)
-      - [Resolution Aspect](#resolution-aspect)
-      - [Scale](#scale)
-      - [Maximize on Play](#maximize-on-play)
-      - [Mute Audio](#mute-audio)
-      - [Stats](#stats)
-      - [Gizmo Options](#gizmo-options)
-  - [Tools](#tools)
-    - [Transform](#transform)
-    - [Gizmo Settings](#gizmo-settings)
-      - [Position](#position)
-      - [Rotation](#rotation)
-    - [Play, Pause, and Step](#play-pause-and-step)
-      - [Runtime Editing](#runtime-editing)
-    - [Collaborate](#collaborate)
-    - [Cloud](#cloud)
-    - [Account](#account)
-    - [Layers](#layers)
-    - [Layout](#layout)
+- [Chapter 6: Scripting Basics](#chapter-6-scripting-basics)
+  - [Anatomy of a MonoBehavior Script](#anatomy-of-a-monobehavior-script)
+  - [**Debug.Log()**](#debuglog)
+  - [Local **gameObject**](#local-gameobject)
+  - [Private and Public Properties](#private-and-public-properties)
+  - [Connecting Assets to Properties](#connecting-assets-to-properties)
 
 ---
 
-The user interface of the Unity Editor is divided up into three central metaphors: windows, views, and tools.
+Because all GameObjects can have scripting components, their behaviors can be changed through writing C\# code. The *scripting component* is additional code that is written that is run as part of the GameObject and can generally be adjusted alongside its other components. However, unlike other components, scripting components (behavior scripts) are edited in an external program: Visual Studio.
 
-## Windows
+Packaged with Unity, Visual Studio allows for writing C\# within an integrated development environment (IDE) specialized for writing and testing code.
 
-### Hierarchy
+Attempting to open a behavior script in Unity opens the code in Visual Studio.
 
-![alt text](./Hierarchy.png "Hierarchy")
+## Anatomy of a MonoBehavior Script
 
-The Hierarchy window lists every GameObject in the Scene.
+```CSharp
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+```
 
-The name "hierarchy" also comes from the representation of relationships between GameObjects in the Scene. If one GameObject is the parent or container of one or more GameObjects, their names will be under their parent's name in the listing.
+Three libraries are added by default to all scripts: **System.Collections**, **System.Collections.Generic**, and **UnityEngine**. The first two, **System.Collections**, **System.Collections.Generic**, allow for using the built-in collection data types in C\#. The third, **UnityEngine**, gives access to a large number of built-in data types that come with Unity. These allow for manipulating GameObjects and any values associated with their components.
 
-Through dragging-and-dropping one or more GameObjects, they can be placed under a parent or removed from that parent through moving them out from "under" their name.
+```CSharp
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
 
-#### Visibility and Picking
+public class NewBehaviourScript : MonoBehaviour
+{}
+```
 
-![alt text](./VisibilityandPicking.png "Visibility and Picking")
+The library **UnityEngine** also allows access to the object **MonoBehaviour** from which all behavior scripts inherit. This provides a number of methods such as **Start()** and **Update()**.
 
-As the number of GameObjects can potentially be quite large, the Hierarchy window also includes visibility settings for every GameObject. Through clicking on the eye icon to the left of one or more GameObjects, it will be hidden in the Scene view.
+As Unity uses the Entity-Component Model as part of its order of execution, these methods will be called as part of the GameObject in the scene.
 
-Next to the Scene Visibility icon is also the Picking icon. Through clicking on a GameObject's picking icon, it becomes selected in the Scene View. This allows for quickly selecting certain GameObjects without also potentially excluding others.
+```CSharp
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
 
-#### Searching
+public class NewBehaviourScript : MonoBehaviour
+{
+    // Start is called before the first frame update
+    void Start()
+    {
+    }
 
-![alt text](./Searching.png "Searching")
+    // Update is called once per frame
+    void Update()
+    {
+    }
+}
+```
 
-To help with finding a GameObject by its name, the Hierarchy window includes a search bar. As the name of a GameObject is typed, the results are shown under the name of the current Scene.
+Notably, and as comments remind, **Start()** is called before the first frame of the scene and the method **Update()** is called once per frame. Between these two initial methods, some basic behaviors can be constructed.
 
-### Inspector
+As part of the Initialization step of the GameObject, values can also be added to the class. Because all scripts are, in fact, C\# objects, this allows for changing values as part of the Game Logic step in the order of execution. Because this occurs after Input Event and before Rendering steps, any code written within the script can process input and adjust the Transform component values of the GameObject before it is drawn to the screen.
 
-![alt text](./Inspector.png "Inspector")
+## **Debug.Log()**
 
-When a GameObject or Asset is selected in the Hierarchy window, its components will appear in the Inspector window.
+Inherited along with many other classes via **UnityEngine** is access to the class **Debug**. As its name implies, this is a class that can be used to *debug*. For example, it has a method, **Log()**, that can be used to display **string** data.
 
-Depending on the type of object, it may have multiple built-in components whose values can be adjusted directly.
+```CSharp
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
 
-#### Transform Component
+public class NewBehaviourScript : MonoBehaviour
+{
+    // Start is called before the first frame update
+    void Start()
+    {
+      Debug.Log("Hey, there!");
+    }
 
-![alt text](./TransformComponent.png "Transform Component")
+    // Update is called once per frame
+    void Update()
+    {
+    }
+}
+```
 
-All GameObjects have a Transform Component for adjusting their Position, Rotation, and Scale.
+In the above example, the method **Debug.Log()** is used as part of the **Start()** method. When the scene starts and the GameObject is initialized, the code would run and its message `Hey, there!` would be printed to the Console window in Unity.
 
-#### Adding Components
+> **Note:** If not already open, the Console window can be opened in Unity through going to Window -> General -> Console to open it.
 
-![alt text](./AddComponent.png "Transform Component")
+While developing C\# code in Visual Studio and testing in the Unity Editor, the method **Debug.Log()** is a very useful tool. Because it can be used as part of any method within the behavior script, it has the ability to show information while code is running in the Unity Editor.
 
-Clicking on the "Add Component" button open a menu for selecting new components to add.
+## Local **gameObject**
 
-##### Adding Scripting Components
+In order to access the GameObject the scripting component is attached to, all scripts have access to a local **gameObject** object that is inherited from the **MonoBehaviour**. This means that the script has access to the object, its properties, and any other components attached to it through existing methods inherited from the parent **MonoBehaviour**.
 
-![alt text](./AddingScriptComponent.png "Adding Scripting Component")
+For example, when using the **Debug.Log()** method, the name of the GameObject the current scripting component is currently attached to can be shown in the Console window in the Unity Editor.
 
-Selecting "New script" from the "Add Component" menu prompts for the new of a new behavior script.
+```CSharp
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
 
-Clicking "Create and Add" (assuming a script does not already exist with the same name) will create the script in the Project window and attach it as a scripting component to the current GameObject.
+public class NewBehaviourScript : MonoBehaviour
+{
+    // Start is called before the first frame update
+    void Start()
+    {
+      Debug.Log(gameObject.name);
+    }
 
-Double-clicking the file will open it in Visual Studio.
+    // Update is called once per frame
+    void Update()
+    {
+    }
+}
+```
 
-#### Inspecting Assets
+## Private and Public Properties
 
-![alt text](./AssetInspector.png "Asset Inspector")
+As with any other class in C\#, any private field in an object cannot be accessed outside of that object. However, while setting a field as `public` may seem to allow access outside of the object, it has an additional aspect when used in a scripting component in Unity. All public properties in a scripting components can *also* be accessed in the Unity Editor itself.
 
-If an Asset is selected from the Project window, its properties and contents will be shown in the Inspector window. Depending on the type, different settings, properties, and options will be available.
+While not obvious, using public properties and then adjusting their values from inside of the Unity Editor is a standard and encouraged practice when using scripting components and the Unity Editor. In fact, many tutorials, guides, and other resources demonstrate this practice frequently.
 
-### Project
+**Note:** The reasoning behind this practice is because Unity uses the Entity-Component Model. Scripting components are just that, *components*. Any scripting added to a GameObject is not the object itself, but *additional* components added to that entity. The code is **not** the GameObject. It is scripting *added* to the GameObject to adjust its default behaviors.
 
-![alt text](./ProjectWindow.png "Project Window")
+**Example Public Property:**
 
-The Project windows shows all assets that are part of the current project. This also include any imported assets or files added to the asset folder outside of using the Unity Editor to create them.
+```CSharp
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
 
-The contents of the Project Window can be sorted through creating new folders using either the "+" menu under its title or using the right-click context menu. By default, the Project window includes a folder "Scenes" containing the current scene. (This is "SampleScene" by default).
+public class NewBehaviourScript : MonoBehaviour
+{
+    public int Example;
+    // Start is called before the first frame update
+    void Start()
+    {
+    }
 
-It is recommended to create folders for all types of Assets using in the Project sorted by either scene or by type of data. In a project with multiple scenes, for example, sorting assets by scene can help in organizing them. For smaller project, or those with only one scene, sorting by type is a good approach. Creating a folder called "Scripts" for all files related to scripting components and other for "Tiles", if they are used in the Project, for example.
+    // Update is called once per frame
+    void Update()
+    {
+    }
+}
 
-## Views
+```
 
-In the default layout, there are two views in the center of the Unity Editor window: Scene and Game.
+![alt text](./Properties.png "Properties in Unity")
 
-### Scene
+As the above example demonstrates, when a public property is added within the code representing the scripting component matching its name, it is added in the Unity Editor as part of that component.
 
-![alt text](./Scene.png "Scene View")
+**Reminder:** It is general style convention in C\# to name properties and methods using PascalCase where the first letter of each word is capitalized. The Unity Editor also supports this and will capitalize the first letter of any public property if it is not already capitalized as it should be.
 
-As GameObjects are added to the scene, they appear in both the Hierarchy window and Scene view. Through selecting GameObjects in the Scene view, they can be manipulated through their gizmos or using the toolbar.
+This allows it to be changed without updating the code. Changing the value in the Unity Editor will update the value during the Initialization step of the order of execution. This means that the code will have the value *before* its **Start()** method is called.
 
-#### Draw Mode
+## Connecting Assets to Properties
 
-![alt text](./DrawMode.png "Draw Mode")
+Because scripting components are *components* and any public properties within the code can be accessed within the Unity Editor, this creates the ability to connect different values. This is also a common and efficient way to create explicit connections between Assets and scripting code through creating a public property representing that data and then dragging-and-dropping an Asset onto that value in the Unity Editor. For scripts that need to parse or otherwise have access to certain data sources, this creates an easy way to connect an Asset to the scripting component.
 
-Under the Scene title is the Draw Mode. By default "Shaded" is selected. However, other shading and baked lighting options can be chosen if the GameObjects in the scene support them.
+Any public properties available in the Unity Editor will has its values updated during the Initialization step of the GameObject, thus giving it a value *before* its **Start()** method is called.
 
-#### 2D / 3D
+Consider the following example:
 
-![alt text](./2D.png "2D")
+**NewBehaviourScript.cs:**
 
-If a project is created in 2D, the 2D option and button will be selected.
+```CSharp
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
 
-![alt text](./3D.png "3D")
+public class NewBehaviourScript : MonoBehaviour
+{
+    public TextAsset ExampleTextFile;
 
-If the project is using 3D, the 2D option will be disabled and an additional 3D gizmo is added to the scene for changing the viewing orientation and perspective.
+    // Start is called before the first frame update
+    void Start()
+    {
+        Debug.Log(ExampleTextFile.text);
+    }
 
-#### Scene Lighting
+    // Update is called once per frame
+    void Update()
+    {
+    }
+}
+```
 
-![alt text](./SceneLighting.png "Scene Lighting")
+**Example.txt:**
 
-Depending on toggle, the scene will use the scene lighting or a light attached to the Scene camera view.
+```txt
+Hey, there!
+```
 
-#### Scene Audio
+![alt text](./TextFileAsset.png "Text File Asset in Unity Editor")
 
-![alt text](./SceneAudio.png "Scene Audio")
+Through creating a file `Example.txt` within the project and then dragging-and-dropping the asset on the public property "Example Text File", Unity connects the Asset with the public property **ExampleTextFile** of the type **TextAsset**.
 
-Depending on the toggle, audio will play in the scene or not.
+> **Note:** The datatype **TextAsset** is one of many built-in objects in Unity to help with certain common types of assets. In this case, **[TextAsset](https://docs.unity3d.com/ScriptReference/TextAsset.html)** is used when working with textual data.
 
-#### Effects
+Now, when the scene is run, Unity will associate with the Asset `Example.txt` with the file property **ExampleTextFile** during the Initialization step of the order of execution. Before the **Start()** method is called in the **NewBehaviourScript** object, it will have the loaded asset.
 
-![alt text](./SceneEffects.png "Scene Effects")
+![alt text](./DebugLog.png "Debug Log")
 
-Different scene effects such as the Skybox, Fog, and Particle Systems can be toggled on and off.
-
-#### Hidden Objects
-
-![alt text](./SceneVisibility.png "Hidden Objects")
-
-If any GameObjects have been hidden in the Hierarchy window, the current count is shown. The entire scene can also be hidden.
-
-#### Grid Visibility
-
-![alt text](./GridVisibility.png "Grid Visibility")
-
-Depending on the orientation, the visibility of the axis (X, Y, or Z) can be adjusted along with its opacity.
-
-### Game
-
-![alt text](./GameView.png "GameView")
-
-When a Scene is running, the Game View shows a simulation of what the rendered game would look like using the Scene camera.
-
-If the Play button is clicked, the Unity Editor will automatically shift from the Scene View to the Game View.
-
-#### Displays
-
-![alt text](./GameDisplays.png "Game Displays")
-
-Depending on the cameras and their settings used in the scene, Unity supports up to eight different displays.
-
-#### Resolution Aspect
-
-![alt text](./ResolutionAspect.png "Resolution Aspect")
-
-The current resolution and aspect ration can be adjusted when simulating the rendering of the scene.
-
-#### Scale
-
-![alt text](./Scale.png "Scale")
-
-The current scaling of the game View can be adjusted.
-
-#### Maximize on Play
-
-![alt text](./MaximizeonPlay.png "Maximize on Play")
-
-If Maximize on Play is selected, the Game View will fill all available horizontal and vertical space in the Unity Editor while the scene is running.
-
-#### Mute Audio
-
-![alt text](./MuteAudio.png "Mute Audio")
-
-Scene audio can be muted.
-
-#### Stats
-
-![alt text](./Stats.png "Stats")
-
-Clicking on the "Stats" button shows the current graphical and computational statistics of the scene.
-
-#### Gizmo Options
-
-![alt text](./GizmoOptions.png "Gizmo Options")
-
-The Gizmos menu allows for enabling or disabling the gizmos for types of GameObjects.
-
----
-
-## Tools
-
-### Transform
-
-![alt text](./TransformTools.png "Transform Tools")
-
-When a GameObject is selected, it can be manipulated through the Transform tools. This allows for moving, positioning, rotating, selecting multiple GameObjects (Rect Tool), and then adjusting those GameObjects.
-
-If any custom tools have been added, they can also be accessed through the Custom Tool menu button.
-
-### Gizmo Settings
-
-![alt text](./GizmoSettings.png "Gizmo Settings")
-
-> **Note:** In Unity terminology, a *gizmo* is a graphical overlay associated with a GameObject when selected in the Scene view.
-
-#### Position
-
-The Pivot/Center button adjusts the position of the Gizmo.
-
-When Pivot is selected, the Gizmo is positioned at the pivot point of the GameObject as defined by the Transform component.
-
-If Center is selected, the Gizmo position is set to the center position of the GameObject.
-
-#### Rotation
-
-The Local/Global button adjusts rotation of the Gizmo in relation to the GameObject.
-
-- When Local is selected, the Gizmo's rotation is relative to the GameObject.
-
-- When Global is selected, the Gizmo is oriented to the world space.
-
-### Play, Pause, and Step
-
-![alt text](./PlayPauseStep.png "Play, Pause, and Step")
-
-The Play, Pause, and Step buttons control if the scene is running and its current status.
-
-- Clicking on the Play button will start to play the scene and will continue until clicked again or an error occurs that prevents the scene from continuing.
-
-- The Pause button stops the scene from playing. It can be resumed through clicking on the Pause button a second time or clicking on the Play button.
-
-- If debugging is being used, the Step button will move to the next debugging point, if available. If there are no debugging points in the current scene, the Step button will not be available.
-
-#### Runtime Editing
-
-When a scene is running, GameObjects can be manipulated and the values of its properties and components changed. However, **these changes are not saved.** Any changes made while a scene is running only affect that scene. They are not saved.
-
-### Collaborate
-
-![alt text](./Collab.png "Collaborate")
-
-Clicking on the "Collab" menu for the first time (assuming the user is signed in) provides the option to "Start now!". Clicking the button synchronizes the current project remotely and allows for accessing the project, when saved remotely, from another computer running Unity.
-
-![alt text](./Sync.png "Sync")
-
-Through synchronizing changes, files can be saved remotely and accessed from either another device or by other users.
-
-(Clicking on the Teams button in the lower, right-hand corner opens the Unity Dashboard in a browser and allows for adjusting organization and group settings for the project.)
-
-### Cloud
-
-![alt text](./Cloud.png "Cloud")
-
-Clicking on the Cloud button opens the currently available Cloud options and their current settings.
-
-### Account
-
-![alt text](./Account.png "Account")
-
-Clicking on the Account button shows the current signed-in user and the option to upgrade account access.
-
-### Layers
-
-![alt text](./Layers.png "Layers")
-
-The "Layers" menu allows access to which objects appear in the Scene view. If a GameObject is associated with the layer and that layer is hidden, those GameObjects will not be shown.
-
-### Layout
-
-![alt text](./Layout.png "Layout")
-
-Clicking on the "Layout" button allows for quickly changing the layout of the windows and views within the Unity Editor.
-
-Once windows and views are arranged, the layout can also be saved as either an option to be used at a later time.
+Using the property *[text](https://docs.unity3d.com/ScriptReference/TextAsset-text.html)* of the **ExampleTextFile** object, the **Debug.Log()** method can display the content of the file in the Console window in Unity.

@@ -1,133 +1,313 @@
-# Chapter 4: Terms and Concepts
+# Chapter 5: C\#: Operators
 
-- [Chapter 4: Terms and Concepts](#chapter-4-terms-and-concepts)
-  - [Common Terms](#common-terms)
-    - [Project](#project)
-    - [Scene](#scene)
-    - [Asset](#asset)
-    - [GameObject](#gameobject)
-    - [Component](#component)
-  - [Concepts](#concepts)
-    - [Entity-Component Model](#entity-component-model)
-    - [Game Loops](#game-loops)
-    - [Composition Over Inheritance](#composition-over-inheritance)
-
----
-
-## Common Terms
-
-### Project
-
-Everything in Unity starts with *projects*. These are configurations, files, and builds based on their name as created in Unity or through the Unity Hub. They contain scenes, assets, game objects, and components needed to create, run, and build the project.
-
-It is often helpful to think of each project as its own *game*, but the name "project" is a general description for any collection of settings and files used to create something in Unity.
-
-When creating a project in Unity or the Unity Hub, there are also two general types are available: 2D and 3D. The difference between the two concern what general camera options are available; however, one type of project can easily become another.
-
-A single Unity project will often have multiple scenes.
-
-### Scene
-
-Unity organizes projects into units called *scenes*. In order to use Unity, a scene must be *open*, and running anything means running a scene.
-
-It is often helpful to think of a scene as a level, environment, or other section of a larger game. Because they contain other useful functionality such as cameras and game objects, Unity starts with scenes and then then breaks organization down into other concepts.
-
-A single scene will often have many assets.
-
-### Asset
-
-An *asset* is any file or data that is added to a project. These can be images, text files, or more complicated things such as character models or even  other projects.
-
-Unity has an *Asset Store* where signed-in users can download and use *assets* created by others for different purposes. These include everything from plugins for working with different languages and tools to 3D models or even templates for creating games.
-
-Assets are used with working with GameObjects.
-
-### GameObject
-
-Anything that appears in or is used as part of a scene is a *GameObject*. This includes cameras, 3D models, text, and many other things. In Unity, GameObjects are the fundamental entities of any project. Adding or changing *anything* to a scene means working with a GameObject in some form or another.
-
-While the foundation of scenes, GameObjects are actually containers for Components.
-
-### Component
-
-Every GameObject has its own set of *Components*. Each is used to change or augment functionality associated with that GameObject. Each, in turn, has *properties* that describe its relationship to the project and often other GameObjects in the scene.
-
-**Every** GameObject has a built-in component called *Transform* that represents its position, rotation, and scale. Every GameObject, then, has a position in the project, even if not visible to the player or as part of the current view.
+- [Chapter 5: C\#: Operators](#chapter-5-c-operators)
+  - [Assignment Operator](#assignment-operator)
+  - [Arithmetic Operators](#arithmetic-operators)
+    - [Addition](#addition)
+    - [Addition Assignment](#addition-assignment)
+    - [Subtraction](#subtraction)
+    - [Subtraction Assignment](#subtraction-assignment)
+    - [Multiplication](#multiplication)
+    - [Division](#division)
+    - [Modulus](#modulus)
+    - [Increment](#increment)
+    - [Decrement](#decrement)
+  - [String Operators](#string-operators)
+    - [Concatenation](#concatenation)
+    - [String Escape Sequences](#string-escape-sequences)
+    - [String Interpolation](#string-interpolation)
+  - [Comparison Operators](#comparison-operators)
+    - [Equality](#equality)
+    - [Inequality](#inequality)
+    - [Negation](#negation)
+    - [Less-than](#less-than)
+    - [Greater-than](#greater-than)
+    - [Less-Than-Or-Equal-To](#less-than-or-equal-to)
+    - [Greater-Than-Or-Equal-To](#greater-than-or-equal-to)
+    - [Complex Comparisons](#complex-comparisons)
+      - [AND](#and)
+      - [OR](#or)
+  - [Type-Testing Operators](#type-testing-operators)
+    - [`is`](#is)
+    - [`typeof`](#typeof)
 
 ---
 
-## Concepts
+## Assignment Operator
 
-### Entity-Component Model
-
-Unity is based on the *Entity-Component Model*. Generally, the Entity-Component Model is broken up into three terms that can also be used to help understand Unity.
-
-- **Entity**: The smallest unit in a project. In Unity, every GameObject is an *entity*. This means that it has a unique identification. For example, every character added to a scene would have a different name.
-
-- **Component**: these are properties, relationships, or other data that describes the entity. In Unity, because every GameObject has a Transform component among others depending on its type, values are adjusted in a component to influence its relationships to the project and other GameObjects in the scene.
-
-- **System**: one or more processes that work on entities. For example, in Unity, there are rendering and physics systems. These each work separately, but understand a scene through its GameObject and the components each has that define itself and its relationships.
-
-### Game Loops
-
-Unity is based on different *systems*. As a project runs, each one performs different tasks, and they all have the possibility of influencing each other.
-
-Consider, for example, a 2D platformer game where a player presses a button and a character moves on the screen. Such an interaction, while seemingly simple, works through these different systems. These could include a Physics system that performed calculations that kept the character from passing through the floor of a level. It would also include an Event system that accepted keyboard presses and translated those into character movement.
-
-In game design terms, this is known as a *game loop*. While a game "runs," it is actually performing a loop (in programming terms) of the same systems as a series of steps each time. One runs, the next runs, and then then loop resets and they all run again.
-
-Unity uses the term "order of execution" to describe these steps. In general terms, the following steps are run for **every** GameObject in the scene.
-
-1) **Initialization**: Values are created and if the GameObject has a **Start()** method, it is run.
-
-1) **Physics**: Any internal physics calculations are run and the properties of the Transform component of any affected GameObjects are updated.
-
-1) **Input Events**: Input values are collected from devices such as keyboard, mice, or controllers.
-
-1) **Game Logic**: If the GameObject should react to input or other existing values, it does.
-
-1) **Renderering**: If a GameObject's Transform component is changed and have a visual element, it is updated.
-
-1) **Decommissioning**: As a GameObject is removed (destroyed), it can perform final actions.
-
-As a scene is running, the Physics, Input Events, Game Logic, and Rendering systems run in sequence each loop. In fact, they run every *frame*.
-
-In animation terms, a *frame* is a single image that is part of a sequence that creates the illusion of motion. Depending on the frames per second (FPS), Unity will perform calculations to match the visual frequency of the images shown.
-
-As a scene is running, Unity creates the visual elements of the game through using a *camera* (a select area of a larger possible game space). The camera's view is what a player would see as the game runs. Images (frames) are created based on what the camera is viewing and if any GameObjects are within the selected area of the camera. If they are, the player can "see" them; if not, the player cannot.
-
-A game loop runs different systems (Physics, Input Events, Game Logic, and Rendering) on the GameObjects that are active in the scene to calculate their interactions and relationships, updating each frame to create motion on screen.
-
-### Composition Over Inheritance
-
-Unity understands the programming language C#. However, while it uses this object-oriented programming language (OOP), Unity strongly prefers *composition* over using inheritance. In the more classic object-oriented programming model, objects can *inherit* from each other through creating a more generic version and then inheriting its properties and methods to create a more specific object.
-
-Instead, Unity uses scenes to organize GameObjects. Each, in turn, has its own components. Any of these could be *scripted components* that are C# code that are used to adjust the behavior of that GameObject. In fact, these are what Unity calls *Behavior Scripts*.
-
-Any GameObject can have a behavior script. Any created inherit from an object called **MonoBehavior** that provides a set of basic methods that allow a script to interact with the GameObject.
-
-**Example Behavior Script:**
+The most common operator in any programming language is the *assignment* operator, `=`. This "assigns" a value to a variable.
 
 ```CSharp
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+int example = 5;
+```
 
-public class NewBehaviourScript : MonoBehaviour
-{
-    // Start is called before the first frame update
-    void Start()
-    {
-    }
+While it most commonly appears when a variable is being created, it is also used to overwrite a value.
 
-    // Update is called once per frame
-    void Update()
-    {
-    }
+```CSharp
+example = 6;
+```
+
+> **Note:** Trying to re-assign a value to a *constant* will result in an error. Once assigned a new value **cannot** be assigned.
+
+## Arithmetic Operators
+
+All number values can be used with *arithmetic* operators that exist in C\#.
+
+### Addition
+
+The addition operator, `+`, can be used with any number values.
+
+```CSharp
+int example = 5;
+// 10
+example = example + 5;
+```
+
+> **Note:** If an **Integer** is added to a **Float** value, the result is a **Float** value.
+
+### Addition Assignment
+
+The addition assignment operator, `+=`, performs both actions. In the cases where a value would be added to a variable and then save again, the additional assignment operator combines the two.
+
+```CSharp
+int example = 5;
+// 10
+example += 5;
+```
+
+### Subtraction
+
+The subtraction operator, `-`, can be used with any number values.
+
+```CSharp
+float example = 10.5f;
+// 5.5f
+example = example - 5;
+```
+
+> **Note:** If an **Integer** is subtracted from a **Float** value, the result is a **Float** value.
+
+### Subtraction Assignment
+
+The subtraction assignment operator, `-=`, performs both actions. In the cases where a value would be subtract from a variable and then saved again, the additional assignment operator combines the two.
+
+```CSharp
+int example = 5;
+// 0
+example -= 5;
+```
+
+### Multiplication
+
+The multiplication operator, `*`, can be used with any number values.
+
+```CSharp
+int example = 5;
+// 10
+example = example * 2;
+```
+
+> **Note:** If an **Integer** is multiplied with a **Float** value, the result is a **Float** value.
+
+### Division
+
+The addition operator, `/`, can be used with any number values.
+
+```CSharp
+int example = 10;
+// 2
+example = example / 5;
+```
+
+> **Note:** If an **Integer** is divided by a **Float** value or would produce a decimal value, the result is a **Float** value.
+
+### Modulus
+
+The modulus operator, `%`, can be used with any number values.
+
+In programming terminology, the *modulus* operation returns the reminder of division. For example, if `10 / 2` the value becomes `5`. However, if `10 % 9`, the result would be `1`.
+
+### Increment
+
+The increment operator, `++`, can be used with any number value. It *increases* the value by `1`. Unlike other operators, the increment operator *follows* the variable.
+
+```CSharp
+int example = 4;
+// 5
+example++;
+```
+
+### Decrement
+
+The decrement operator, `--`, can be used with any number value. It *decreases* the value by `1`. Unlike other operators, the decrement operator *follows* the variable.
+
+```CSharp
+int example = 4;
+// 3
+example--;
+```
+
+## String Operators
+
+The **String** data type supports the addition operator, `+`. This "adds" the values together in an operation named as *concatenation*.
+
+### Concatenation
+
+All non-collection built-in data types have a special method called **toString()**. This converts or otherwise represents the value as a **String**. This allows data types like **Integer** to be "added" to a **String** to create a new **String** value.
+
+```CSharp
+string example = "Hi" + 5;
+```
+
+### String Escape Sequences
+
+When using strings, there is often a need to represent values such as "the end of a line" or "a single quotation mark." For these purposes, **string** also support *escape sequences*. These start with the backslash character, `\`, and then a character to mark a sequence.
+
+| Escape Sequence | Represents            |
+|-----------------| ----------------------|
+| `\b`            | Backspace             |
+| `\f`            | Form feed             |
+| `\n`            | New line              |
+| `\r`            | Carriage return       |
+| `\t`            | Horizontal tab        |
+| `\v`            | Vertical tab          |
+| `\'`            | Single quotation mark |
+| `\"`            | Double quotation mark |
+| `\\`            | Backslash             |
+| `\?`            | Literal question mark |
+
+When a string escape sequence is "printed" (shown on console or written to a file), what it represents rather than its value is used.
+
+For example, the following string value --
+
+```CSharp
+"Hi\nmy\nname\nis\nFred."
+```
+
+-- would produce the following output:
+
+```Text
+Hi
+my
+name
+is
+Fred
+```
+
+The escape sequence `\n` represents a new line and thus, when the string value is printed, each sequence within the string value would start a new line.
+
+### String Interpolation
+
+Often, even when using the addition operator, `+`, it can become confusing when different values are used with strings. To help with this, strings also support *interpolation*. This allows, instead of concatenating values together, to create a final value that *interpolates* other variables.
+
+```CSharp
+string name = "Fred";
+
+// Is your name, Fred?
+$"Is your name, {name}?";
+```
+
+String *interpolations* start with a dollar sign, `$`, before the opening double-quotation mark. Any values, including variables or methods that returning a value, can be used inside of opening (`{`) and closing (`}`) curly brackets.
+
+## Comparison Operators
+
+Beyond saving values, the other most common operation in programming is to compare them. Built into languages like C\# as part of its use of the keywords `if` and `else`, *comparison* operators produce Boolean values.
+
+> **Reminder:** Booleans values are either `true` or `false`.
+
+When combined with the keyword `if`, a comparison operator moves the control of the code into its *block*, section marked with opening (`{`) and closing (`}`) curly brackets, if the result of the comparison is `true`.
+
+**Example:**
+
+```CSharp
+if("Hi!" == "Hi!") {
+  // Run this code!
+}
+```
+
+In the above example, if the result of the comparison between one value, `"Hi!"`, is equal to (the same as) the value `"Hi!"`, the code block of the `if` *statement* would be run.
+
+### Equality
+
+The *equality* operator, `==`, compares any two values. If they are the same, the result is `true`.
+
+> **Note:** Objects and Collections in C# have a method called **Equals()** that accepts an object of the same data type (or one that can be converted via polymorphism) and compares them. When overridden in new classes, this allows new data types to be compared to each other.
+
+### Inequality
+
+The *inequality* operator, `!=`, compares any two values. If they are *not* the same, the result is `true`.
+
+### Negation
+
+All Booleans values can be *negated*. This "flips" a value from `true` to `false` or `false` to `true`. When used with a comparison, it changes to the "opposite" value (`true` to `false` or `false` to `true`).
+
+### Less-than
+
+Numerical values can be compared using the less-than operator, `<`. If the value on the left-hand side is *less than* the value on the right-hand side, the result is `true`.
+
+### Greater-than
+
+Numerical values can be compared using the greater-than operator, `>`. If the value on the left-hand side is *greater than* the value on the right-hand side, the result is `true`.
+
+### Less-Than-Or-Equal-To
+
+Numerical values can be compared using the less-than-or-equal-to operator, `<=`. If the value on the left-hand side is *less than* **or** *equal to* the value on the right-hand side, the result is `true`.
+
+### Greater-Than-Or-Equal-To
+
+Numerical values can be compared using the greater-than-or-equal-to operator, `>=`. If the value on the left-hand side is *greater than* **or** *equal to* the value on the right-hand side, the result is `true`.
+
+### Complex Comparisons
+
+The equality, inequality, less-than, greater-than, less-than-or-equal-to, and greater-than-or-equal-to are *binary* operators. They need both a *left-hand* and *right-hand* values between the operator. Two values.
+
+However, they can also be wrapped in opening, `(`, and closing, `)`, parentheses to make *complex* comparisons whose final result will be either `true` or `false`. This can also be combined with the negation operator, `!`, as well.
+
+To help with these, programming languages like C\# have *Boolean logical operators* for combining multiple possible comparisons together in complex comparisons using *logical operators*.
+
+#### AND
+
+When testing values, any two Boolean values can be tested *together* using the *and* operator, `&&`. If *both* comparisons or values are `true`, the result is `true`.
+
+```CSharp
+if(1 == 1 && 2 != 3) {
+ // Run this code
+}
+```
+
+#### OR
+
+When testing values, any two Boolean values can be tested *together* using the *or* operator, `||`. If *either* value or comparison is `true`, the result is `true`.
+
+```CSharp
+if(2 != 4 || 1 == 1) {
+  // Run this code
+}
+```
+
+## Type-Testing Operators
+
+Because C# has a focus on the types of data used, it also provides functionality to test the type of an object.
+
+### `is`
+
+The `is` keyword compares an object with a known data type. It is a *binary* operator, which means that a value appears on the left-hand side and a known data type appears on the right-hand side.
+
+```CSharp
+
+string name = "Fred";
+
+if(name is string) {
+  // Run this code
 }
 
 ```
 
-Using these scripts (C# code), Unity strongly prefers that developers *compose* projects that start from scene, move to GameObjects, and then use scripted components on those objects. Instead of creating new objects that are used to create more specific ones, Unity strongly prefers the Entity-Component Model where GameObjects are the entities and any scripting (C# programming) is are scripted components on those entities.
+### `typeof`
 
-In other words, instead of starting with code building up, Unity starts with GameObjects within a scene. If a GameObject needs some extra scripting, it is added as a *scripted component*. Otherwise, no new code is added and components such as the built-in Transform component are used to adjust properties and relationships.
+The keyword `typeof` returns a **Type** object containing the *type*.
+
+```CSharp
+// System.String
+typeof(string)
+```
