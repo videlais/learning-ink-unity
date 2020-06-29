@@ -42,7 +42,7 @@ The content is divided into four sections: Code Basics, Editor Basics, Using Plu
 ### Advanced Ink Story API Usage
 
 - [Chapter 16: Ink + Unity: Accessing and Observing Ink Variables](./chapter16/index.md)
-- Chapter 17: Ink + Unity: Calling Ink Functions
+- [Chapter 17: Ink + Unity: Calling Ink Functions](./chapter17/index.md)
 
 ---
 
