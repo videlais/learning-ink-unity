@@ -12,4 +12,4 @@ This book project started as part of the *[Unofficial Ink Cookbook](https://gith
 
 ## About the Author
 
-Hi, my name is Dan Cox. I've been writing tutorials, guides, and making videos on narrative game tools and engines for nine years (as of 2020). I've worked as the managing editor of the [Twine Cookbook](https://twinery.org/cookbook/), co-wrote the *Unofficial Ink Cookbook* with Taylor Howard, and have my own [YouTube channel](https://www.youtube.com/channel/UCTWJzxNdsIDHiYzGh-2Fd1w). I can found on [Twitter](https://twitter.com/Videlais).
+Hi, my name is Dan Cox. I've been writing tutorials, guides, and making videos on narrative game tools and engines for nine years (as of 2020). I've worked as the managing editor of the [Twine Cookbook](https://twinery.org/cookbook/), co-wrote the *Unofficial Ink Cookbook* with Taylor Howard, and have my own [YouTube channel](https://www.youtube.com/channel/UCTWJzxNdsIDHiYzGh-2Fd1w). I can be found on [Twitter](https://twitter.com/Videlais).
