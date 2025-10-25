@@ -134,7 +134,6 @@ public class NewBehaviourScript : MonoBehaviour
     }
 }
 ```
-```
 
 When run, the *text* of the child GameObject of **Button** will be overwritten.
 

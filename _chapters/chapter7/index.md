@@ -229,7 +229,6 @@ Clicking on the "Stats" button shows the current graphical and computational sta
 
 The Gizmos menu allows for enabling or disabling the gizmos for types of GameObjects.
 
-
 ## Tools
 
 ### Transform

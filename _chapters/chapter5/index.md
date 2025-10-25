@@ -64,7 +64,6 @@ Every GameObject has its own set of *Components*. Each is used to change or augm
 
 **Every** GameObject has a built-in component called *Transform* that represents its position, rotation, and scale. Every GameObject, then, has a position in the project, even if not visible to the player or as part of the current view.
 
-
 ## Concepts
 
 ### Entity-Component Model

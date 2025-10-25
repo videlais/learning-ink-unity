@@ -44,17 +44,18 @@ Clicking on the `InkSetting` file in the Project window shows additional setting
 The `Assets` folder, as shown in the left-hand side of the Project window, shows the current files in the Project window. The folders in this area can be navigated to show their contents in the Project window.
 
 > **Note:** While the Project window shows the `Assets` folder, this is the actual directory used by the operating system to store files.
->
-> **2025 Best Practices:** Modern Unity projects often use additional organizational folders like:
-> - `Scripts/` - All C# scripts
-> - `Prefabs/` - Reusable GameObjects
-> - `Scenes/` - Scene files
-> - `Materials/` - Material assets
-> - `Audio/`, `Textures/`, `Models/` - Media assets
-> - `Resources/` - Runtime-loadable assets (use sparingly)
-> - `StreamingAssets/` - Platform-specific assets
->
-> Using consistent naming and organization from the start makes projects easier to maintain and collaborate on.
+
+**2025 Best Practices:** Modern Unity projects often use additional organizational folders like:
+
+- `Scripts/` - All C# scripts
+- `Prefabs/` - Reusable GameObjects
+- `Scenes/` - Scene files
+- `Materials/` - Material assets
+- `Audio/`, `Textures/`, `Models/` - Media assets
+- `Resources/` - Runtime-loadable assets (use sparingly)
+- `StreamingAssets/` - Platform-specific assets
+
+Using consistent naming and organization from the start makes projects easier to maintain and collaborate on.
 
 The "Favorites" area of the left-hand side shows an easy access to common asset types of materials, models, and prefabs.
 

@@ -93,13 +93,14 @@ Among the properties is an option for enabling "Rich Text" support. When enabled
 In Unity, Rich Text is the ability of **Text** GameObjects to use *markup* to format the output of the text when rendered. In other words, additional opening and closing tags (like HTML) can be added to the text. When it is rendered (drawn on the screen), this markup is interpreted and used to influence the style and presentation of the text.
 
 > **Note:** Tags *must* be closed in Rich Text support.
->
-> **2025 Note:** While Unity UI (uGUI) Rich Text remains functional, **TextMeshPro** offers significantly more powerful rich text capabilities including:
-> - More markup tags (gradient, sprite, link, etc.)
-> - Better text quality and rendering
-> - Custom styles and style sheets
-> - Advanced text effects
->
+
+**2025 Note:** While Unity UI (uGUI) Rich Text remains functional, **TextMeshPro** offers significantly more powerful rich text capabilities including:
+
+- More markup tags (gradient, sprite, link, etc.)
+- Better text quality and rendering
+- Custom styles and style sheets
+- Advanced text effects
+
 > For new projects in 2025, consider using TextMeshPro's rich text system instead. The basic tags shown here (`<b>`, `<i>`, `<color>`, `<size>`) work in both systems.
 
 ### HTML in Inky
