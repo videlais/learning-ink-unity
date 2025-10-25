@@ -16,11 +16,13 @@ layout: chapter
 
 ## Table of Contents
 
+- [Objectives](#objectives)
+- [Table of Contents](#table-of-contents)
 - [Anatomy of a MonoBehaviour Script](#anatomy-of-a-monobehaviour-script)
-- [Using Directives and Namespaces](#using-directives-and-namespaces)
-- [Start() and Update() Methods](#start-and-update-methods)
-- [SerializeField and Inspector Access](#serializefield-and-inspector-access)
-- [Configuring Code Editors](#configuring-code-editors)
+- [**Debug.Log()**](#debuglog)
+- [Local **gameObject**](#local-gameobject)
+- [Private and Public Properties](#private-and-public-properties)
+- [Connecting Assets to Properties](#connecting-assets-to-properties)
 
 ---
 
