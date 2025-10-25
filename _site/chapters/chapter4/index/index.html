@@ -1,0 +1,342 @@
+<p>title: “C#: Operators”
+order: 4
+chapter_number: 4
+layout: chapter</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>- [Addition](#addition)
+- [Addition Assignment](#addition-assignment)
+- [Subtraction](#subtraction)
+- [Subtraction Assignment](#subtraction-assignment)
+- [Multiplication](#multiplication)
+- [Division](#division)
+- [Modulus](#modulus)
+- [Increment](#increment)
+- [Decrement](#decrement)   - [String Operators](#string-operators)
+- [Concatenation](#concatenation)
+- [String Escape Sequences](#string-escape-sequences)
+- [String Interpolation](#string-interpolation)   - [Comparison Operators](#comparison-operators)
+- [Equality](#equality)
+- [Inequality](#inequality)
+- [Negation](#negation)
+- [Less-than](#less-than)
+- [Greater-than](#greater-than)
+- [Less-Than-Or-Equal-To](#less-than-or-equal-to)
+- [Greater-Than-Or-Equal-To](#greater-than-or-equal-to)
+- [Complex Comparisons](#complex-comparisons)
+  - [AND](#and)
+  - [OR](#or)   - [Type-Testing Operators](#type-testing-operators)
+- [`is`](#is)
+- [`typeof`](#typeof)
+</code></pre></div></div>
+
+<h2 id="assignment-operator">Assignment Operator</h2>
+
+<p>The most common operator in any programming language is the <em>assignment</em> operator, <code class="language-plaintext highlighter-rouge">=</code>. This “assigns” a value to a variable.</p>
+
+<pre><code class="language-CSharp">int example = 5;
+</code></pre>
+
+<p>While it most commonly appears when a variable is being created, it is also used to overwrite a value.</p>
+
+<pre><code class="language-CSharp">example = 6;
+</code></pre>
+
+<blockquote>
+  <p><strong>Note:</strong> Trying to re-assign a value to a <em>constant</em> will result in an error. Once assigned a new value <strong>cannot</strong> be assigned.</p>
+</blockquote>
+
+<h2 id="arithmetic-operators">Arithmetic Operators</h2>
+
+<p>All number values can be used with <em>arithmetic</em> operators that exist in C#.</p>
+
+<h3 id="addition">Addition</h3>
+
+<p>The addition operator, <code class="language-plaintext highlighter-rouge">+</code>, can be used with any number values.</p>
+
+<pre><code class="language-CSharp">int example = 5;
+// 10
+example = example + 5;
+</code></pre>
+
+<blockquote>
+  <p><strong>Note:</strong> If an <strong>Integer</strong> is added to a <strong>Float</strong> value, the result is a <strong>Float</strong> value.</p>
+</blockquote>
+
+<h3 id="addition-assignment">Addition Assignment</h3>
+
+<p>The addition assignment operator, <code class="language-plaintext highlighter-rouge">+=</code>, performs both actions. In the cases where a value would be added to a variable and then save again, the additional assignment operator combines the two.</p>
+
+<pre><code class="language-CSharp">int example = 5;
+// 10
+example += 5;
+</code></pre>
+
+<h3 id="subtraction">Subtraction</h3>
+
+<p>The subtraction operator, <code class="language-plaintext highlighter-rouge">-</code>, can be used with any number values.</p>
+
+<pre><code class="language-CSharp">float example = 10.5f;
+// 5.5f
+example = example - 5;
+</code></pre>
+
+<blockquote>
+  <p><strong>Note:</strong> If an <strong>Integer</strong> is subtracted from a <strong>Float</strong> value, the result is a <strong>Float</strong> value.</p>
+</blockquote>
+
+<h3 id="subtraction-assignment">Subtraction Assignment</h3>
+
+<p>The subtraction assignment operator, <code class="language-plaintext highlighter-rouge">-=</code>, performs both actions. In the cases where a value would be subtract from a variable and then saved again, the additional assignment operator combines the two.</p>
+
+<pre><code class="language-CSharp">int example = 5;
+// 0
+example -= 5;
+</code></pre>
+
+<h3 id="multiplication">Multiplication</h3>
+
+<p>The multiplication operator, <code class="language-plaintext highlighter-rouge">*</code>, can be used with any number values.</p>
+
+<pre><code class="language-CSharp">int example = 5;
+// 10
+example = example * 2;
+</code></pre>
+
+<blockquote>
+  <p><strong>Note:</strong> If an <strong>Integer</strong> is multiplied with a <strong>Float</strong> value, the result is a <strong>Float</strong> value.</p>
+</blockquote>
+
+<h3 id="division">Division</h3>
+
+<p>The addition operator, <code class="language-plaintext highlighter-rouge">/</code>, can be used with any number values.</p>
+
+<pre><code class="language-CSharp">int example = 10;
+// 2
+example = example / 5;
+</code></pre>
+
+<blockquote>
+  <p><strong>Note:</strong> If an <strong>Integer</strong> is divided by a <strong>Float</strong> value or would produce a decimal value, the result is a <strong>Float</strong> value.</p>
+</blockquote>
+
+<h3 id="modulus">Modulus</h3>
+
+<p>The modulus operator, <code class="language-plaintext highlighter-rouge">%</code>, can be used with any number values.</p>
+
+<p>In programming terminology, the <em>modulus</em> operation returns the reminder of division. For example, if <code class="language-plaintext highlighter-rouge">10 / 2</code> the value becomes <code class="language-plaintext highlighter-rouge">5</code>. However, if <code class="language-plaintext highlighter-rouge">10 % 9</code>, the result would be <code class="language-plaintext highlighter-rouge">1</code>.</p>
+
+<h3 id="increment">Increment</h3>
+
+<p>The increment operator, <code class="language-plaintext highlighter-rouge">++</code>, can be used with any number value. It <em>increases</em> the value by <code class="language-plaintext highlighter-rouge">1</code>. Unlike other operators, the increment operator <em>follows</em> the variable.</p>
+
+<pre><code class="language-CSharp">int example = 4;
+// 5
+example++;
+</code></pre>
+
+<h3 id="decrement">Decrement</h3>
+
+<p>The decrement operator, <code class="language-plaintext highlighter-rouge">--</code>, can be used with any number value. It <em>decreases</em> the value by <code class="language-plaintext highlighter-rouge">1</code>. Unlike other operators, the decrement operator <em>follows</em> the variable.</p>
+
+<pre><code class="language-CSharp">int example = 4;
+// 3
+example--;
+</code></pre>
+
+<h2 id="string-operators">String Operators</h2>
+
+<p>The <strong>String</strong> data type supports the addition operator, <code class="language-plaintext highlighter-rouge">+</code>. This “adds” the values together in an operation named as <em>concatenation</em>.</p>
+
+<h3 id="concatenation">Concatenation</h3>
+
+<p>All non-collection built-in data types have a special method called <strong>toString()</strong>. This converts or otherwise represents the value as a <strong>String</strong>. This allows data types like <strong>Integer</strong> to be “added” to a <strong>String</strong> to create a new <strong>String</strong> value.</p>
+
+<pre><code class="language-CSharp">string example = "Hi" + 5;
+</code></pre>
+
+<h3 id="string-escape-sequences">String Escape Sequences</h3>
+
+<p>When using strings, there is often a need to represent values such as “the end of a line” or “a single quotation mark.” For these purposes, <strong>string</strong> also support <em>escape sequences</em>. These start with the backslash character, <code class="language-plaintext highlighter-rouge">\</code>, and then a character to mark a sequence.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Escape Sequence</th>
+      <th>Represents</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">\b</code></td>
+      <td>Backspace</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">\f</code></td>
+      <td>Form feed</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">\n</code></td>
+      <td>New line</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">\r</code></td>
+      <td>Carriage return</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">\t</code></td>
+      <td>Horizontal tab</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">\v</code></td>
+      <td>Vertical tab</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">\'</code></td>
+      <td>Single quotation mark</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">\"</code></td>
+      <td>Double quotation mark</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">\\</code></td>
+      <td>Backslash</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">\?</code></td>
+      <td>Literal question mark</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>When a string escape sequence is “printed” (shown on console or written to a file), what it represents rather than its value is used.</p>
+
+<p>For example, the following string value –</p>
+
+<pre><code class="language-CSharp">"Hi\nmy\nname\nis\nFred."
+</code></pre>
+
+<p>– would produce the following output:</p>
+
+<pre><code class="language-Text">Hi
+my
+name
+is
+Fred
+</code></pre>
+
+<p>The escape sequence <code class="language-plaintext highlighter-rouge">\n</code> represents a new line and thus, when the string value is printed, each sequence within the string value would start a new line.</p>
+
+<h3 id="string-interpolation">String Interpolation</h3>
+
+<p>Often, even when using the addition operator, <code class="language-plaintext highlighter-rouge">+</code>, it can become confusing when different values are used with strings. To help with this, strings also support <em>interpolation</em>. This allows, instead of concatenating values together, to create a final value that <em>interpolates</em> other variables.</p>
+
+<pre><code class="language-CSharp">string name = "Fred";
+
+// Is your name, Fred?
+$"Is your name, {name}?";
+</code></pre>
+
+<p>String <em>interpolations</em> start with a dollar sign, <code class="language-plaintext highlighter-rouge">$</code>, before the opening double-quotation mark. Any values, including variables or methods that returning a value, can be used inside of opening (<code class="language-plaintext highlighter-rouge">{</code>) and closing (<code class="language-plaintext highlighter-rouge">}</code>) curly brackets.</p>
+
+<h2 id="comparison-operators">Comparison Operators</h2>
+
+<p>Beyond saving values, the other most common operation in programming is to compare them. Built into languages like C# as part of its use of the keywords <code class="language-plaintext highlighter-rouge">if</code> and <code class="language-plaintext highlighter-rouge">else</code>, <em>comparison</em> operators produce Boolean values.</p>
+
+<blockquote>
+  <p><strong>Reminder:</strong> Booleans values are either <code class="language-plaintext highlighter-rouge">true</code> or <code class="language-plaintext highlighter-rouge">false</code>.</p>
+</blockquote>
+
+<p>When combined with the keyword <code class="language-plaintext highlighter-rouge">if</code>, a comparison operator moves the control of the code into its <em>block</em>, section marked with opening (<code class="language-plaintext highlighter-rouge">{</code>) and closing (<code class="language-plaintext highlighter-rouge">}</code>) curly brackets, if the result of the comparison is <code class="language-plaintext highlighter-rouge">true</code>.</p>
+
+<p><strong>Example:</strong></p>
+
+<pre><code class="language-CSharp">if("Hi!" == "Hi!") {
+  // Run this code!
+}
+</code></pre>
+
+<p>In the above example, if the result of the comparison between one value, <code class="language-plaintext highlighter-rouge">"Hi!"</code>, is equal to (the same as) the value <code class="language-plaintext highlighter-rouge">"Hi!"</code>, the code block of the <code class="language-plaintext highlighter-rouge">if</code> <em>statement</em> would be run.</p>
+
+<h3 id="equality">Equality</h3>
+
+<p>The <em>equality</em> operator, <code class="language-plaintext highlighter-rouge">==</code>, compares any two values. If they are the same, the result is <code class="language-plaintext highlighter-rouge">true</code>.</p>
+
+<blockquote>
+  <p><strong>Note:</strong> Objects and Collections in C# have a method called <strong>Equals()</strong> that accepts an object of the same data type (or one that can be converted via polymorphism) and compares them. When overridden in new classes, this allows new data types to be compared to each other.</p>
+</blockquote>
+
+<h3 id="inequality">Inequality</h3>
+
+<p>The <em>inequality</em> operator, <code class="language-plaintext highlighter-rouge">!=</code>, compares any two values. If they are <em>not</em> the same, the result is <code class="language-plaintext highlighter-rouge">true</code>.</p>
+
+<h3 id="negation">Negation</h3>
+
+<p>All Booleans values can be <em>negated</em>. This “flips” a value from <code class="language-plaintext highlighter-rouge">true</code> to <code class="language-plaintext highlighter-rouge">false</code> or <code class="language-plaintext highlighter-rouge">false</code> to <code class="language-plaintext highlighter-rouge">true</code>. When used with a comparison, it changes to the “opposite” value (<code class="language-plaintext highlighter-rouge">true</code> to <code class="language-plaintext highlighter-rouge">false</code> or <code class="language-plaintext highlighter-rouge">false</code> to <code class="language-plaintext highlighter-rouge">true</code>).</p>
+
+<h3 id="less-than">Less-than</h3>
+
+<p>Numerical values can be compared using the less-than operator, <code class="language-plaintext highlighter-rouge">&lt;</code>. If the value on the left-hand side is <em>less than</em> the value on the right-hand side, the result is <code class="language-plaintext highlighter-rouge">true</code>.</p>
+
+<h3 id="greater-than">Greater-than</h3>
+
+<p>Numerical values can be compared using the greater-than operator, <code class="language-plaintext highlighter-rouge">&gt;</code>. If the value on the left-hand side is <em>greater than</em> the value on the right-hand side, the result is <code class="language-plaintext highlighter-rouge">true</code>.</p>
+
+<h3 id="less-than-or-equal-to">Less-Than-Or-Equal-To</h3>
+
+<p>Numerical values can be compared using the less-than-or-equal-to operator, <code class="language-plaintext highlighter-rouge">&lt;=</code>. If the value on the left-hand side is <em>less than</em> <strong>or</strong> <em>equal to</em> the value on the right-hand side, the result is <code class="language-plaintext highlighter-rouge">true</code>.</p>
+
+<h3 id="greater-than-or-equal-to">Greater-Than-Or-Equal-To</h3>
+
+<p>Numerical values can be compared using the greater-than-or-equal-to operator, <code class="language-plaintext highlighter-rouge">&gt;=</code>. If the value on the left-hand side is <em>greater than</em> <strong>or</strong> <em>equal to</em> the value on the right-hand side, the result is <code class="language-plaintext highlighter-rouge">true</code>.</p>
+
+<h3 id="complex-comparisons">Complex Comparisons</h3>
+
+<p>The equality, inequality, less-than, greater-than, less-than-or-equal-to, and greater-than-or-equal-to are <em>binary</em> operators. They need both a <em>left-hand</em> and <em>right-hand</em> values between the operator. Two values.</p>
+
+<p>However, they can also be wrapped in opening, <code class="language-plaintext highlighter-rouge">(</code>, and closing, <code class="language-plaintext highlighter-rouge">)</code>, parentheses to make <em>complex</em> comparisons whose final result will be either <code class="language-plaintext highlighter-rouge">true</code> or <code class="language-plaintext highlighter-rouge">false</code>. This can also be combined with the negation operator, <code class="language-plaintext highlighter-rouge">!</code>, as well.</p>
+
+<p>To help with these, programming languages like C# have <em>Boolean logical operators</em> for combining multiple possible comparisons together in complex comparisons using <em>logical operators</em>.</p>
+
+<h4 id="and">AND</h4>
+
+<p>When testing values, any two Boolean values can be tested <em>together</em> using the <em>and</em> operator, <code class="language-plaintext highlighter-rouge">&amp;&amp;</code>. If <em>both</em> comparisons or values are <code class="language-plaintext highlighter-rouge">true</code>, the result is <code class="language-plaintext highlighter-rouge">true</code>.</p>
+
+<pre><code class="language-CSharp">if(1 == 1 &amp;&amp; 2 != 3) {
+ // Run this code
+}
+</code></pre>
+
+<h4 id="or">OR</h4>
+
+<p>When testing values, any two Boolean values can be tested <em>together</em> using the <em>or</em> operator, <code class="language-plaintext highlighter-rouge">||</code>. If <em>either</em> value or comparison is <code class="language-plaintext highlighter-rouge">true</code>, the result is <code class="language-plaintext highlighter-rouge">true</code>.</p>
+
+<pre><code class="language-CSharp">if(2 != 4 || 1 == 1) {
+  // Run this code
+}
+</code></pre>
+
+<h2 id="type-testing-operators">Type-Testing Operators</h2>
+
+<p>Because C# has a focus on the types of data used, it also provides functionality to test the type of an object.</p>
+
+<h3 id="is"><code class="language-plaintext highlighter-rouge">is</code></h3>
+
+<p>The <code class="language-plaintext highlighter-rouge">is</code> keyword compares an object with a known data type. It is a <em>binary</em> operator, which means that a value appears on the left-hand side and a known data type appears on the right-hand side.</p>
+
+<pre><code class="language-CSharp">
+string name = "Fred";
+
+if(name is string) {
+  // Run this code
+}
+
+</code></pre>
+
+<h3 id="typeof"><code class="language-plaintext highlighter-rouge">typeof</code></h3>
+
+<p>The keyword <code class="language-plaintext highlighter-rouge">typeof</code> returns a <strong>Type</strong> object containing the <em>type</em>.</p>
+
+<pre><code class="language-CSharp">// System.String
+typeof(string)
+</code></pre>

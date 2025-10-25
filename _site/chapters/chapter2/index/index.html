@@ -1,0 +1,350 @@
+<p>title: “C#: Classes”
+order: 2
+chapter_number: 2
+layout: chapter</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>- [Fields](#fields)
+- [Properties](#properties)
+  - [get](#get)
+  - [set](#set)
+  - [PascalCase Naming](#pascalcase-naming)
+- [Methods](#methods)
+  - [Method Anatomy](#method-anatomy)
+    - [Return Type](#return-type)
+    - [Name](#name)
+    - [Parameters](#parameters)
+    - [Bodies](#bodies)
+    - [Return Statement](#return-statement)
+  - [Calling Methods](#calling-methods)
+    - [Arguments](#arguments)
+    - [Returning Values](#returning-values)
+  - [Constructor](#constructor)
+  - [Variable Scope](#variable-scope)
+- [`this`](#this)
+- [`new`](#new)
+</code></pre></div></div>
+
+<h2 id="class-anatomy">Class Anatomy</h2>
+
+<p>In C#, code is written in <em>classes</em>. These are the “blueprints” of future sections of code. When they are created, they become <code class="language-plaintext highlighter-rouge">new</code> instances based on their blueprint (class).</p>
+
+<p>Each file in C# is a separate <em>class</em>. These are defined with the keyword <code class="language-plaintext highlighter-rouge">class</code> and then open (<code class="language-plaintext highlighter-rouge">{</code>) and closing (<code class="language-plaintext highlighter-rouge">}</code>) curly brackets. Everything inside the brackets is part of the class.</p>
+
+<p><strong>MainClass.cs:</strong></p>
+
+<pre><code class="language-CSharp">class MainClass {
+}
+</code></pre>
+
+<blockquote>
+  <p><strong>Note:</strong> It is strong recommended, and in fact most functionality depends on, the name of a file matching its class.</p>
+
+  <p>For example, the class <strong>MainClass</strong> is in the file <code class="language-plaintext highlighter-rouge">MainClass.cs</code>.</p>
+</blockquote>
+
+<p>Inside of the <code class="language-plaintext highlighter-rouge">class</code> are four possible parts that can exist either all together or as parts: fields, properties, methods, and constructor.</p>
+
+<h3 id="fields">Fields</h3>
+
+<p>A <em>field</em> is label for private data within a class. It is created, and can be used, as a variable within the class using a known data type.</p>
+
+<p><strong>Example:</strong></p>
+
+<pre><code class="language-CSharp">class MainClass {
+    int example = 5;
+}
+</code></pre>
+
+<p>In the above example, the variable <em>example</em> is a <em>field</em> of the class <em>MainClass</em>. It is also, through being defined in the class, <em>private</em> to the class. It cannot, by itself, be used outside of the class.</p>
+
+<blockquote>
+  <p><strong>Note:</strong> When not specified, C# will assume the use of the keyword <code class="language-plaintext highlighter-rouge">private</code> in front of any fields. They are, by default <em>private fields</em> of the class.</p>
+</blockquote>
+
+<h3 id="properties">Properties</h3>
+
+<p>A property is a <em>public</em> way to access field or other values in a class. It <em>exposes</em> private fields in a class.</p>
+
+<p>A field becomes a property through the use of the keyword <code class="language-plaintext highlighter-rouge">public</code>. It allows the value to be accessed <em>outside</em> of the class.</p>
+
+<pre><code class="language-CSharp">class MainClass {
+  
+  public int example = 5;
+
+}
+</code></pre>
+
+<p>To access the the <em>private fields</em> of a class, C# also supports two additional keywords: <code class="language-plaintext highlighter-rouge">get</code> and <code class="language-plaintext highlighter-rouge">set</code>.</p>
+
+<h4 id="get">get</h4>
+
+<p>The <code class="language-plaintext highlighter-rouge">get</code> keyword defines a <em>getter</em>, special functionality in C#. When used inside of a property, a <em>getter</em> defines what value is <em>returned</em> when an external objects uses the property. It defines what is <em>gotten</em>.</p>
+
+<p>It is used <em>inside</em> of a property, which looks like a public field, but has internal getters, and often setters, that are used when accessed.</p>
+
+<pre><code class="language-CSharp">class MainClass {
+  
+  private string _name = "Dan";
+  
+  public string Name {
+    get {
+      return _name;
+    }
+  }
+}
+</code></pre>
+
+<p>In the above example, there is a property <em>Name</em> of the class <strong>MainClass</strong>. It has a private field, <em>_name</em>, that is accessed through the public property of <em>Name</em>.</p>
+
+<blockquote>
+  <p><strong>Note:</strong> There is a common pattern of naming a private field starting with an underscore. This is not a rule of C#, but is common in some code.</p>
+</blockquote>
+
+<h4 id="set">set</h4>
+
+<p>The keyword <code class="language-plaintext highlighter-rouge">set</code> defines a <em>setter</em>, special functionality in C#. When used inside of a property, a <em>setter</em> defines what value is <em>set</em> when an external objects uses the property. It defines what <em>sets</em>.</p>
+
+<p>It is used <em>inside</em> of a property, which looks like a public field, but has internal getters, and often setters, that are used when accessed.</p>
+
+<pre><code class="language-CSharp">class MainClass {
+  
+  private string _name = "Dan";
+  
+  public string Name {
+    get {
+      return _name;
+    }
+    set {
+        _name = value;
+    }
+  }
+}
+</code></pre>
+
+<p>In the above example class named <strong>MainClass</strong>, it has a property named <em>Name</em>. It has both a getter and a setter. When used in its getting context, it <em>returns</em> the internal, private field. When used as a setter, the keyword <code class="language-plaintext highlighter-rouge">value</code> is whatever is used to set the value.</p>
+
+<blockquote>
+  <p><strong>Note:</strong> The keyword <code class="language-plaintext highlighter-rouge">return</code> is used whenever a value needs to be “returned” to an external block of code. While used with getters, it is most commonly part of methods.</p>
+</blockquote>
+
+<h4 id="pascalcase-naming">PascalCase Naming</h4>
+
+<p>Variables internal to a program are often capitalized in different ways. For properties in C#, it is generally expected that they follow the PascalCase pattern where the first letter of each word is capitalized.</p>
+
+<p>For example, in the above code examples, the property <strong>Name</strong> began with a capital ‘N’.</p>
+
+<h3 id="methods">Methods</h3>
+
+<p>A <em>method</em> is a function attached to a class. They should start with a capital letter and act as internal <em>functions</em>.</p>
+
+<p>Because programming borrows from a longer history of mathematics, the term <em>function</em> is carried over. In very general terms, a function is a section of code that performs some task. Functions are a way to break up what would be very long sections of code into smaller parts that can be more easily organized and tested based on the task they perform.</p>
+
+<blockquote>
+  <p><strong>Note:</strong> The terms <em>methods</em> and <em>functions</em> are often used interchangeable. However, they have different, technical meanings. When functions are part of classes, they are <em>methods</em>. When used outside of a class, which is very rare in C#, they are <em>functions</em>.</p>
+</blockquote>
+
+<h4 id="method-anatomy">Method Anatomy</h4>
+
+<p>A <em>method</em> has five different parts:</p>
+
+<p>1) What they return (Return Type)
+2) What their name is (Name)
+3) What values they accept (Parameters)
+4) What they do (Bodies)
+5) What they return (Return Statement)</p>
+
+<p>A method, like a function, borrows its meaning from mathematics where it is something which accepts input, performs a task, and optionally has output.</p>
+
+<pre><code class="language-CSharp">public string Greeting() {
+    return "Hi!";
+}
+</code></pre>
+
+<blockquote>
+  <p><strong>Note:</strong> Methods, like the differences between fields and properties, can also use the keyword <code class="language-plaintext highlighter-rouge">private</code> and <code class="language-plaintext highlighter-rouge">public</code>. In either case, this defines if it can be used outside of the class or not.</p>
+</blockquote>
+
+<h5 id="return-type">Return Type</h5>
+
+<p>Methods can return data. They do so via a <em>return type</em> that matching existing data types.</p>
+
+<p><strong>Example:</strong></p>
+
+<pre><code class="language-CSharp">public string Greeting() {
+    return "Hi!";
+}
+</code></pre>
+
+<p>In the above example, the method’s <em>return type</em> is <strong>String</strong>. That is the type of data returned.</p>
+
+<h5 id="name">Name</h5>
+
+<p>The name of a method, like with a variable, is how it is referenced by other objects or within its class. The name of a method follows the same rules as variables: it can contain letters, numbers, and the underscore. It <strong>cannot</strong> contain spaces.</p>
+
+<p><strong>Example:</strong></p>
+
+<pre><code class="language-CSharp">public string Greeting() {
+    return "Hi!";
+}
+</code></pre>
+
+<p>In the above example, the name of the method is <strong>Greetings</strong>.</p>
+
+<blockquote>
+  <p><strong>Note:</strong> It is strongly recommended to start the name of a method with a capital letter. This is a common naming pattern found even within the C# documentation.</p>
+</blockquote>
+
+<h5 id="parameters">Parameters</h5>
+
+<p>Like its roots in mathematics, methods can accept data. What type and the name of the data accepts are called its <em>parameters</em>.</p>
+
+<p>The parameters of a method are included in the opening and closing parentheses after its name.</p>
+
+<p><strong>Example:</strong></p>
+
+<pre><code class="language-CSharp">public string Greeting(string name) {
+    return name;
+}
+</code></pre>
+
+<p>As with all data in CSharp, method parameters are a form of <em>variables</em> and thus must have a data type and name. However, unlike class fields and other variable usages, they can only be used inside of the method itself.</p>
+
+<h5 id="bodies">Bodies</h5>
+
+<p>The <em>body</em> of its method is the code found inside of the opening (<code class="language-plaintext highlighter-rouge">{</code>) and closing (<code class="language-plaintext highlighter-rouge">}</code>) curly brackets of a method. Its body is “what it does.”</p>
+
+<p>As methods can do anything from calculate new values to work with existing, private fields, each method in a class is different.</p>
+
+<p><strong>Example:</strong></p>
+
+<pre><code class="language-CSharp">public string Greeting() {
+    return "Hi!";
+}
+</code></pre>
+
+<p>In the above example, the <em>body</em> of the method is a single line, <code class="language-plaintext highlighter-rouge">return "Hi!"</code>. Other, more complex methods could potentially have dozens to hundreds of lines.</p>
+
+<h5 id="return-statement">Return Statement</h5>
+
+<p>In programming terminology, a single line of code is often called a <em>statement</em>. The phrase “return statement” borrows from this usage and means the use of the keyword <code class="language-plaintext highlighter-rouge">return</code> and whatever the methods “returns” to some external code.</p>
+
+<p>The <em>return statement</em> of a method is directly connected to the <em>return type</em> of the method. They have to match! A method <strong>must</strong> return data of the same type of its return statement and return type.</p>
+
+<p><strong>Example:</strong></p>
+
+<pre><code class="language-CSharp">public string Greeting() {
+    return "Hi!";
+}
+</code></pre>
+
+<p>In the above example, the return statement is the line <code class="language-plaintext highlighter-rouge">return "Hi!";</code>. The <em>type</em> of data is a <strong>String</strong>, which also matches the return type before the name!</p>
+
+<h4 id="calling-methods">Calling Methods</h4>
+
+<p>When a method is used, it is <em>called</em>. This temporarily passes control to the method in order to run some code and then it returns control back. Calling a method takes the form of its name and then open (<code class="language-plaintext highlighter-rouge">(</code>) and close (<code class="language-plaintext highlighter-rouge">)</code>) parentheses.</p>
+
+<pre><code class="language-CSharp">Greeting();
+</code></pre>
+
+<h5 id="arguments">Arguments</h5>
+
+<p>Data can be passed into a method through giving it <em>arguments</em>. Any values separated by commas when it is called become <em>arguments</em> to the method. These are mapped to its <em>parameters</em>.</p>
+
+<p><strong>Example:</strong></p>
+
+<pre><code class="language-CSharp">public int Add(int x, int y) {
+    return x + y;
+}
+
+Add(2, 2);
+
+</code></pre>
+
+<p>In the above example, the arguments are <code class="language-plaintext highlighter-rouge">2</code> and <code class="language-plaintext highlighter-rouge">2</code>. These are mapped to its <em>parameters</em>, <em>x</em> and <em>y</em> of the <strong>Add()</strong> method.</p>
+
+<p>Inside of the method, the value of <em>x</em> becomes <code class="language-plaintext highlighter-rouge">2</code> and value of <em>y</em> becomes <code class="language-plaintext highlighter-rouge">2</code>.</p>
+
+<h5 id="returning-values">Returning Values</h5>
+
+<p>All methods <em>return</em> values. The return type of a method is the type of value that is returned by the method.</p>
+
+<p><strong>Example:</strong></p>
+
+<pre><code class="language-CSharp">public int Add(int x, int y) {
+    return x + y;
+}
+
+int answer = Add(2, 2);
+</code></pre>
+
+<p>In the above example, the return type of the method <strong>Add()</strong> is <strong>Integer</strong>. When the arguments of <code class="language-plaintext highlighter-rouge">2</code> and <code class="language-plaintext highlighter-rouge">2</code> are passed to the method, the variables <em>x</em> and <em>y</em> have these values. The return statement of the method would then <em>return</em> the combined values. The right-hand value would then become <code class="language-plaintext highlighter-rouge">4</code> and the variable <em>answer</em> would contain the same value.</p>
+
+<h4 id="constructor">Constructor</h4>
+
+<p>A <em>constructor</em> is a specially-named method in a class. It is called when an object is created based on the class.</p>
+
+<p>A constructor shares the same name as the class. It is called whenever an object is created. This allows a class to accept, as arguments, values into this method and thus the class itself.</p>
+
+<pre><code class="language-CSharp">class Person {
+  
+  Person() {
+  }
+
+}
+</code></pre>
+
+<h4 id="variable-scope">Variable Scope</h4>
+
+<p>All variables have <em>scope</em>. This describes where within code a variable can be accessed.</p>
+
+<p>Within a class, a field, property, or method that is <em>private</em> can only be accessed within that class. Anything that is <em>public</em> can be accessed via the object’s name.</p>
+
+<p>Anything created outside of a class within the same file have a <em>higher</em> scope than the class. These variables can be accessed inside of the class.</p>
+
+<p>The same rules apply to a method. Any parameters used in a method are <em>local</em> to the method. They cannot be accessed outside of that method.</p>
+
+<h3 id="this"><code class="language-plaintext highlighter-rouge">this</code></h3>
+
+<p>There needs to be a way for classes to refer to its own fields, properties, and methods. Many programming languages use the keyword <code class="language-plaintext highlighter-rouge">this</code>. C# does the same.</p>
+
+<p>In classes, the keyword <code class="language-plaintext highlighter-rouge">this</code> refers to the class itself. Its fields, properties, and methods can be accessed through what is called the “dot notation.” A period, <code class="language-plaintext highlighter-rouge">.</code>, is used between the keyword <code class="language-plaintext highlighter-rouge">this</code> and any of its fields, properties, and methods names.</p>
+
+<pre><code class="language-CSharp">class Person {
+  
+  private string name;
+  private float Height;
+
+  Person(string name, float height) {
+    this.name = name;
+    this.height = height;
+  }
+
+}
+</code></pre>
+
+<p>Inside of a constructor, values can be “constructed” through using the keyword <code class="language-plaintext highlighter-rouge">this</code> to refer its its private fields.</p>
+
+<h3 id="new"><code class="language-plaintext highlighter-rouge">new</code></h3>
+
+<p>An object is created through using the keyword <code class="language-plaintext highlighter-rouge">new</code>. This creates a <em>new</em> object based on the “blueprint” of a class.</p>
+
+<p>Internally, it calls the <em>constructor</em> of that class. Combined with the ability of a method to accept arguments, this allows a new object to receive values.</p>
+
+<pre><code class="language-CSharp">class Person {
+
+  private string _name;
+
+  Person(string name) {
+
+    this._name = name;
+  
+  }
+
+}
+
+class Example {
+  
+  public Person p = new Person("Fred");
+
+}
+</code></pre>

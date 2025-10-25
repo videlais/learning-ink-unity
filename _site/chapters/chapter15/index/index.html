@@ -1,0 +1,127 @@
+<p>title: “Unity UI: Integrating Line Breaks and Rich Text Support”
+order: 15
+chapter_number: 15
+layout: chapter</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>- [HTML in Inky](#html-in-inky)
+- [Italics](#italics)
+- [Bold](#bold)
+</code></pre></div></div>
+
+<h2 id="integrating-line-breaks">Integrating Line Breaks</h2>
+
+<p>The use of the Ink Story API method <strong>Continue()</strong> loads up to the next newline character in a story chunk. In programming terminology, this is the character <code class="language-plaintext highlighter-rouge">\n</code>.</p>
+
+<p>In the existing code, each new chunk is concatenated as a new line to an internal <strong>string</strong> value.</p>
+
+<pre><code class="language-CSharp">// Each loop, check if there is more story to load
+while (exampleStory.canContinue)
+{
+  // Load the next story chunk and return the current text
+  string currentTextChunk = exampleStory.Continue();
+
+  // Get any tags loaded in the current story chunk
+  List&lt;string&gt; currentTags = exampleStory.currentTags;
+
+  // Create a blank line of dialogue
+  string line = "";
+
+  // For each tag in currentTag, set its values to the new variable 'tag'
+  foreach (string tag in currentTags)
+  {
+    // Concatenate the tag and a colon
+    line += tag + ": ";
+  }
+
+  // Concatenate the current text chunk
+  // (This will either have a tag before it or be by itself.)
+  line += currentTextChunk;
+
+  // Concatenate the content of 'line' to the existing text
+  childText.text += line;
+
+  // ...
+}
+</code></pre>
+
+<p>In the above code, this means that any spaces <em>between</em> story chunks is erased from the output in Unity.</p>
+
+<p>For example, the following Ink code would produce an erased line between story chunks in Unity.</p>
+
+<p><strong>New Ink.ink:</strong></p>
+
+<pre><code class="language-ink">First chunk.
+
+Second chunk.
+</code></pre>
+
+<p><img src="./NoNewline.png" alt="alt text" title="No Newline" /></p>
+
+<p>To fix this issue, an additional concatenation operation can be added to the following line:</p>
+
+<pre><code class="language-CSharp">// Concatenate the content of 'line' to the existing text
+childText.text += line;
+</code></pre>
+
+<p>Adding a newline character to the end of the line would fix this issue.</p>
+
+<pre><code class="language-CSharp">// Concatenate the content of 'line' to the existing text along with the newline character
+childText.text += line + '\n';
+</code></pre>
+
+<p><img src="./AddedNewline.png" alt="alt text" title="Added Newline" /></p>
+
+<blockquote>
+  <p><strong>Note:</strong> Adding newlines does not affect the content of choices. Pressing ENTER will break the content of the choice between itself and the next story content inside of the choice.</p>
+</blockquote>
+
+<h2 id="rich-text-support">Rich Text Support</h2>
+
+<p>Clicking on a <strong>Text</strong> GameObject in either the Hierarchy window or as a Prefab will list its components in the Inspector window.</p>
+
+<p><img src="./TextProperties.png" alt="alt text" title="Text Properties" /></p>
+
+<p>Among the properties is an option for enabling “Rich Text” support. When enabled, this support adds the ability to use <a href="https://docs.unity3d.com/Packages/com.unity.ugui@1.0/manual/StyledText.html">Rich Text</a> as content in a <strong>Text</strong> GameObject.</p>
+
+<p>In Unity, Rich Text is the ability of <strong>Text</strong> GameObjects to use <em>markup</em> to format the output of the text when rendered. In other words, additional opening and closing tags (like HTML) can be added to the text. When it is rendered (drawn on the screen), this markup is interpreted and used to influence the style and presentation of the text.</p>
+
+<blockquote>
+  <p><strong>Note:</strong> Tags <em>must</em> be closed in Rich Text support.</p>
+</blockquote>
+
+<h3 id="html-in-inky">HTML in Inky</h3>
+
+<p>The editor Inky is built on <a href="https://www.electronjs.org/">Electron</a> + <a href="https://ace.c9.io/">Ace</a>. It understands the narrative scripting language Ink <em>and</em> some HTML as well.</p>
+
+<p>Since Rich Text uses markup that is similar to HTML, this means that it can be used in Inky as if it was HTML and in Unity as the Rich Text tags.</p>
+
+<pre><code class="language-ink">&lt;b&gt;This will be in bold.&lt;/b&gt;
+
+&lt;i&gt;This will be italics.&lt;/i&gt;
+</code></pre>
+
+<p><img src="./MarkupInInky.png" alt="alt text" title="Markup in Inky" /></p>
+
+<p><img src="./MarkupRenderedInUnity.png" alt="alt text" title="Markup in Unity" /></p>
+
+<h3 id="italics">Italics</h3>
+
+<p>The tag <code class="language-plaintext highlighter-rouge">&lt;i&gt;</code> is part of an older version of HTML. However, in Unity, it is supported as part of Rich Text. For both, the effect of using the tag around text content is for it to be <em>italics</em>.</p>
+
+<pre><code class="language-ink">&lt;i&gt;This will be italics.&lt;/i&gt;
+
+Only &lt;i&gt;this&lt;/i&gt; word will be italics.
+</code></pre>
+
+<p><img src="./ItalicsDemo.png" alt="alt text" title="Italics Demo" /></p>
+
+<h3 id="bold">Bold</h3>
+
+<p>The tag <code class="language-plaintext highlighter-rouge">&lt;b&gt;</code> is part of an older version of HTML. However, in Unity, it is supported as part of Rich Text. For both, the effect of using the tag around text content is for it to be <em>bold</em>.</p>
+
+<pre><code class="language-ink">&lt;b&gt;This will be bold.&lt;/b&gt;
+
+Only &lt;b&gt;this&lt;/b&gt; word will be bold.
+</code></pre>
+
+<p><img src="./BoldDemo.png" alt="alt text" title="Bold Demo" /></p>

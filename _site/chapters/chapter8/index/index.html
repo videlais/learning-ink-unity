@@ -1,0 +1,227 @@
+<p>title: “Ink: Loading Ink-Unity Plugin”
+order: 8
+chapter_number: 8
+layout: chapter</p>
+
+<h2 id="accessing-and-importing-ink-unity-integration">Accessing and Importing Ink Unity Integration</h2>
+
+<p>Open Unity or Unity Hub and create a new project. (This project is for testing purposes. Its name can be whatever is most convenient including the default “New Unity Project”.)</p>
+
+<p><img src="./OpenAssetStore.png" alt="alt text" title="Open Asset Store" /></p>
+
+<p>Go to Window -&gt; Asset Store.</p>
+
+<p><img src="./AssetStore.png" alt="alt text" title="Asset Store" /></p>
+
+<p>In the Asset Store view, click on the search box and type “Ink Unity”.</p>
+
+<p>Once the search finishes, click on “Ink Unity Integration” by Inkle.</p>
+
+<p><img src="./DownloadAndImport.png" alt="alt text" title="Download and Import" /></p>
+
+<p>As “Ink Unity Integration” is a free Asset, click on “Download” and then “Import”.</p>
+
+<p><img src="./ImportInkPackage.png" alt="alt text" title="Import Ink Package" /></p>
+
+<p>Once the Asset has downloaded and loaded itself, a new Import Unity Package window will open.</p>
+
+<p>Click on “All” to make sure all of the file are selected and them “Import”.</p>
+
+<p>Once loaded, the Ink Compiler, Run-Time, and Example will be added to the current project.</p>
+
+<h2 id="creating-example-scripting-component">Creating Example Scripting Component</h2>
+
+<p>In the Hierarchy Window, click on the Main Camera GameObject. This will show its components in the Inspector Window.</p>
+
+<blockquote>
+  <p><strong>Note:</strong> In the default layout, the Hierarchy Window will be on the far left and the Inspector Window on the far right.</p>
+</blockquote>
+
+<p><img src="./NewScript.png" alt="alt text" title="New Script" /></p>
+
+<p>In the Inspector Window, click on “Add Component” and scroll to “Add Script”.</p>
+
+<p><img src="./AddingScripting.png" alt="alt text" title="Adding Scripting" /></p>
+
+<p>Click on “Add Script” and then the “Create and Add Script” button.</p>
+
+<blockquote>
+  <p><strong>Note:</strong> Normally, the default name of “NewBehaviorScript” would be changed. However, as this is an example, that step is being skipped.</p>
+</blockquote>
+
+<p><img src="./ProjectScript.png" alt="alt text" title="Project Script" /></p>
+
+<p>Whenever a new scripting component is added, its C# file is added to the Assets folder. With the Ink Unity Integration plugin installed, it will be the newest file.</p>
+
+<p>Double-click this file to open it in Visual Studio.</p>
+
+<pre><code class="language-CSharp">using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class NewBehaviourScript : MonoBehaviour
+{
+    // Start is called before the first frame update
+    void Start()
+    {
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+    }
+}
+</code></pre>
+
+<p>As reviewed in <a href="../chapter5/index.md">Chapter 5 on Scripting Basics</a>, a new behavior script will have two methods: <strong>Start()</strong> and <strong>Update()</strong>. The method <strong>Start()</strong> will be called before the first rendered frame and the method <strong>Update()</strong> will be called every frame.</p>
+
+<p>In order to use Ink and its Runtime classes, it needs to be added to the file.</p>
+
+<pre><code class="language-CSharp">using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+// Add the Ink Runtime
+using Ink.Runtime;
+
+public class NewBehaviourScript : MonoBehaviour
+{
+    // Start is called before the first frame update
+    void Start()
+    {
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+    }
+}
+</code></pre>
+
+<h2 id="loading-a-compiled-ink-file">Loading a Compiled Ink File</h2>
+
+<p>Ink runs <em>compiled</em> files created by Inky or the Ink compiler now added to the project. However, before it can run a file, there needs to be a property added to the file so that it can be used in the Unity Editor.</p>
+
+<blockquote>
+  <p><strong>Reminder:</strong> All (public) properties added to script file can be accessed and its values changes in the Unity Editor.</p>
+</blockquote>
+
+<pre><code class="language-CSharp">using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+// Add the Ink Runtime
+using Ink.Runtime;
+
+public class NewBehaviourScript : MonoBehaviour
+{
+    // Add a TextAsset representing the compiled Ink Asset
+    public TextAsset InkJSONAsset;
+
+    // Start is called before the first frame update
+    void Start()
+    {
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+    }
+}
+</code></pre>
+
+<p>Adding the property <strong>InkJSONAsset</strong> of type <strong><a href="https://docs.unity3d.com/Manual/class-TextAsset.html">TextAsset</a></strong> helps in connecting the text asset from the Project window with the property during the Initialization step of the order of execution for the GameObject.</p>
+
+<p><img src="./JSONProperty.png" alt="alt text" title="Ink JSON Asset Property" /></p>
+
+<p>With the Ink Unity Integration plugin loaded, any <code class="language-plaintext highlighter-rouge">.ink</code> files added to the project will be automatically compiled into <code class="language-plaintext highlighter-rouge">.json</code> files. The context menu for the Project window also now has a “Ink Script” option for creating Ink files quickly.</p>
+
+<p><img src="./CreateInkScript.png" alt="alt text" title="Create Ink Script" /></p>
+
+<p>To create a Ink Script file using this functionality, use the Add or right-click menu and then click on “Ink Script”.</p>
+
+<p><img src="./NewScriptFile.png" alt="alt text" title="New Script Files" /></p>
+
+<p>A new file named <code class="language-plaintext highlighter-rouge">New Ink.ink</code> will be created. After clicking outside of the name, the built-in Ink compiler will automatically produce a new file <code class="language-plaintext highlighter-rouge">New Ink.json</code>. It is this file that should be associated with the behavior script.</p>
+
+<p><img src="./NewInkJSONProperty.png" alt="alt text" title="New Ink JSON Property" /></p>
+
+<p>With Main Camera selected in the Hierarchy window (so that its components appear in the Inspector window), drag and drop the new <code class="language-plaintext highlighter-rouge">New Ink.json</code> file on the “Ink JSON Asset” property.</p>
+
+<p>With the <code class="language-plaintext highlighter-rouge">New Ink.json</code> file now associated with the scripting component, any saved changes to the <code class="language-plaintext highlighter-rouge">New Ink.ink</code> file will result in the JSON file being re-compiled. As it is now associated with the scripting component, its content will always be updated.</p>
+
+<h2 id="editing-the-ink-file">Editing the Ink File</h2>
+
+<p>Unless otherwise setup, <code class="language-plaintext highlighter-rouge">.ink</code> files are not associated with a program for editing. Double-clicking or clicking the “Open” button in the Inspector window will prompt to pick a program to edit in Windows.</p>
+
+<p>It is strongly recommended to use the <a href="https://www.inklestudios.com/ink/">Inky</a> editor for editing <code class="language-plaintext highlighter-rouge">.ink</code> files. However, Notepad (in Windows) or any other plain text editors can be used.</p>
+
+<blockquote>
+  <p><strong>Note:</strong> This chapter will use screenshots from Inky.</p>
+</blockquote>
+
+<p><img src="./EmptyInky.png" alt="alt text" title="Empty Inky" /></p>
+
+<p><strong>New Ink.ink:</strong></p>
+
+<pre><code class="language-ink">Hey, there!
+</code></pre>
+
+<p><img src="./ExampleInkText.png" alt="alt text" title="Example Ink Text" /></p>
+
+<p>Adding the text <code class="language-plaintext highlighter-rouge">Hey, there!</code> in the left-hand side of Inky will show the compiled results on the right-hand side.</p>
+
+<p>Once added, save the file through using Ctrl-S or using File -&gt; Save.</p>
+
+<p>Returning to Unity will trigger the Project window to check for any changes in any existing Ink files. If they have changed, the built-in Ink compiler will re-compile and produce an updated JSON file.</p>
+
+<blockquote>
+  <p><strong>Reminder:</strong> Because the JSON file is associated with “Ink JSON Asset” property, it was also always be updated when the scene runs.</p>
+</blockquote>
+
+<h2 id="setting-up-story-api">Setting up Story API</h2>
+
+<p>With the Ink and compiled JSON setup, the compiled file will be used when the scene starts. However, even with the compiled file associated, one more step is needed. A <strong>Story</strong> object is needed.</p>
+
+<pre><code class="language-CSharp">using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+// Add the Ink Runtime
+using Ink.Runtime;
+
+public class NewBehaviourScript : MonoBehaviour
+{
+    // Add a TextAsset representing the compiled Ink Asset
+    public TextAsset InkJSONAsset;
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        Story exampleStory = new Story(InkJSONAsset.text);
+        Debug.Log(exampleStory.Continue());
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+    }
+}
+</code></pre>
+
+<p>The <strong>Story</strong> object allows for using the Story API. It exposes methods like <strong>Continue()</strong> that load parts of the story.</p>
+
+<p>In the above example, a new <strong>Story</strong> object is created and is passed the <strong>InkJSONAsset</strong> property that is associated with the <code class="language-plaintext highlighter-rouge">New Ink.json</code> via Unity during its Initialization step.</p>
+
+<blockquote>
+  <p><strong>Note:</strong> The property <em>text</em> is used from the <strong>TextAsset</strong> object. This exposes the text content of the associated text asset file.</p>
+</blockquote>
+
+<p>When run, the code will start with the property during the Initialization order of execution.</p>
+
+<p>Next, the method <strong>Start()</strong> is called on the GameObject.</p>
+
+<p>A <strong>Story</strong> object is then created and its constructor method is passed the <em>InkJSONAsset.text</em> property of the <strong>InkJSONAsset</strong> object.</p>
+
+<p>Finally, inside of the <strong>Start()</strong> method, <strong>Debug.Log()</strong> is called with the argument <strong>exampleStory.Continue()</strong>.</p>
+
+<p><img src="./InkExampleConsole.png" alt="alt text" title="Ink Example Console" /></p>
+
+<p>As will be covered in the next chapter, the Story API has methods for loading content from a story (compiled JSON file). The method <strong>Continue()</strong> loads the next chunk in the story. In this example, it will load the current text of the story (<code class="language-plaintext highlighter-rouge">Hey, there!</code>) and display it on the Console.</p>

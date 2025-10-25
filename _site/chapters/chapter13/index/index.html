@@ -1,0 +1,130 @@
+<p>title: “Ink: Selective Output and Story Organization”
+order: 13
+chapter_number: 13
+layout: chapter</p>
+
+<h2 id="selective-output">Selective Output</h2>
+
+<p>In all previous Ink story examples in this book, choices appeared like the following:</p>
+
+<pre><code class="language-ink">This example has four choices.
+
+* Choice 1
+* Choice 2
+* Choice 3
+* Choice 4
+</code></pre>
+
+<p>When run, the Scene would show the text “This example has four choices.” and then that of the choices. When one of the options was chosen, it would then appear as part of the next chunk of the story.</p>
+
+<p><img src="./ChoiceText.png" alt="alt text" title="Text Choice" /></p>
+
+<p>As running the code in Inky shows, this is the default behavior for choices. Once chosen, its text is carried over into the next story chunk.</p>
+
+<p>In Ink, this behavior can be changed through special syntax called <em>selective output</em>. When any part, including the whole text, of a choice is enclosed in opening, <code class="language-plaintext highlighter-rouge">[</code>, and closing, <code class="language-plaintext highlighter-rouge">]</code>, brackets, it becomes <em>selective output</em>. That is, it is not used as part of the next story chunk.</p>
+
+<pre><code class="language-ink">This example has four choices.
+
+* [Choice 1]
+* [Choice 2]
+* [Choice 3]
+* [Choice 4]
+-
+</code></pre>
+
+<p><img src="./SelectiveOutput.png" alt="alt text" title="Selective Output" /></p>
+
+<p>Shown when run in Inky, no text of the choices is carried over.</p>
+
+<p><img src="./SelectiveOutputUnity.png" alt="alt text" title="Selective Output: Unity" /></p>
+
+<p>When run in Unity, this shows the same effect. Through using selective output (putting opening and closing square brackets around the text), the text of the choice is not passed to the next story chunk.</p>
+
+<h2 id="story-organization">Story Organization</h2>
+
+<p>Ink uses the <code class="language-plaintext highlighter-rouge">INCLUDE</code> keyword to pull the contents of other files into a central one. This helps when organizing projects through dividing up files as parts of area, regions, character, or other logical divisions.</p>
+
+<p>For example, if a project had two areas that were self-contained in files matching their names, it might look like the following:</p>
+
+<pre><code class="language-ink">INCLUDE Bedroom.ink
+INCLUDE LivingRoom.ink
+
+You stand at the doorway and consider the two rooms in front of you.
+</code></pre>
+
+<p>In the above code, the file <code class="language-plaintext highlighter-rouge">Bedroom.ink</code> would contain Ink code for that area and <code class="language-plaintext highlighter-rouge">LivingRoom.ink</code> would be the same for its area.</p>
+
+<p>The first two lines pull in the code from those files and make it available in a central file. (Any of their knots or stitches can be accessed because they are part of one large file when compiled together.)</p>
+
+<p><strong>New Ink.ink:</strong></p>
+
+<pre><code class="language-ink">INCLUDE Bedroom.ink
+INCLUDE LivingRoom.ink
+
+You stand at the doorway and consider the two rooms in front of you.
+
+-&gt; Rooms
+
+=== Rooms ===
++ [Bedroom]
+  -&gt; Bedroom -&gt;
++ [Living Room]
+ -&gt; LivingRoom -&gt;
+-
+-&gt; Rooms
+</code></pre>
+
+<p>Although not covered in-depth in this book, <em>tunnels</em>, a concept in Ink where a target is diverted to and then control reverts back to the original location, can often be useful for exploring a location and then returning to a central point.</p>
+
+<p>Through creating tunnels and then returning, the two locations (across two files) can be “explored” as the story branches to the knots and then back again, repeating the search options through sticky choices.</p>
+
+<blockquote>
+  <p><strong>Note:</strong> In Ink, a choice can be made “sticky” through using a plus sign, <code class="language-plaintext highlighter-rouge">+</code>, instead of the normal asterisk, <code class="language-plaintext highlighter-rouge">*</code>. If the spot in the story where the choice was chosen is returned to, it will remain an option for a player to pick again.</p>
+</blockquote>
+
+<p><strong>Bedroom.ink:</strong></p>
+
+<pre><code class="language-ink">=== Bedroom ===
+You notice a rather messy room with clothes on the floor and even, you notice, on a window.
+
++ [Go back to doorway?]
+-&gt;-&gt;
+</code></pre>
+
+<p><strong>LivingRoom.ink:</strong></p>
+
+<pre><code class="language-ink">=== LivingRoom ===
+There's a TV and some shelves. Looks like the books have been arranged by color rather than by title. It creates a nice rainbow effect across the books.
+
++ [Go back to doorway?]
+-&gt;-&gt;
+</code></pre>
+
+<p>When the <code class="language-plaintext highlighter-rouge">INCLUDE</code> keyword is used to pull in the contents of another in an Ink file, its icon changes in the Project window in Unity.</p>
+
+<p><img src="./IncludedFiles.png" alt="alt text" title="Included Files" /></p>
+
+<p>File gain a ‘return’ symbol marking that its contents are being used in another file. In this case, both <code class="language-plaintext highlighter-rouge">Bedroom.ink</code> and <code class="language-plaintext highlighter-rouge">LivingRoom.ink</code> are <code class="language-plaintext highlighter-rouge">INCLUDE</code>‘d in the <code class="language-plaintext highlighter-rouge">New Ink.ink</code> file.</p>
+
+<p>This is important as, normally, the Ink Unity Integration plugin will automatically detect and re-compile an Ink script file.</p>
+
+<p><img src="./AutomaticCompile.png" alt="alt text" title="Automatic Compile" /></p>
+
+<p>For example, adding a new file <code class="language-plaintext highlighter-rouge">New Ink 1.ink</code> automatically generates the JSON file <code class="language-plaintext highlighter-rouge">New Ink 1.json</code> in the Project window.</p>
+
+<p>If the file is then <code class="language-plaintext highlighter-rouge">INCLUDE</code>‘d in another file, its JSON file will be removed.</p>
+
+<pre><code class="language-ink">INCLUDE Bedroom.ink
+INCLUDE LivingRoom.ink
+INCLUDE New Ink 1.ink
+
+You stand at the doorway and consider the two rooms in front of you.
+</code></pre>
+
+<p>For example, adding the line <code class="language-plaintext highlighter-rouge">INCLUDE New Ink 1.ink</code> would change both the icon and status of the associated JSON file.</p>
+
+<p><img src="./JSONRemoved.png" alt="alt text" title="JSON Removed" /></p>
+
+<p>If a file is <code class="language-plaintext highlighter-rouge">INCLUDE</code>‘d in another, the Ink Unity Integration plugin is smart enough to know to remove the previous JSON file, cleaning up the Project window.</p>
+
+<p>However, if multiple JSON files appear matching the name of other Ink files, this is a clear indication that those files are being compiled separately. In which, the existing Ink files should be consulted to find where the missing <code class="language-plaintext highlighter-rouge">INCLUDE</code> might be needed.</p>

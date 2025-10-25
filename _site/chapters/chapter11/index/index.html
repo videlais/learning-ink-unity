@@ -1,0 +1,473 @@
+<p>title: “Unity UI: Buttons and User Input”
+order: 11
+chapter_number: 11
+layout: chapter</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>- [Forcing Child Expansion](#forcing-child-expansion)
+- [Parsing Choices into Buttons](#parsing-choices-into-buttons)   - [Creating Prefabs](#creating-prefabs)
+- [Creating a Button Prefab](#creating-a-button-prefab)
+- [Dynamically Creating Buttons](#dynamically-creating-buttons)
+</code></pre></div></div>
+
+<h2 id="working-with-buttons">Working with Buttons</h2>
+
+<p>The <strong>Button</strong> is a fundamental user interface element. It is a something a user can click on that should produce some effect.</p>
+
+<p><img src="./AddingButtons.png" alt="alt text" title="Adding Buttons" /></p>
+
+<p>Based on the GameObject created previously in this book, adding a new <strong>Button</strong> GameObject to the existing <strong>Canvas</strong> is possible through right-clicking on it, going to UI, and then clicking on Button. This will add a <strong>Button</strong> as a child of <strong>Canvas</strong>.</p>
+
+<p><img src="./ButtonChild.png" alt="alt text" title="Button Child" /></p>
+
+<p>Once added, the new <strong>Button</strong> will be child of the <strong>Canvas</strong> and also have its own child: another <strong>Text</strong>. This is because the <strong>Button</strong> is only that, a button. The text component of the <strong>Button</strong> is actually another <strong>Text</strong>.</p>
+
+<p><img src="./TextAndButton.png" alt="alt text" title="Text and Button" /></p>
+
+<p>When viewed on the Game View, the existing <strong>Text</strong> (with its <em>text</em> of “New Text”) and the button will be arranged vertically (due to the use of the Vertical Layout Group added in the previous chapter). However, when viewed, the <strong>Button</strong> is small compared to the existing content of the <strong>Canvas</strong>.</p>
+
+<h3 id="forcing-child-expansion">Forcing Child Expansion</h3>
+
+<p><img src="./VerticalLayoutGroupSettings.png" alt="alt text" title="VerticalLayoutGroup Settings" /></p>
+
+<p>In the previous chapter, the option Child Force Expand was left unchecked in the Vertical Layout Group Properties. While this worked with the sole child of <strong>Text</strong>, with the additional child GameObject of <strong>Button</strong>, it now needs to be used to force all children to expand within the <strong>Canvas</strong>.</p>
+
+<blockquote>
+  <p><strong>Reminder:</strong> Clicking on a component in the Hierarchy Window lists its components in the Inspector Window. Clicking on <strong>Canvas</strong> allows for accessing its components and the properties of the Vertical Layout Group.</p>
+</blockquote>
+
+<p><img src="./ChildForceExpandChecked.png" alt="alt text" title="ChildForceExpand Checked" /></p>
+
+<p>The result of forcing the child GameObjects to expand can be seen in the Game View.</p>
+
+<p><img src="./ForcedExpansion.png" alt="alt text" title="Forced Expansion" /></p>
+
+<p>With the new option checked, all of the child GameObjects are forced to expand to fill the available space of the <strong>Canvas</strong>.</p>
+
+<p>While not ideal, the new arrangement of GameObjects is a good place to stop and return to C# code in order to start processing <strong>Choice</strong> objects and using their <em>text</em> properties to change the <em>text</em> of the <strong>Text</strong> child of the <strong>Button</strong>.</p>
+
+<h3 id="parsing-choices-into-buttons">Parsing Choices into Buttons</h3>
+
+<p>Based on what was introduced in a previous chapter, the <a href="https://docs.unity3d.com/ScriptReference/Component.GetComponentInChildren.html">method <strong>GetComponentInChildren&lt;GameObject&gt;()</strong></a> can be used to search for a child component starting from a parent GameObject. In the case of <strong>Canvas</strong>, because the added <strong>Button</strong> is now a child of it, the method can be used again. This time, instead of searching for <strong>Text</strong>, it can be used to find the added <strong>Button</strong>.</p>
+
+<pre><code class="language-CSharp">// From this GameObject, look in its children for a component of the type "Button".
+// Return a reference to this component and save it locally.
+Button childButton = GetComponentInChildren&lt;Button&gt;();
+</code></pre>
+
+<p>This time, unlike in the previous chapter with using the now saved component, an additional search is needed to find the <strong>Text</strong> child of the found <strong>Button</strong>.</p>
+
+<pre><code class="language-CSharp">// From this GameObject, look in its children for a component of the type "Button".
+// Return a reference to this component and save it locally.
+Button childButton = GetComponentInChildren&lt;Button&gt;();
+
+// From this GameObject, look in its children for a component of the type "Text".
+// Return a reference to this component and save it locally.
+Text buttonText = childButton.GetComponentInChildren&lt;Text&gt;();
+</code></pre>
+
+<blockquote>
+  <p><strong>Note:</strong> It would seem to make sense that <strong>GetComponentInChildren&lt;GameObject&gt;()</strong> could be used to get the second <strong>Text</strong> through using it a second time, but is not the case. The method <strong>GetComponentInChildren&lt;GameObject&gt;()</strong> returns the <em>first</em> component it finds. When searching from <strong>Canvas</strong>, this finds its child <strong>Text</strong> first. When searching from <strong>Button</strong>, this finds <em>its</em> <strong>Text</strong> component first.</p>
+</blockquote>
+
+<p>Finally, to demonstrate the editing of its <em>text</em> property, the following line is added:</p>
+
+<pre><code class="language-CSharp">// Change the text
+buttonText.text = "Testing";
+</code></pre>
+
+<p>Put all together with the existing code developed in the previous chapter, it would be the following:</p>
+
+<p><strong>NewBehaviourScript.cs:</strong></p>
+
+<pre><code class="language-CSharp">using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+// Add the Ink Runtime
+using Ink.Runtime;
+// Add Unity UI
+using UnityEngine.UI;
+
+public class NewBehaviourScript : MonoBehaviour
+{
+    // Add a TextAsset representing the compiled Ink Asset
+    public TextAsset InkJSONAsset;
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        // Create a new Story object using the compiled (JSON) Ink story text
+        Story exampleStory = new Story(InkJSONAsset.text);
+
+        // From this GameObject, look in its children for a component of the type "Text".
+        // Return a reference to this component and save it locally.
+        Text childText = GetComponentInChildren&lt;Text&gt;();
+
+        // Reset the existing text of "New Text" to an empty string
+        childText.text = "";
+
+        // From this GameObject, look in its children for a component of the type "Button".
+        // Return a reference to this component and save it locally.
+        Button childButton = GetComponentInChildren&lt;Button&gt;();
+
+        // From this GameObject, look in its children for a component of the type "Text".
+        // Return a reference to this component and save it locally.
+        Text buttonText = childButton.GetComponentInChildren&lt;Text&gt;();
+
+        // Change the text
+        buttonText.text = "Testing";
+
+        // Each loop, check if there is more story to load
+        while (exampleStory.canContinue)
+        {
+            // Load the next story chunk and return the current text
+            string currentTextChunk = exampleStory.Continue();
+
+            // Get any tags loaded in the current story chunk
+            List&lt;string&gt; currentTags = exampleStory.currentTags;
+
+            // Create a blank line of dialogue
+            string line = "";
+
+            // For each tag in currentTag, set its values to the new variable 'tag'
+            foreach (string tag in currentTags)
+            {
+                // Concatenate the tag and a colon
+                line += tag + ": ";
+            }
+
+            // Concatenate the current text chunk
+            // (This will either have a tag before it or be by itself.)
+            line += currentTextChunk;
+
+            // Concatenate the content of 'line' to the existing text
+            childText.text += line;
+        }
+    }
+}
+</code></pre>
+
+<p>When run, the <em>text</em> of the child GameObject of <strong>Button</strong> will be overwritten.</p>
+
+<p><img src="./UpdatedButtonText.png" alt="alt text" title="Forced Expansion" /></p>
+
+<p>With this in place, it is time to change the existing Ink story from the previous chapters and re-introduce the code to parse <strong>Choice</strong> objects.</p>
+
+<p><strong>New Ink.ink:</strong></p>
+
+<pre><code class="language-ink">The door opens upon a darkly-lit attic.
+
+* [Proceed?]
+-
+
+You cautiously walk forward, noting the dust coating everything around you. Looking down, you even seen your own footprints in the dust from the door.
+</code></pre>
+
+<p>In the new Ink code, there is a choice with selected output. (This means the words in the choice will not appear in the output.) It is also using a gathering point, <code class="language-plaintext highlighter-rouge">-</code>, that will gather the story back into the point after the set of choices instead of branching it.</p>
+
+<p>To parse the new choice in the Ink story, the inner loop code developed in previous chapters can be used again.</p>
+
+<pre><code class="language-CSharp">// For each choice in currentChoices, set its values to the new variable 'choice'
+foreach (Choice choice in exampleStory.currentChoices)
+{
+}
+</code></pre>
+
+<p>This time, instead of using <strong>Debug.Log()</strong>, the <em>text</em> of the <strong>choice</strong> will be used to overwrite the <em>text</em> of the <strong>Button</strong>’s <strong>Text</strong>.</p>
+
+<pre><code class="language-CSharp">// For each choice in currentChoices, set its values to the new variable 'choice'
+foreach (Choice choice in exampleStory.currentChoices)
+{
+    // Set the button's text to the choice's text
+    buttonText.text = choice.text;
+}
+</code></pre>
+
+<p>Put at the end of the previous code inside of the <code class="language-plaintext highlighter-rouge">while()</code> loop, it would look like the following:</p>
+
+<p><strong>NewBehaviourScript.cs:</strong></p>
+
+<pre><code class="language-CSharp">using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+// Add the Ink Runtime
+using Ink.Runtime;
+// Add Unity UI
+using UnityEngine.UI;
+
+public class NewBehaviourScript : MonoBehaviour
+{
+    // Add a TextAsset representing the compiled Ink Asset
+    public TextAsset InkJSONAsset;
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        // Create a new Story object using the compiled (JSON) Ink story text
+        Story exampleStory = new Story(InkJSONAsset.text);
+
+        // From this GameObject, look in its children for a component of the type "Text".
+        // Return a reference to this component and save it locally.
+        Text childText = GetComponentInChildren&lt;Text&gt;();
+
+        // Reset the existing text of "New Text" to an empty string
+        childText.text = "";
+
+        // From this GameObject, look in its children for a component of the type "Button".
+        // Return a reference to this component and save it locally.
+        Button childButton = GetComponentInChildren&lt;Button&gt;();
+
+        // From this GameObject, look in its children for a component of the type "Text".
+        // Return a reference to this component and save it locally.
+        Text buttonText = childButton.GetComponentInChildren&lt;Text&gt;();
+
+        // Each loop, check if there is more story to load
+        while (exampleStory.canContinue)
+        {
+            // Load the next story chunk and return the current text
+            string currentTextChunk = exampleStory.Continue();
+
+            // Get any tags loaded in the current story chunk
+            List&lt;string&gt; currentTags = exampleStory.currentTags;
+
+            // Create a blank line of dialogue
+            string line = "";
+
+            // For each tag in currentTag, set its values to the new variable 'tag'
+            foreach (string tag in currentTags)
+            {
+                // Concatenate the tag and a colon
+                line += tag + ": ";
+            }
+
+            // Concatenate the current text chunk
+            // (This will either have a tag before it or be by itself.)
+            line += currentTextChunk;
+
+            // Concatenate the content of 'line' to the existing text
+            childText.text += line;
+
+            // For each choice in currentChoices, set its values to the new variable 'choice'
+            foreach (Choice choice in exampleStory.currentChoices)
+            {
+                // Set the button's text to the choice's text
+                buttonText.text = choice.text;
+            }
+
+        }
+    }
+}
+</code></pre>
+
+<p><img src="./FirstChoice.png" alt="alt text" title="FirstChoice" /></p>
+
+<p>When run, the choices within the Ink Story API property <em>currentChoices</em> will be parsed and their <em>text</em> used to overwrite the <em>text</em> of the <strong>Button</strong>’s <strong>Text</strong>. This would place the text inside the of the <strong>Button</strong> and present the user with an option.</p>
+
+<p>The current solution, while great for only one option per choice set in an Ink story, only has one <strong>Button</strong>. If the story presented multiple options for the player, this would not work well. There needs to be a way to create one or more <strong>Buttons</strong> dynamically. Instead of overwriting a single button each time, they could be created and destroyed as needed.</p>
+
+<h2 id="creating-prefabs">Creating Prefabs</h2>
+
+<p>Unity has a concept known as a <a href="https://docs.unity3d.com/Manual/Prefabs.html"><em>prefab</em></a>. This a GameObject that is stored as an Asset. All of its property values and components are saved. When needed, it can be <em>instantiated</em> (created based on the stored Asset) and added to a Scene.</p>
+
+<p>Prefabs are commonly used in situations where one or more GameObject (because they can be nested in parent-child relationships) need to be placed in a Scene during runtime or generated due to some player actions. A GameObject is created, its property values set, and then it is stored. When the Scene is run, code creates one or more copies of the GameObject based on prefab’s values.</p>
+
+<h3 id="creating-a-button-prefab">Creating a Button Prefab</h3>
+
+<p>In the previous section, a problem was identified where the <strong>Button</strong> added to the <strong>Canvas</strong> did not reflect the possibly many choices generated by an Ink story. A single button was not enough. Creating a single <strong>Button</strong> prefab and then creating copies of it, however, is a great solution where multiple <strong>Button</strong> GameObjects are needed.</p>
+
+<p>Creating a Prefab in Unity is as easy as dragging and dropping a GameObject from the Hierarchy window into the Project window.</p>
+
+<p><img src="./ButtonPrefabProjectWindow.png" alt="alt text" title="Button Prefab in Project Window" /></p>
+
+<p>Dragging and dropping the existing <strong>Button</strong> from the Hierarchy window into the Project window creates a Prefab of the GameObject. Its icon color changes from a grey to a blue outline, signaling it is now a Prefab (and an Asset).</p>
+
+<p><img src="./PrefabInspectorWindow.png" alt="alt text" title="Prefab Inspector Window" /></p>
+
+<p>The Inspector window for the <strong>Button</strong> also shows its new status. As a Prefab, it is labeled as a “Prefab Asset” now.</p>
+
+<p>Now that the <strong>Button</strong> is a Prefab, it can be deleted from the <strong>Canvas</strong>.</p>
+
+<p><img src="./DeletingButton.png" alt="alt text" title="Prefab Inspector Window" /></p>
+
+<p>Right-clicking and clicking on “Delete” will remove the GameObject <strong>Button</strong>.</p>
+
+<p>It may seem strange to remove the <strong>Button</strong> GameObject, but now that it is a Prefab, its property values are saved as a “template” that can be recreated easily. With the ability to create copies, the original is no longer needed.</p>
+
+<h3 id="dynamically-creating-buttons">Dynamically Creating Buttons</h3>
+
+<p>Now that <strong>Button</strong> is a Prefab, it needs to be used in a coding context. As with the compiled Ink (JSON) file used in previous chapters, an Asset can be associated with a scripting component through a two-step process:</p>
+
+<p>1) Create a public property on the C# class
+1) Drag and drop the Asset from the Project window on the scripting component property value</p>
+
+<p>Because the <strong>Button</strong> is a Button, this will be its data type (much like was used to find it using the <strong>GetComponentInChildren&lt;GameObject&gt;()</strong> method).</p>
+
+<pre><code class="language-CSharp">// Add a Button representing the ButtonPrefab
+public Button ButtonPrefab;
+</code></pre>
+
+<p>Just like the compiled Ink (JSON) file, this property is added before the class declaration.</p>
+
+<pre><code class="language-CSharp">using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+// Add the Ink Runtime
+using Ink.Runtime;
+// Add Unity UI
+using UnityEngine.UI;
+
+public class NewBehaviourScript : MonoBehaviour
+{
+    // Add a TextAsset representing the compiled Ink Asset
+    public TextAsset InkJSONAsset;
+
+    // Add a Button representing the ButtonPrefab
+    public Button ButtonPrefab;
+
+    // Start is called before the first frame update
+    void Start()
+    {
+      // ...
+    }
+}
+</code></pre>
+
+<p><img src="./CanvasInspectorWindow.png" alt="alt text" title="Canvas Inspector Window" /></p>
+
+<p>Clicking on the <strong>Canvas</strong> shows the new public property.</p>
+
+<p><img src="./ButtonProperty.png" alt="alt text" title="Button Property" /></p>
+
+<p>Next, dragging and dropping the <strong>Button</strong> Prefab from the Project window to the “Button Prefab” property value associates it with code.</p>
+
+<p>In the code, new lines need to be added as part of loop handling the parsing of the choices from the Ink Story API to create new Button dynamically.</p>
+
+<pre><code class="language-CSharp">// For each choice in currentChoices, set its values to the new variable 'choice'
+foreach (Choice choice in exampleStory.currentChoices)
+{
+    // Create a new GameObject based on a Prefab and set its parent to this.transform
+    Button choiceButton = Instantiate(ButtonPrefab, this.transform);
+}
+</code></pre>
+
+<p>The method <a href="https://docs.unity3d.com/ScriptReference/Object.Instantiate.html"><strong>Instantiate()</strong></a> creates a clone of an existing object. Because <strong>ButtonPrefab</strong> is an object because of its Prefab status, it can be cloned and a copy saved. At the same time, in order to make the new <strong>Button</strong> part of the <strong>Canvas</strong>, it needs to be set as a child. The use of the second parameter, <em>this.transform</em>, tells the method to set its parent to the current “transform” (position, rotation, and scale) of the current GameObject, <strong>Canvas</strong>.</p>
+
+<blockquote>
+  <p><strong>Reminder:</strong> All GameObjects have a <strong>Transform</strong> component. Through setting a GameObject’s <em>transform</em> property to another, it makes it a child of that other GameObject. In Unity, setting a new GameObject’s <em>transform</em> to <em>this.transform</em> makes it a child of the current GameObject.</p>
+</blockquote>
+
+<p>Next, the <strong>Text</strong> component of the newly-created <strong>Button</strong> needs to be found. The use of the <strong>GetComponentInChildren&lt;GameObject&gt;()</strong> method follows the same pattern used previously in this chapter.</p>
+
+<pre><code class="language-CSharp">// For each choice in currentChoices, set its values to the new variable 'choice'
+foreach (Choice choice in exampleStory.currentChoices)
+{
+    // Create a new GameObject based on a Prefab and set its parent to this.transform
+    Button choiceButton = Instantiate(ButtonPrefab, this.transform);
+
+    // From choiceButton, look in its children for a component of the type "Text".
+    // Return a reference to this component and save it locally.
+    Text choiceText = choiceButton.GetComponentInChildren&lt;Text&gt;();
+
+    // Set the button's text to the choice's text
+    choiceText.text = choice.text;
+}
+</code></pre>
+
+<p>Put all together, the code is the following:</p>
+
+<p><strong>NewBehaviourScript.cs:</strong></p>
+
+<pre><code class="language-CSharp">using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+// Add the Ink Runtime
+using Ink.Runtime;
+// Add Unity UI
+using UnityEngine.UI;
+
+public class NewBehaviourScript : MonoBehaviour
+{
+    // Add a TextAsset representing the compiled Ink Asset
+    public TextAsset InkJSONAsset;
+
+    // Add a Button representing the ButtonPrefab
+    public Button ButtonPrefab;
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        // Create a new Story object using the compiled (JSON) Ink story text
+        Story exampleStory = new Story(InkJSONAsset.text);
+
+        // From this GameObject, look in its children for a component of the type "Text".
+        // Return a reference to this component and save it locally.
+        Text childText = GetComponentInChildren&lt;Text&gt;();
+
+        // Reset the existing text of "New Text" to an empty string
+        childText.text = "";
+
+        // Each loop, check if there is more story to load
+        while (exampleStory.canContinue)
+        {
+            // Load the next story chunk and return the current text
+            string currentTextChunk = exampleStory.Continue();
+
+            // Get any tags loaded in the current story chunk
+            List&lt;string&gt; currentTags = exampleStory.currentTags;
+
+            // Create a blank line of dialogue
+            string line = "";
+
+            // For each tag in currentTag, set its values to the new variable 'tag'
+            foreach (string tag in currentTags)
+            {
+                // Concatenate the tag and a colon
+                line += tag + ": ";
+            }
+
+            // Concatenate the current text chunk
+            // (This will either have a tag before it or be by itself.)
+            line += currentTextChunk;
+
+            // Concatenate the content of 'line' to the existing text
+            childText.text += line;
+
+            // For each choice in currentChoices, set its values to the new variable 'choice'
+            foreach (Choice choice in exampleStory.currentChoices)
+            {
+                // Create a new GameObject based on a Prefab and set its parent to this.transform
+                Button choiceButton = Instantiate(ButtonPrefab, this.transform);
+
+                // From choiceButton, look in its children for a component of the type "Text".
+                // Return a reference to this component and save it locally.
+                Text choiceText = choiceButton.GetComponentInChildren&lt;Text&gt;();
+
+                // Set the button's text to the choice's text
+                choiceText.text = choice.text;
+            }
+
+        }
+    }
+}
+</code></pre>
+
+<p><img src="./DynamicButton.png" alt="alt text" title="Dynamic Button" /></p>
+
+<p>When run, a new <strong>Button</strong> will be created based on the saved Prefab. It’s <strong>Text</strong>’s <em>text</em> will be set to the <em>text</em> of the Choice.</p>
+
+<p>In fact, because the new code is <em>inside</em> the loop parsing <strong>Choice</strong> objects based on the <em>currentChoice</em> property of the Ink Story API, it will create multiple buttons based on the number of choices in any given set.</p>
+
+<p>For example, changing the Ink code to the following –</p>
+
+<p><strong>New Ink.ink:</strong></p>
+
+<pre><code class="language-ink">This example has multiple choices.
+
+* Choice 1
+* Choice 2
+* Choice 3
+* Choice 4
+</code></pre>
+
+<p>– would create as many buttons as choices.</p>
+
+<p><img src="./MultipleButtons.png" alt="alt text" title="Multiple Buttons" /></p>
