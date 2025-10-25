@@ -1,22 +1,31 @@
-<p>title: “Unity: Scripting Basics”
-order: 6
-chapter_number: 6
-layout: chapter</p>
+<p>Because all GameObjects can have scripting components, their behaviors can be changed through writing C# code. The <em>scripting component</em> is additional code that is written that is run as part of the GameObject and can generally be adjusted alongside its other components. However, unlike other components, scripting components (behavior scripts) are edited in an external code editor.</p>
 
-<p>Because all GameObjects can have scripting components, their behaviors can be changed through writing C# code. The <em>scripting component</em> is additional code that is written that is run as part of the GameObject and can generally be adjusted alongside its other components. However, unlike other components, scripting components (behavior scripts) are edited in an external program: Visual Studio.</p>
+<p><strong>As of 2025</strong>, Unity supports multiple code editors:</p>
 
-<p>Packaged with Unity, Visual Studio allows for writing C# within an integrated development environment (IDE) specialized for writing and testing code.</p>
+<ul>
+  <li><strong>Visual Studio</strong> (Windows/Mac): Microsoft’s full-featured IDE, still bundled with Unity installations</li>
+  <li><strong>Visual Studio Code</strong>: A lightweight, cross-platform editor that many Unity developers prefer</li>
+  <li><strong>JetBrains Rider</strong>: A powerful C# IDE popular among professional Unity developers for its advanced refactoring and debugging features</li>
+</ul>
 
-<p>Attempting to open a behavior script in Unity opens the code in Visual Studio.</p>
+<blockquote>
+  <p><strong>Note:</strong> While Visual Studio remains a common choice, Visual Studio Code with the Unity extension has become increasingly popular due to its speed and flexibility. Unity will automatically open scripts in your configured editor.</p>
+</blockquote>
 
-<h2 id="anatomy-of-a-monobehavior-script">Anatomy of a MonoBehavior Script</h2>
+<p>Attempting to open a behavior script in Unity opens the code in your configured external editor.</p>
+
+<h2 id="anatomy-of-a-monobehaviour-script">Anatomy of a MonoBehaviour Script</h2>
 
 <pre><code class="language-CSharp">using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 </code></pre>
 
-<p>Three libraries are added by default to all scripts: <strong>System.Collections</strong>, <strong>System.Collections.Generic</strong>, and <strong>UnityEngine</strong>. The first two, <strong>System.Collections</strong>, <strong>System.Collections.Generic</strong>, allow for using the built-in collection data types in C#. The third, <strong>UnityEngine</strong>, gives access to a large number of built-in data types that come with Unity. These allow for manipulating GameObjects and any values associated with their components.</p>
+<p>Three namespaces are added by default to all scripts: <strong>System.Collections</strong>, <strong>System.Collections.Generic</strong>, and <strong>UnityEngine</strong>. The first two, <strong>System.Collections</strong> and <strong>System.Collections.Generic</strong>, allow for using the built-in collection data types in C#. The third, <strong>UnityEngine</strong>, gives access to a large number of built-in data types that come with Unity. These allow for manipulating GameObjects and any values associated with their components.</p>
+
+<blockquote>
+  <p><strong>Note:</strong> Modern C# supports implicit <code class="language-plaintext highlighter-rouge">using</code> directives (C# 10.0+), which means some namespaces may be automatically available without explicit declarations. However, Unity’s script templates still include these for clarity.</p>
+</blockquote>
 
 <pre><code class="language-CSharp">using System.Collections;
 using System.Collections.Generic;
@@ -26,7 +35,11 @@ public class NewBehaviourScript : MonoBehaviour
 {}
 </code></pre>
 
-<p>The library <strong>UnityEngine</strong> also allows access to the object <strong>MonoBehaviour</strong> from which all behavior scripts inherit. This provides a number of methods such as <strong>Start()</strong> and <strong>Update()</strong>.</p>
+<p>The namespace <strong>UnityEngine</strong> also allows access to the class <strong>MonoBehaviour</strong> from which all behavior scripts inherit. This provides a number of methods such as <strong>Start()</strong> and <strong>Update()</strong>.</p>
+
+<blockquote>
+  <p><strong>Note:</strong> The spelling “MonoBehaviour” uses the British English spelling. This is maintained for historical reasons and consistency across Unity’s API.</p>
+</blockquote>
 
 <p>As Unity uses the Entity-Component Model as part of its order of execution, these methods will be called as part of the GameObject in the scene.</p>
 
@@ -110,9 +123,17 @@ public class NewBehaviourScript : MonoBehaviour
 
 <h2 id="private-and-public-properties">Private and Public Properties</h2>
 
-<p>As with any other class in C#, any private field in an object cannot be accessed outside of that object. However, while setting a field as <code class="language-plaintext highlighter-rouge">public</code> may seem to allow access outside of the object, it has an additional aspect when used in a scripting component in Unity. All public properties in a scripting components can <em>also</em> be accessed in the Unity Editor itself.</p>
+<p>As with any other class in C#, any private field in an object cannot be accessed outside of that object. However, while setting a field as <code class="language-plaintext highlighter-rouge">public</code> may seem to allow access outside of the object, it has an additional aspect when used in a scripting component in Unity. All public properties in a scripting component can <em>also</em> be accessed in the Unity Editor itself.</p>
 
-<p>While not obvious, using public properties and then adjusting their values from inside of the Unity Editor is a standard and encouraged practice when using scripting components and the Unity Editor. In fact, many tutorials, guides, and other resources demonstrate this practice frequently.</p>
+<blockquote>
+  <p><strong>Modern Best Practice (2025):</strong> While public fields still work, Unity now recommends using <code class="language-plaintext highlighter-rouge">[SerializeField]</code> with private fields for better encapsulation:</p>
+</blockquote>
+
+<pre><code class="language-CSharp">[SerializeField] private int example;  // Visible in Inspector, but encapsulated
+public int Example { get; private set; } // Property pattern
+</code></pre>
+
+<p>While not obvious, exposing values in the Inspector through public fields or <code class="language-plaintext highlighter-rouge">[SerializeField]</code> and then adjusting their values from inside the Unity Editor is a standard and encouraged practice when using scripting components and the Unity Editor. In fact, many tutorials, guides, and other resources demonstrate this practice frequently.</p>
 
 <p><strong>Note:</strong> The reasoning behind this practice is because Unity uses the Entity-Component Model. Scripting components are just that, <em>components</em>. Any scripting added to a GameObject is not the object itself, but <em>additional</em> components added to that entity. The code is <strong>not</strong> the GameObject. It is scripting <em>added</em> to the GameObject to adjust its default behaviors.</p>
 

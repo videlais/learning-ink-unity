@@ -5,22 +5,21 @@ chapter_number: 14
 layout: chapter
 ---
 
-title: "Unity: Organizing Project Files"
-order: 14
-chapter_number: 14
-layout: chapter
+Table of Contents:
 
-    - [`InkLibrary`](#inklibrary)
-    - [`InkSettings`](#inksettings)
-  - [Organizing Folders](#organizing-folders)
-    - [Making Folders](#making-folders)
-
+- [Reviewing Project Window Defaults](#reviewing-project-window-defaults)
+  - [`InkLibrary`](#inklibrary)
+  - [`InkSettings`](#inksettings)
+- [Organizing Folders](#organizing-folders)
+  - [Making Folders](#making-folders)
 
 ## Reviewing Project Window Defaults
 
 ![alt text](./DefaultProjectWindow.png "Default Project Window")
 
-By default, Unity creates a folder named `Scenes` and creates a scene called "SampleScene". After the Ink Unity Integration plugin is added, an additional folder named `Plugins` is also added. This contains a folder named `Ink` and its support code.
+By default, Unity creates a folder named `Scenes` and creates a scene called "SampleScene". After the Ink Unity Integration plugin is added via Package Manager, an additional folder named `Plugins` may be added to the Assets folder if you imported the plugin as a .unitypackage. For UPM installations, the plugin files remain in the Packages folder and don't clutter your Assets.
+
+> **Note:** As of 2025, the recommended UPM (Unity Package Manager) installation keeps plugin files in the Packages folder, separate from your project assets. This is cleaner and makes version management easier.
 
 ![alt text](./InkSettings.png "InkSettings")
 
@@ -45,6 +44,17 @@ Clicking on the `InkSetting` file in the Project window shows additional setting
 The `Assets` folder, as shown in the left-hand side of the Project window, shows the current files in the Project window. The folders in this area can be navigated to show their contents in the Project window.
 
 > **Note:** While the Project window shows the `Assets` folder, this is the actual directory used by the operating system to store files.
+>
+> **2025 Best Practices:** Modern Unity projects often use additional organizational folders like:
+> - `Scripts/` - All C# scripts
+> - `Prefabs/` - Reusable GameObjects
+> - `Scenes/` - Scene files
+> - `Materials/` - Material assets
+> - `Audio/`, `Textures/`, `Models/` - Media assets
+> - `Resources/` - Runtime-loadable assets (use sparingly)
+> - `StreamingAssets/` - Platform-specific assets
+>
+> Using consistent naming and organization from the start makes projects easier to maintain and collaborate on.
 
 The "Favorites" area of the left-hand side shows an easy access to common asset types of materials, models, and prefabs.
 

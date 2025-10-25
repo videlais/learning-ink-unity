@@ -5,21 +5,18 @@ chapter_number: 5
 layout: chapter
 ---
 
-title: "Unity: Terms and Concepts"
-order: 5
-chapter_number: 5
-layout: chapter
+- [Common Terms](#common-terms)
+  - [Project](#project)
+  - [Scene](#scene)
+  - [Asset](#asset)
+  - [GameObject](#gameobject)
+  - [Component](#component)
+- [Concepts](#concepts)
+  - [Entity-Component Model](#entity-component-model)
+  - [Game Loops](#game-loops)
+  - [Composition Over Inheritance](#composition-over-inheritance)
 
-    - [Project](#project)
-    - [Scene](#scene)
-    - [Asset](#asset)
-    - [GameObject](#gameobject)
-    - [Component](#component)
-  - [Concepts](#concepts)
-    - [Entity-Component Model](#entity-component-model)
-    - [Game Loops](#game-loops)
-    - [Composition Over Inheritance](#composition-over-inheritance)
-
+---
 
 ## Common Terms
 
@@ -29,7 +26,11 @@ Everything in Unity starts with *projects*. These are configurations, files, and
 
 It is often helpful to think of each project as its own *game*, but the name "project" is a general description for any collection of settings and files used to create something in Unity.
 
-When creating a project in Unity or the Unity Hub, there are also two general types are available: 2D and 3D. The difference between the two concern what general camera options are available; however, one type of project can easily become another.
+When creating a project in Unity Hub (the standard way to create projects in 2025), there are multiple templates available including 2D, 3D, High Definition Render Pipeline (HDRP), Universal Render Pipeline (URP), and others. These templates provide different starting configurations optimized for specific types of projects.
+
+> **Note:** As of 2025, Unity Hub is the primary method for creating and managing Unity projects. It allows you to manage multiple Unity versions and easily switch between projects.
+
+The choice of template determines initial project settings, but projects can be reconfigured later. URP (Universal Render Pipeline) has become the recommended choice for most projects as it provides a good balance between visual quality and performance across platforms.
 
 A single Unity project will often have multiple scenes.
 
@@ -47,7 +48,9 @@ An *asset* is any file or data that is added to a project. These can be images, 
 
 Unity has an *Asset Store* where signed-in users can download and use *assets* created by others for different purposes. These include everything from plugins for working with different languages and tools to 3D models or even templates for creating games.
 
-Assets are used with working with GameObjects.
+> **Note:** As of 2025, Unity also has a Package Manager that provides access to both official Unity packages and community packages. Many essential tools and features are now distributed as packages rather than being built into the core editor.
+
+Assets are used when working with GameObjects.
 
 ### GameObject
 
@@ -73,6 +76,8 @@ Unity is based on the *Entity-Component Model*. Generally, the Entity-Component 
 - **Component**: these are properties, relationships, or other data that describes the entity. In Unity, because every GameObject has a Transform component among others depending on its type, values are adjusted in a component to influence its relationships to the project and other GameObjects in the scene.
 
 - **System**: one or more processes that work on entities. For example, in Unity, there are rendering and physics systems. These each work separately, but understand a scene through its GameObjects and the components each has that define itself and its relationships.
+
+> **Note:** Unity has also introduced the Entity Component System (ECS) as an alternative architecture for high-performance scenarios. While traditional GameObjects with MonoBehaviour scripts remain the standard approach (especially for beginners), ECS provides a data-oriented approach for projects requiring maximum performance. This textbook focuses on the traditional GameObject-Component model, which is more intuitive for learning and suitable for most projects.
 
 ### Game Loops
 

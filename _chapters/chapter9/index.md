@@ -5,27 +5,24 @@ chapter_number: 9
 layout: chapter
 ---
 
-title: "Ink: Introducing Story API"
-order: 9
-chapter_number: 9
-layout: chapter
+Table of Contents:
 
-    - [**Continue()**](#continue)
-    - [**ContinueMaximally()**](#continuemaximally)
-    - [End of Story](#end-of-story)
-    - [*canContinue*](#cancontinue)
-  - [Loading Choices](#loading-choices)
-    - [*currentChoices*](#currentchoices)
-    - [**Choice** Objects](#choice-objects)
-    - [The *canContinue*-**ContinueMaximally()**-*currentChoices* Pattern](#the-cancontinue-continuemaximally-currentchoices-pattern)
-    - [Making Choices](#making-choices)
-      - [**ChooseChoiceIndex()**](#choosechoiceindex)
-      - [Choice Out of Range Error](#choice-out-of-range-error)
-  - [Loading Tags](#loading-tags)
-    - [*currentTags*](#currenttags)
-    - [**Continue()** versus **ContinueMaximally()** with Tags](#continue-versus-continuemaximally-with-tags)
-    - [Dialogue Tags](#dialogue-tags)
-
+- [Loading Story Chunks](#loading-story-chunks)
+  - [**Continue()**](#continue)
+  - [**ContinueMaximally()**](#continuemaximally)
+  - [End of Story](#end-of-story)
+  - [*canContinue*](#cancontinue)
+- [Loading Choices](#loading-choices)
+  - [*currentChoices*](#currentchoices)
+  - [**Choice** Objects](#choice-objects)
+  - [The *canContinue*-**ContinueMaximally()**-*currentChoices* Pattern](#the-cancontinue-continuemaximally-currentchoices-pattern)
+  - [Making Choices](#making-choices)
+    - [**ChooseChoiceIndex()**](#choosechoiceindex)
+    - [Choice Out of Range Error](#choice-out-of-range-error)
+- [Loading Tags](#loading-tags)
+  - [*currentTags*](#currenttags)
+  - [**Continue()** versus **ContinueMaximally()** with Tags](#continue-versus-continuemaximally-with-tags)
+  - [Dialogue Tags](#dialogue-tags)
 
 ## Loading Story Chunks
 
@@ -57,24 +54,14 @@ using Ink.Runtime;
 public class NewBehaviourScript : MonoBehaviour
 {
     // Add a TextAsset representing the compiled Ink Asset
-    public TextAsset InkJSONAsset;
+    [SerializeField] private TextAsset inkJSONAsset;
 
     // Start is called before the first frame update
     void Start()
     {
         // Create a new Story object using the compiled (JSON) Ink story text
-        Story exampleStory = new Story(InkJSONAsset.text);
-
-        Debug.Log(exampleStory.Continue());
-
-        Debug.Log(exampleStory.Continue());
-
-        Debug.Log(exampleStory.Continue());
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
+        /* Lines 642-670 omitted */
+        }
     }
 }
 ```
@@ -82,6 +69,8 @@ public class NewBehaviourScript : MonoBehaviour
 ![alt text](./ContinueConsole.png "Continue Console")
 
 In the above code example, the repeated uses of the **Continue()** method will load the story. The Console window will show "First chunk.", "Second chunk.", and then "Third chunk.".
+
+> **Note:** As of 2025, it's considered best practice to use `[SerializeField] private` fields instead of public fields for Unity Editor exposure. This encapsulates the data while still allowing Inspector access.
 
 ### **ContinueMaximally()**
 
@@ -109,13 +98,13 @@ using Ink.Runtime;
 public class NewBehaviourScript : MonoBehaviour
 {
     // Add a TextAsset representing the compiled Ink Asset
-    public TextAsset InkJSONAsset;
+    [SerializeField] private TextAsset inkJSONAsset;
 
     // Start is called before the first frame update
     void Start()
     {
         // Create a new Story object using the compiled (JSON) Ink story text
-        Story exampleStory = new Story(InkJSONAsset.text);
+        Story exampleStory = new Story(inkJSONAsset.text);
 
         Debug.Log(exampleStory.ContinueMaximally());
 
@@ -157,13 +146,13 @@ using Ink.Runtime;
 public class NewBehaviourScript : MonoBehaviour
 {
     // Add a TextAsset representing the compiled Ink Asset
-    public TextAsset InkJSONAsset;
+    [SerializeField] private TextAsset inkJSONAsset;
 
     // Start is called before the first frame update
     void Start()
     {
         // Create a new Story object using the compiled (JSON) Ink story text
-        Story exampleStory = new Story(InkJSONAsset.text);
+        Story exampleStory = new Story(inkJSONAsset.text);
 
         Debug.Log(exampleStory.Continue());
 
@@ -211,13 +200,13 @@ using Ink.Runtime;
 public class NewBehaviourScript : MonoBehaviour
 {
     // Add a TextAsset representing the compiled Ink Asset
-    public TextAsset InkJSONAsset;
+    [SerializeField] private TextAsset inkJSONAsset;
 
     // Start is called before the first frame update
     void Start()
     {
         // Create a new Story object using the compiled (JSON) Ink story text
-        Story exampleStory = new Story(InkJSONAsset.text);
+        Story exampleStory = new Story(inkJSONAsset.text);
 
         // Each loop, check if there is more story to load
         while(exampleStory.canContinue)
@@ -708,13 +697,13 @@ using Ink.Runtime;
 public class NewBehaviourScript : MonoBehaviour
 {
     // Add a TextAsset representing the compiled Ink Asset
-    public TextAsset InkJSONAsset;
+    [SerializeField] private TextAsset inkJSONAsset;
 
     // Start is called before the first frame update
     void Start()
     {
         // Create a new Story object using the compiled (JSON) Ink story text
-        Story exampleStory = new Story(InkJSONAsset.text);
+        Story exampleStory = new Story(inkJSONAsset.text);
 
         // Each loop, check if there is more story to load
         while (exampleStory.canContinue)

@@ -5,17 +5,14 @@ chapter_number: 12
 layout: chapter
 ---
 
-title: "Unity UI: User Events and Dynamic Story Loading"
-order: 12
-chapter_number: 12
-layout: chapter
+Table of Contents:
 
-    - [Adding Event Listeners](#adding-event-listeners)
-    - [Choosing Choices](#choosing-choices)
-  - [Refreshing User Interfaces](#refreshing-user-interfaces)
-    - [Destroying Buttons](#destroying-buttons)
-    - [Creating Text](#creating-text)
-
+- [User Events](#user-events)
+  - [Adding Event Listeners](#adding-event-listeners)
+  - [Choosing Choices](#choosing-choices)
+- [Refreshing User Interfaces](#refreshing-user-interfaces)
+  - [Destroying Buttons](#destroying-buttons)
+  - [Creating Text](#creating-text)
 
 ## User Events
 
@@ -49,7 +46,9 @@ foreach (Choice choice in exampleStory.currentChoices)
 
 In Unity terminology, an *event listener* is a method or other section of code that "listens" for an event and then acts in some way. Event listeners are *added* to an event so that they are called when the event happens.
 
-The method [**AddListener()**](https://docs.unity3d.com/ScriptReference/Events.UnityEvent.AddListener.html) is available on all objects that inherit from the object [**UnityEvent**](https://docs.unity3d.com/ScriptReference/Events.UnityEvent.html). The property of all **Buttons**, *onClick*, is an **UnityEvent**, which means it has access to this method.
+The method [**AddListener()**](https://docs.unity3d.com/ScriptReference/Events.UnityEvent.AddListener.html) is available on all objects that inherit from [**UnityEvent**](https://docs.unity3d.com/ScriptReference/Events.UnityEvent.html). The property of all **Buttons**, *onClick*, is a **UnityEvent**, which means it has access to this method.
+
+> **Note:** As of 2025, while delegates and UnityActions remain valid, many developers also use lambda expressions and action delegates for cleaner, more modern code patterns.
 
 ```CSharp
 // Create a new GameObject based on a Prefab and set its parent to this.transform
@@ -60,7 +59,9 @@ choiceButton.onClick.AddListener();
 
 The method **AddListener()** accepts the parameter of a data type called **UnityAction**. This is a special object that allows for concentrating methods into a list and then calling them in sequence when an event happens.
 
-Internally, all **UnityAction** objects are *delegates*. In C\#, a [`delegate`](https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/delegates/) is a special keyword that allows for passing in a method *as a parameter*. In other words, instead of passing a value to a method, another method is passed to it instead.
+Internally, all **UnityAction** objects are *delegates*. In C\#, a [`delegate`](https://learn.microsoft.com/en-us/dotnet/csharp/programming-guide/delegates/) is a special keyword that allows for passing a method *as a parameter*. In other words, instead of passing a value to a method, another method is passed to it instead.
+
+> **Note:** As of C# 9.0 (2025), modern patterns often use lambda expressions (`() => {}`) or local functions instead of explicit delegate declarations for cleaner, more readable code.
 
 However, in using `delegate`, there is an important requirement to remember: using a `delegate` means the method cannot have a return type. Any method used with the keyword returns a `delegate`. This allows for methods to be chained, but also, in practice, means methods used with the keyword return `void`.
 

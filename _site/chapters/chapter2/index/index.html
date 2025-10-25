@@ -1,28 +1,46 @@
-<p>title: “C#: Classes”
-order: 2
-chapter_number: 2
-layout: chapter</p>
+<ul>
+  <li><a href="#class-anatomy">Class Anatomy</a>
+    <ul>
+      <li><a href="#fields">Fields</a></li>
+      <li><a href="#properties">Properties</a>
+        <ul>
+          <li><a href="#get">get</a></li>
+          <li><a href="#set">set</a></li>
+          <li><a href="#pascalcase-naming">PascalCase Naming</a></li>
+          <li><a href="#auto-implemented-properties">Auto-Implemented Properties</a></li>
+          <li><a href="#init-only-setters-c-90">Init-Only Setters (C# 9.0+)</a></li>
+          <li><a href="#required-properties-c-110">Required Properties (C# 11.0+)</a></li>
+        </ul>
+      </li>
+      <li><a href="#methods">Methods</a>
+        <ul>
+          <li><a href="#method-anatomy">Method Anatomy</a>
+            <ul>
+              <li><a href="#return-type">Return Type</a></li>
+              <li><a href="#name">Name</a></li>
+              <li><a href="#parameters">Parameters</a></li>
+              <li><a href="#bodies">Bodies</a></li>
+              <li><a href="#return-statement">Return Statement</a></li>
+            </ul>
+          </li>
+          <li><a href="#calling-methods">Calling Methods</a>
+            <ul>
+              <li><a href="#arguments">Arguments</a></li>
+              <li><a href="#returning-values">Returning Values</a></li>
+            </ul>
+          </li>
+          <li><a href="#constructor">Constructor</a></li>
+          <li><a href="#variable-scope">Variable Scope</a></li>
+        </ul>
+      </li>
+      <li><a href="#this"><code class="language-plaintext highlighter-rouge">this</code></a></li>
+      <li><a href="#new"><code class="language-plaintext highlighter-rouge">new</code></a></li>
+      <li><a href="#records-c-90">Records (C# 9.0+)</a></li>
+    </ul>
+  </li>
+</ul>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>- [Fields](#fields)
-- [Properties](#properties)
-  - [get](#get)
-  - [set](#set)
-  - [PascalCase Naming](#pascalcase-naming)
-- [Methods](#methods)
-  - [Method Anatomy](#method-anatomy)
-    - [Return Type](#return-type)
-    - [Name](#name)
-    - [Parameters](#parameters)
-    - [Bodies](#bodies)
-    - [Return Statement](#return-statement)
-  - [Calling Methods](#calling-methods)
-    - [Arguments](#arguments)
-    - [Returning Values](#returning-values)
-  - [Constructor](#constructor)
-  - [Variable Scope](#variable-scope)
-- [`this`](#this)
-- [`new`](#new)
-</code></pre></div></div>
+<hr />
 
 <h2 id="class-anatomy">Class Anatomy</h2>
 
@@ -132,6 +150,44 @@ layout: chapter</p>
 <p>Variables internal to a program are often capitalized in different ways. For properties in C#, it is generally expected that they follow the PascalCase pattern where the first letter of each word is capitalized.</p>
 
 <p>For example, in the above code examples, the property <strong>Name</strong> began with a capital ‘N’.</p>
+
+<h4 id="auto-implemented-properties">Auto-Implemented Properties</h4>
+
+<p>Modern C# supports <em>auto-implemented properties</em>, which provide a shorthand for simple getters and setters without needing a private backing field:</p>
+
+<pre><code class="language-CSharp">class Person {
+  public string Name { get; set; }
+  public int Age { get; set; }
+}
+</code></pre>
+
+<p>The compiler automatically creates the private backing field for you.</p>
+
+<h4 id="init-only-setters-c-90">Init-Only Setters (C# 9.0+)</h4>
+
+<p><strong>Init-only setters</strong> allow properties to be set during object initialization but become read-only afterward:</p>
+
+<pre><code class="language-CSharp">class Person {
+  public string Name { get; init; }
+  public int Age { get; init; }
+}
+
+var person = new Person { Name = "Alice", Age = 30 };
+// person.Name = "Bob";  // Error! Cannot modify after initialization
+</code></pre>
+
+<h4 id="required-properties-c-110">Required Properties (C# 11.0+)</h4>
+
+<p>The <code class="language-plaintext highlighter-rouge">required</code> keyword ensures properties must be set during object initialization:</p>
+
+<pre><code class="language-CSharp">class Person {
+  public required string Name { get; init; }
+  public required int Age { get; init; }
+}
+
+// Must provide values for required properties
+var person = new Person { Name = "Alice", Age = 30 };
+</code></pre>
 
 <h3 id="methods">Methods</h3>
 
@@ -348,3 +404,40 @@ class Example {
 
 }
 </code></pre>
+
+<h3 id="records-c-90">Records (C# 9.0+)</h3>
+
+<p><strong>Records</strong> are a modern C# feature designed for creating immutable data objects with less code. They’re perfect for data transfer objects and value-based equality:</p>
+
+<pre><code class="language-CSharp">// Traditional class
+class PersonClass {
+  public string Name { get; init; }
+  public int Age { get; init; }
+}
+
+// Modern record (much simpler!)
+record Person(string Name, int Age);
+</code></pre>
+
+<p>Records automatically provide:</p>
+
+<ul>
+  <li>Value-based equality (two records with same values are considered equal)</li>
+  <li>Immutability by default</li>
+  <li>Built-in <code class="language-plaintext highlighter-rouge">ToString()</code> implementation</li>
+  <li>Copy-and-modify syntax with the <code class="language-plaintext highlighter-rouge">with</code> keyword</li>
+</ul>
+
+<pre><code class="language-CSharp">var person1 = new Person("Alice", 30);
+var person2 = new Person("Alice", 30);
+
+// true - records use value equality
+bool areEqual = person1 == person2;
+
+// Create a copy with modified properties
+var person3 = person1 with { Age = 31 };
+</code></pre>
+
+<blockquote>
+  <p><strong>Note:</strong> Records are particularly useful in Unity for data that doesn’t change often, like configuration settings or game state snapshots.</p>
+</blockquote>

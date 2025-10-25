@@ -135,6 +135,19 @@ const float PI = 3.14159f;
 
 > **Note:** A common pattern when creating constants is to write it using only capital letters. This signals its visual importance in the code.
 
+### Type Inference with `var`
+
+Modern C# (since version 3.0, enhanced in later versions) supports *type inference* using the keyword `var`. When a variable is declared with `var`, the compiler automatically determines the type based on the value assigned to it.
+
+```CSharp
+var example = 5;          // Inferred as int
+var pi = 3.14f;           // Inferred as float
+var greeting = "Hello!";  // Inferred as string
+var isActive = true;      // Inferred as bool
+```
+
+> **Note:** While `var` is convenient and widely used in modern C#, it can only be used when the type can be clearly inferred from the assignment. The variable is still *strongly typed* - it doesn't change the type, just lets the compiler figure it out for you.
+
 ## Collections
 
 Many programming languages define *types* of data that can hold others. In C\#, these are known as *collections* because they "collect" other data types.
@@ -149,13 +162,20 @@ int[] exampleArray;
 
 Arrays are created using the name of a data type and then opening (`[`]) and closing (`]`) square brackets after it. They appear *before* the name of the variable.
 
-Values are created with an Array in C\# through specifying its data type, *length* (number of entries), and then its initial values in opening (`{`}) and closing (`}`) curly brackets.
+Values are created with an Array in C\# through specifying its data type, *length* (number of entries), and then its initial values in opening (`{``) and closing (`}`) curly brackets.
 
 ```CSharp
 int[] example = new int[5]{1,2,3,4,6};
 ```
 
 > **Note:** The `new` keyword signals that an *object* is being created. Classes and objects are explained in the chapter on [Object-Oriented Programming](../chapter3/index.md).
+
+**Modern C# (9.0+) also supports target-typed `new` expressions**, which lets you omit the type on the right side when it's obvious:
+
+```CSharp
+int[] example = new[]{1,2,3,4,6};      // Simpler syntax
+int[] example2 = [1,2,3,4,6];          // Collection expression (C# 12.0+)
+```
 
 Values within an array are defined in reference to their position called their *index*. To access data within an array, its index is needed. In C\#, indices start with 0 and increase up to (1 - *length*).
 
@@ -177,6 +197,13 @@ Lists are created using a notation of `<Type>` where each "Type" is a known data
 List<char> exampleList = new List<char>();
 ```
 
+**In modern C#**, you can use simpler syntax:
+
+```CSharp
+var exampleList = new List<char>();    // Target-typed new
+List<char> exampleList2 = [];         // Collection expression (C# 12.0+)
+```
+
 Values are accessed through using opening (`[`) and closing (`]`) square brackets for their *index*.
 
 ```CSharp
@@ -195,6 +222,12 @@ Dictionaries are created using a notation of `<Type, Type>` where each "Type" is
 
 ```CSharp
 Dictionary<int, char> dict = new Dictionary<int, char>();
+```
+
+**In modern C#**, you can use simpler syntax:
+
+```CSharp
+var dict = new Dictionary<int, char>();  // Target-typed new
 ```
 
 In the above example, the key would be an **Integer** and any values associated with it **Characters**.
@@ -220,4 +253,15 @@ Strings are created using the keyword `string`
 string example = "Hi!";
 ```
 
-> **Note:** String values are *always* be enclosed in double-quotation marks.
+> **Note:** String values are *always* enclosed in double-quotation marks.
+
+**Modern C# (11.0+) also supports raw string literals** using triple quotes, which is especially useful for multiline strings or strings containing quotes:
+
+```CSharp
+string json = """
+    {
+        "name": "Fred",
+        "age": 25
+    }
+    """;
+```

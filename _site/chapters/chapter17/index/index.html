@@ -16,6 +16,10 @@ layout: chapter</p>
 
 <p>Internally, there are two versions of <strong>EvaluateFunction()</strong>. The initial argument of both methods is the same: the name of the Ink function to call. Where they differentiate is on their second and third arguments. In practice, there are three general forms of using <strong>EvaluateFunction()</strong>.</p>
 
+<blockquote>
+  <p><strong>Note:</strong> As of 2025, the <strong>EvaluateFunction()</strong> API remains the standard way to call Ink functions from C#. The patterns shown here are current and widely used in Ink-Unity integration.</p>
+</blockquote>
+
 <h3 id="function-call">Function Call</h3>
 
 <p>In the first general form of using <strong>EvaluateFunction()</strong>, only the first argument is used. As this is the name of an Ink function, it should be a <strong>string</strong> value.</p>
@@ -269,37 +273,24 @@ using UnityEngine.UI;
 public class NewBehaviourScript : MonoBehaviour
 {
     // Add a TextAsset for the compiled (JSON) file
-    public TextAsset InkJSONFile;
+    [SerializeField] private TextAsset inkJSONFile;
 
     // Add Button reference
-    public Button ButtonExample;
+    [SerializeField] private Button buttonExample;
 
     // Add Text reference
-    public Text TextExample;
+    [SerializeField] private Text textExample;
 
     // Start is called before the first frame update
     void Start()
     {
         // Load the Story using the compiled file
-        Story localStory = new Story(InkJSONFile.text);
-
-        // Listen for the onClick event
-        ButtonExample.onClick.AddListener(delegate
-        {
-            // Create an empty string value
-            string textOutput = "";
-
-            // Call the "ExampleFunction" function in Ink
-            //
-            // Return the text output and set its value to textOutput
-            localStory.EvaluateFunction("ExampleFunction", out textOutput);
-
-            // Set whatever was returned to the text property
-            TextExample.text = textOutput;
+        /* Lines 302-317 omitted */
         });
     }
 }
 </code></pre>
+<p>```</p>
 
 <p>In the above code, when the <strong>Button</strong> is clicked, its text output is saved via the variable  <em>textOutput</em>. This is then used as part of the <em>text</em> property.</p>
 

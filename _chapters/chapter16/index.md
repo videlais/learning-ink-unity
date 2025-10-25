@@ -5,27 +5,26 @@ chapter_number: 16
 layout: chapter
 ---
 
-title: "Ink + Unity: Accessing and Observing Ink Variables"
-order: 16
-chapter_number: 16
-layout: chapter
+Table of Contents:
 
-    - [Accessing](#accessing)
-    - [Mutating](#mutating)
-  - [Observing Variables](#observing-variables)
-    - [**ObserveVariable()**](#observevariable)
-    - [**ObserveVariables()**](#observevariables)
-    - [Removing Observers](#removing-observers)
-  - [Using Variable Observers in Unity UI](#using-variable-observers-in-unity-ui)
-    - [Observing Values](#observing-values)
-    - [Updating **Text** Values](#updating-text-values)
-
+- [*variablesState*](#variablesstate)
+  - [Accessing](#accessing)
+  - [Mutating](#mutating)
+- [Observing Variables](#observing-variables)
+  - [**ObserveVariable()**](#observevariable)
+  - [**ObserveVariables()**](#observevariables)
+  - [Removing Observers](#removing-observers)
+- [Using Variable Observers in Unity UI](#using-variable-observers-in-unity-ui)
+  - [Observing Values](#observing-values)
+  - [Updating **Text** Values](#updating-text-values)
 
 Along with providing methods load story content, the Ink Story API also provides two ways to interact with Ink variables: state and observing variables.
 
 ## *variablesState*
 
-The Ink Story API property *variableState* provides proxy access to all global variables in Ink. These are accessed through their names using opening, `[`, and closing, `]`, square brackets after the property.
+The Ink Story API property *variablesState* provides proxy access to all global variables in Ink. These are accessed through their names using opening, `[`, and closing, `]`, square brackets after the property.
+
+> **Note:** As of 2025, the variablesState API remains the standard way to access and modify Ink variables from C#. The syntax and patterns shown here are current and recommended.
 
 ### Accessing
 
@@ -53,21 +52,19 @@ using Ink.Runtime;
 public class NewBehaviourScript : MonoBehaviour
 {
     // Add a TextAsset for the compiled (JSON) file
-    public TextAsset InkJSONFile;
-
+    [SerializeField] private TextAsset inkJSONFile;
+    
     // Start is called before the first frame update
     void Start()
     {
-        // Load the Story using the compiled file
-        Story localStory = new Story(InkJSONFile.text);
-
-        // Print "Hi!"
+        // Load the story
+        Story localStory = new Story(inkJSONFile.text);
+        
+        // Access and mutate the Ink variable "example"
+        localStory.variablesState["example"] = "Howdy!";
+        
         Debug.Log(localStory.variablesState["example"]);
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
+    /* Lines 101-119 omitted */
     }
 }
 ```
@@ -132,7 +129,7 @@ While the Ink Story API **variablesState** gives access to Ink variables after a
 
 The Ink Story API method **ObserveVariable()** accepts a **string** value (the value to observe) and a **Story.VariableObserver** delegate function that should be called when the Ink variable changes internally.
 
-> **Note:** The follow example uses [Lambda expressions](https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/statements-expressions-operators/lambda-expressions). Because they can convert to delegates, this is an easy way to call the internal **Story.VariableObserver** `delegate` method without creating more complicated code structures.
+> **Note:** The following example uses [Lambda expressions](https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/operators/lambda-expressions). As of 2025, lambda expressions are the preferred pattern for simple delegate operations in C#. They convert to delegates automatically and provide cleaner, more readable code than creating separate named methods.
 
 **New Ink.ink:**
 

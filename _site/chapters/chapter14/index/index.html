@@ -12,7 +12,11 @@ layout: chapter</p>
 
 <p><img src="./DefaultProjectWindow.png" alt="alt text" title="Default Project Window" /></p>
 
-<p>By default, Unity creates a folder named <code class="language-plaintext highlighter-rouge">Scenes</code> and creates a scene called “SampleScene”. After the Ink Unity Integration plugin is added, an additional folder named <code class="language-plaintext highlighter-rouge">Plugins</code> is also added. This contains a folder named <code class="language-plaintext highlighter-rouge">Ink</code> and its support code.</p>
+<p>By default, Unity creates a folder named <code class="language-plaintext highlighter-rouge">Scenes</code> and creates a scene called “SampleScene”. After the Ink Unity Integration plugin is added via Package Manager, an additional folder named <code class="language-plaintext highlighter-rouge">Plugins</code> may be added to the Assets folder if you imported the plugin as a .unitypackage. For UPM installations, the plugin files remain in the Packages folder and don’t clutter your Assets.</p>
+
+<blockquote>
+  <p><strong>Note:</strong> As of 2025, the recommended UPM (Unity Package Manager) installation keeps plugin files in the Packages folder, separate from your project assets. This is cleaner and makes version management easier.</p>
+</blockquote>
 
 <p><img src="./InkSettings.png" alt="alt text" title="InkSettings" /></p>
 
@@ -38,6 +42,19 @@ layout: chapter</p>
 
 <blockquote>
   <p><strong>Note:</strong> While the Project window shows the <code class="language-plaintext highlighter-rouge">Assets</code> folder, this is the actual directory used by the operating system to store files.</p>
+
+  <p><strong>2025 Best Practices:</strong> Modern Unity projects often use additional organizational folders like:</p>
+  <ul>
+    <li><code class="language-plaintext highlighter-rouge">Scripts/</code> - All C# scripts</li>
+    <li><code class="language-plaintext highlighter-rouge">Prefabs/</code> - Reusable GameObjects</li>
+    <li><code class="language-plaintext highlighter-rouge">Scenes/</code> - Scene files</li>
+    <li><code class="language-plaintext highlighter-rouge">Materials/</code> - Material assets</li>
+    <li><code class="language-plaintext highlighter-rouge">Audio/</code>, <code class="language-plaintext highlighter-rouge">Textures/</code>, <code class="language-plaintext highlighter-rouge">Models/</code> - Media assets</li>
+    <li><code class="language-plaintext highlighter-rouge">Resources/</code> - Runtime-loadable assets (use sparingly)</li>
+    <li><code class="language-plaintext highlighter-rouge">StreamingAssets/</code> - Platform-specific assets</li>
+  </ul>
+
+  <p>Using consistent naming and organization from the start makes projects easier to maintain and collaborate on.</p>
 </blockquote>
 
 <p>The “Favorites” area of the left-hand side shows an easy access to common asset types of materials, models, and prefabs.</p>

@@ -5,22 +5,19 @@ chapter_number: 3
 layout: chapter
 ---
 
-title: "C#: Object-Oriented Programming"
-order: 3
-chapter_number: 3
-layout: chapter
+- [Inheritance](#inheritance)
+  - [Inheriting Fields, Properties, and Methods](#inheriting-fields-properties-and-methods)
+  - [Using `static`](#using-static)
+    - [**Main()**](#main)
+    - [Cannot Access `this`](#cannot-access-this)
+- [Polymorphism](#polymorphism)
+  - [Run-Time Polymorphism](#run-time-polymorphism)
+  - [Accessing `base`](#accessing-base)
+  - [Overriding Base Methods](#overriding-base-methods)
+    - [Virtual Methods](#virtual-methods)
+    - [Abstract Methods](#abstract-methods)
 
-    - [Inheriting Fields, Properties, and Methods](#inheriting-fields-properties-and-methods)
-    - [Using `static`](#using-static)
-      - [**Main()**](#main)
-      - [Cannot Access `this`](#cannot-access-this)
-  - [Polymorphism](#polymorphism)
-    - [Run-Time Polymorphism](#run-time-polymorphism)
-    - [Accessing `base`](#accessing-base)
-    - [Overriding Base Methods](#overriding-base-methods)
-      - [Virtual Methods](#virtual-methods)
-      - [Abstract Methods](#abstract-methods)
-
+---
 
 C\# is *object-oriented*. This means that all interactions between code happens between *objects*. This also means that classes, as the "blueprints" of an object, are written to include fields, properties, and methods in order to calculate values and potentially communicate between objects.
 
@@ -100,6 +97,22 @@ class Example {
 ```
 
 > **Note:** The data type `void` is special. It cannot be used with variables, but signals that a method *does not return a value*.
+
+**Modern C# (9.0+) supports top-level statements**, which eliminates the need for the Main method boilerplate in simple programs:
+
+```CSharp
+// Old way
+class Example {
+  public static void Main() {
+    Console.WriteLine("Hello!");
+  }
+}
+
+// Modern way (C# 9.0+)
+Console.WriteLine("Hello!");
+```
+
+> **Note:** While Unity doesn't use top-level statements for MonoBehaviour scripts, you might encounter them in modern C# console applications or tools.
 
 #### Cannot Access `this`
 
@@ -249,3 +262,37 @@ public class Bob: Person {
 
 }
 ```
+
+### Sealed Classes and Methods
+
+The `sealed` keyword prevents a class from being inherited or a method from being overridden. This is useful when you want to prevent further derivation:
+
+```CSharp
+// Sealed class - cannot be inherited
+public sealed class FinalPerson {
+  public string Name { get; set; }
+}
+
+// This would cause an error:
+// public class ExtendedPerson : FinalPerson { }
+
+// Sealed method - can override but cannot be overridden further
+public class Person {
+  public virtual string Greeting() {
+    return "Hi!";
+  }
+}
+
+public class Bob : Person {
+  public sealed override string Greeting() {
+    return "Hello!";
+  }
+}
+
+// Alice can inherit from Person but cannot override Bob's sealed Greeting
+public class Alice : Bob {
+  // Cannot override sealed method
+}
+```
+
+> **Note:** In Unity, many built-in classes like `MonoBehaviour` cannot be sealed as they're designed to be inherited, but you might use sealed classes for data containers or utility classes that shouldn't be extended.

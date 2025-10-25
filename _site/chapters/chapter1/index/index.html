@@ -1,28 +1,24 @@
 <ul>
-  <li><a href="#c-variables-data-types-and-collections">C#: Variables, Data Types, and Collections</a>
+  <li><a href="#comments">Comments</a></li>
+  <li><a href="#variables-and-constants">Variables and Constants</a>
     <ul>
-      <li><a href="#comments">Comments</a></li>
-      <li><a href="#variables-and-constants">Variables and Constants</a>
+      <li><a href="#common-data-types">Common Data Types</a>
         <ul>
-          <li><a href="#common-data-types">Common Data Types</a>
-            <ul>
-              <li><a href="#integers">Integers</a></li>
-              <li><a href="#floats">Floats</a></li>
-              <li><a href="#booleans">Booleans</a></li>
-              <li><a href="#characters">Characters</a></li>
-            </ul>
-          </li>
-          <li><a href="#constants">Constants</a></li>
+          <li><a href="#integers">Integers</a></li>
+          <li><a href="#floats">Floats</a></li>
+          <li><a href="#booleans">Booleans</a></li>
+          <li><a href="#characters">Characters</a></li>
         </ul>
       </li>
-      <li><a href="#collections">Collections</a>
-        <ul>
-          <li><a href="#arrays">Arrays</a></li>
-          <li><a href="#lists">Lists</a></li>
-          <li><a href="#dictionaries">Dictionaries</a></li>
-          <li><a href="#strings">Strings</a></li>
-        </ul>
-      </li>
+      <li><a href="#constants">Constants</a></li>
+    </ul>
+  </li>
+  <li><a href="#collections">Collections</a>
+    <ul>
+      <li><a href="#arrays">Arrays</a></li>
+      <li><a href="#lists">Lists</a></li>
+      <li><a href="#dictionaries">Dictionaries</a></li>
+      <li><a href="#strings">Strings</a></li>
     </ul>
   </li>
 </ul>
@@ -144,6 +140,20 @@ anotherExample = 8;
   <p><strong>Note:</strong> A common pattern when creating constants is to write it using only capital letters. This signals its visual importance in the code.</p>
 </blockquote>
 
+<h3 id="type-inference-with-var">Type Inference with <code class="language-plaintext highlighter-rouge">var</code></h3>
+
+<p>Modern C# (since version 3.0, enhanced in later versions) supports <em>type inference</em> using the keyword <code class="language-plaintext highlighter-rouge">var</code>. When a variable is declared with <code class="language-plaintext highlighter-rouge">var</code>, the compiler automatically determines the type based on the value assigned to it.</p>
+
+<pre><code class="language-CSharp">var example = 5;          // Inferred as int
+var pi = 3.14f;           // Inferred as float
+var greeting = "Hello!";  // Inferred as string
+var isActive = true;      // Inferred as bool
+</code></pre>
+
+<blockquote>
+  <p><strong>Note:</strong> While <code class="language-plaintext highlighter-rouge">var</code> is convenient and widely used in modern C#, it can only be used when the type can be clearly inferred from the assignment. The variable is still <em>strongly typed</em> - it doesn’t change the type, just lets the compiler figure it out for you.</p>
+</blockquote>
+
 <h2 id="collections">Collections</h2>
 
 <p>Many programming languages define <em>types</em> of data that can hold others. In C#, these are known as <em>collections</em> because they “collect” other data types.</p>
@@ -157,7 +167,7 @@ anotherExample = 8;
 
 <p>Arrays are created using the name of a data type and then opening (<code class="language-plaintext highlighter-rouge">[</code>]) and closing (<code class="language-plaintext highlighter-rouge">]</code>) square brackets after it. They appear <em>before</em> the name of the variable.</p>
 
-<p>Values are created with an Array in C# through specifying its data type, <em>length</em> (number of entries), and then its initial values in opening (<code class="language-plaintext highlighter-rouge">{</code>}) and closing (<code class="language-plaintext highlighter-rouge">}</code>) curly brackets.</p>
+<p>Values are created with an Array in C# through specifying its data type, <em>length</em> (number of entries), and then its initial values in opening (<code class="language-plaintext highlighter-rouge">{</code><code class="language-plaintext highlighter-rouge">) and closing (</code>}`) curly brackets.</p>
 
 <pre><code class="language-CSharp">int[] example = new int[5]{1,2,3,4,6};
 </code></pre>
@@ -165,6 +175,12 @@ anotherExample = 8;
 <blockquote>
   <p><strong>Note:</strong> The <code class="language-plaintext highlighter-rouge">new</code> keyword signals that an <em>object</em> is being created. Classes and objects are explained in the chapter on <a href="../chapter3/index.md">Object-Oriented Programming</a>.</p>
 </blockquote>
+
+<p><strong>Modern C# (9.0+) also supports target-typed <code class="language-plaintext highlighter-rouge">new</code> expressions</strong>, which lets you omit the type on the right side when it’s obvious:</p>
+
+<pre><code class="language-CSharp">int[] example = new[]{1,2,3,4,6};      // Simpler syntax
+int[] example2 = [1,2,3,4,6];          // Collection expression (C# 12.0+)
+</code></pre>
 
 <p>Values within an array are defined in reference to their position called their <em>index</em>. To access data within an array, its index is needed. In C#, indices start with 0 and increase up to (1 - <em>length</em>).</p>
 
@@ -184,6 +200,12 @@ example[0]
 <pre><code class="language-CSharp">List&lt;char&gt; exampleList = new List&lt;char&gt;();
 </code></pre>
 
+<p><strong>In modern C#</strong>, you can use simpler syntax:</p>
+
+<pre><code class="language-CSharp">var exampleList = new List&lt;char&gt;();    // Target-typed new
+List&lt;char&gt; exampleList2 = [];         // Collection expression (C# 12.0+)
+</code></pre>
+
 <p>Values are accessed through using opening (<code class="language-plaintext highlighter-rouge">[</code>) and closing (<code class="language-plaintext highlighter-rouge">]</code>) square brackets for their <em>index</em>.</p>
 
 <pre><code class="language-CSharp">List&lt;char&gt; exampleList = new List&lt;char&gt;();
@@ -200,6 +222,11 @@ exampleList[0];
 <p>Dictionaries are created using a notation of <code class="language-plaintext highlighter-rouge">&lt;Type, Type&gt;</code> where each “Type” is a known data type following the keyword <code class="language-plaintext highlighter-rouge">Dictionary</code>.</p>
 
 <pre><code class="language-CSharp">Dictionary&lt;int, char&gt; dict = new Dictionary&lt;int, char&gt;();
+</code></pre>
+
+<p><strong>In modern C#</strong>, you can use simpler syntax:</p>
+
+<pre><code class="language-CSharp">var dict = new Dictionary&lt;int, char&gt;();  // Target-typed new
 </code></pre>
 
 <p>In the above example, the key would be an <strong>Integer</strong> and any values associated with it <strong>Characters</strong>.</p>
@@ -226,5 +253,15 @@ dict[99];
 </code></pre>
 
 <blockquote>
-  <p><strong>Note:</strong> String values are <em>always</em> be enclosed in double-quotation marks.</p>
+  <p><strong>Note:</strong> String values are <em>always</em> enclosed in double-quotation marks.</p>
 </blockquote>
+
+<p><strong>Modern C# (11.0+) also supports raw string literals</strong> using triple quotes, which is especially useful for multiline strings or strings containing quotes:</p>
+
+<pre><code class="language-CSharp">string json = """
+    {
+        "name": "Fred",
+        "age": 25
+    }
+    """;
+</code></pre>

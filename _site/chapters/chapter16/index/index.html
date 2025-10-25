@@ -16,7 +16,11 @@ layout: chapter</p>
 
 <h2 id="variablesstate"><em>variablesState</em></h2>
 
-<p>The Ink Story API property <em>variableState</em> provides proxy access to all global variables in Ink. These are accessed through their names using opening, <code class="language-plaintext highlighter-rouge">[</code>, and closing, <code class="language-plaintext highlighter-rouge">]</code>, square brackets after the property.</p>
+<p>The Ink Story API property <em>variablesState</em> provides proxy access to all global variables in Ink. These are accessed through their names using opening, <code class="language-plaintext highlighter-rouge">[</code>, and closing, <code class="language-plaintext highlighter-rouge">]</code>, square brackets after the property.</p>
+
+<blockquote>
+  <p><strong>Note:</strong> As of 2025, the variablesState API remains the standard way to access and modify Ink variables from C#. The syntax and patterns shown here are current and recommended.</p>
+</blockquote>
 
 <h3 id="accessing">Accessing</h3>
 
@@ -44,21 +48,19 @@ using Ink.Runtime;
 public class NewBehaviourScript : MonoBehaviour
 {
     // Add a TextAsset for the compiled (JSON) file
-    public TextAsset InkJSONFile;
-
+    [SerializeField] private TextAsset inkJSONFile;
+    
     // Start is called before the first frame update
     void Start()
     {
-        // Load the Story using the compiled file
-        Story localStory = new Story(InkJSONFile.text);
-
-        // Print "Hi!"
+        // Load the story
+        Story localStory = new Story(inkJSONFile.text);
+        
+        // Access and mutate the Ink variable "example"
+        localStory.variablesState["example"] = "Howdy!";
+        
         Debug.Log(localStory.variablesState["example"]);
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
+    /* Lines 101-119 omitted */
     }
 }
 </code></pre>
@@ -122,7 +124,7 @@ public class NewBehaviourScript : MonoBehaviour
 <p>The Ink Story API method <strong>ObserveVariable()</strong> accepts a <strong>string</strong> value (the value to observe) and a <strong>Story.VariableObserver</strong> delegate function that should be called when the Ink variable changes internally.</p>
 
 <blockquote>
-  <p><strong>Note:</strong> The follow example uses <a href="https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/statements-expressions-operators/lambda-expressions">Lambda expressions</a>. Because they can convert to delegates, this is an easy way to call the internal <strong>Story.VariableObserver</strong> <code class="language-plaintext highlighter-rouge">delegate</code> method without creating more complicated code structures.</p>
+  <p><strong>Note:</strong> The following example uses <a href="https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/operators/lambda-expressions">Lambda expressions</a>. As of 2025, lambda expressions are the preferred pattern for simple delegate operations in C#. They convert to delegates automatically and provide cleaner, more readable code than creating separate named methods.</p>
 </blockquote>
 
 <p><strong>New Ink.ink:</strong></p>

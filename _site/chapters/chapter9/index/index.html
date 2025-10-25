@@ -46,24 +46,14 @@ using Ink.Runtime;
 public class NewBehaviourScript : MonoBehaviour
 {
     // Add a TextAsset representing the compiled Ink Asset
-    public TextAsset InkJSONAsset;
+    [SerializeField] private TextAsset inkJSONAsset;
 
     // Start is called before the first frame update
     void Start()
     {
         // Create a new Story object using the compiled (JSON) Ink story text
-        Story exampleStory = new Story(InkJSONAsset.text);
-
-        Debug.Log(exampleStory.Continue());
-
-        Debug.Log(exampleStory.Continue());
-
-        Debug.Log(exampleStory.Continue());
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
+        /* Lines 642-670 omitted */
+        }
     }
 }
 </code></pre>
@@ -71,6 +61,10 @@ public class NewBehaviourScript : MonoBehaviour
 <p><img src="./ContinueConsole.png" alt="alt text" title="Continue Console" /></p>
 
 <p>In the above code example, the repeated uses of the <strong>Continue()</strong> method will load the story. The Console window will show “First chunk.”, “Second chunk.”, and then “Third chunk.”.</p>
+
+<blockquote>
+  <p><strong>Note:</strong> As of 2025, it’s considered best practice to use <code class="language-plaintext highlighter-rouge">[SerializeField] private</code> fields instead of public fields for Unity Editor exposure. This encapsulates the data while still allowing Inspector access.</p>
+</blockquote>
 
 <h3 id="continuemaximally"><strong>ContinueMaximally()</strong></h3>
 
@@ -96,13 +90,13 @@ using Ink.Runtime;
 public class NewBehaviourScript : MonoBehaviour
 {
     // Add a TextAsset representing the compiled Ink Asset
-    public TextAsset InkJSONAsset;
+    [SerializeField] private TextAsset inkJSONAsset;
 
     // Start is called before the first frame update
     void Start()
     {
         // Create a new Story object using the compiled (JSON) Ink story text
-        Story exampleStory = new Story(InkJSONAsset.text);
+        Story exampleStory = new Story(inkJSONAsset.text);
 
         Debug.Log(exampleStory.ContinueMaximally());
 
@@ -142,13 +136,13 @@ using Ink.Runtime;
 public class NewBehaviourScript : MonoBehaviour
 {
     // Add a TextAsset representing the compiled Ink Asset
-    public TextAsset InkJSONAsset;
+    [SerializeField] private TextAsset inkJSONAsset;
 
     // Start is called before the first frame update
     void Start()
     {
         // Create a new Story object using the compiled (JSON) Ink story text
-        Story exampleStory = new Story(InkJSONAsset.text);
+        Story exampleStory = new Story(inkJSONAsset.text);
 
         Debug.Log(exampleStory.Continue());
 
@@ -194,13 +188,13 @@ using Ink.Runtime;
 public class NewBehaviourScript : MonoBehaviour
 {
     // Add a TextAsset representing the compiled Ink Asset
-    public TextAsset InkJSONAsset;
+    [SerializeField] private TextAsset inkJSONAsset;
 
     // Start is called before the first frame update
     void Start()
     {
         // Create a new Story object using the compiled (JSON) Ink story text
-        Story exampleStory = new Story(InkJSONAsset.text);
+        Story exampleStory = new Story(inkJSONAsset.text);
 
         // Each loop, check if there is more story to load
         while(exampleStory.canContinue)
@@ -676,13 +670,13 @@ using Ink.Runtime;
 public class NewBehaviourScript : MonoBehaviour
 {
     // Add a TextAsset representing the compiled Ink Asset
-    public TextAsset InkJSONAsset;
+    [SerializeField] private TextAsset inkJSONAsset;
 
     // Start is called before the first frame update
     void Start()
     {
         // Create a new Story object using the compiled (JSON) Ink story text
-        Story exampleStory = new Story(InkJSONAsset.text);
+        Story exampleStory = new Story(inkJSONAsset.text);
 
         // Each loop, check if there is more story to load
         while (exampleStory.canContinue)

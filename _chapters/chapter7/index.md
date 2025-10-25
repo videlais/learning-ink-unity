@@ -5,50 +5,47 @@ chapter_number: 7
 layout: chapter
 ---
 
-title: "Unity: Windows, Views, and Tools"
-order: 7
-chapter_number: 7
-layout: chapter
+- [Windows](#windows)
+  - [Hierarchy](#hierarchy)
+    - [Visibility and Picking](#visibility-and-picking)
+    - [Searching](#searching)
+  - [Inspector](#inspector)
+    - [Transform Component](#transform-component)
+    - [Adding Components](#adding-components)
+      - [Adding Scripting Components](#adding-scripting-components)
+    - [Inspecting Assets](#inspecting-assets)
+  - [Project](#project)
+- [Views](#views)
+  - [Scene](#scene)
+    - [Draw Mode](#draw-mode)
+    - [2D / 3D](#2d--3d)
+    - [Scene Lighting](#scene-lighting)
+    - [Scene Audio](#scene-audio)
+    - [Effects](#effects)
+    - [Hidden Objects](#hidden-objects)
+    - [Grid Visibility](#grid-visibility)
+  - [Game](#game)
+    - [Displays](#displays)
+    - [Resolution Aspect](#resolution-aspect)
+    - [Scale](#scale)
+    - [Maximize on Play](#maximize-on-play)
+    - [Mute Audio](#mute-audio)
+    - [Stats](#stats)
+    - [Gizmo Options](#gizmo-options)
+- [Tools](#tools)
+  - [Transform](#transform)
+  - [Gizmo Settings](#gizmo-settings)
+    - [Position](#position)
+    - [Rotation](#rotation)
+  - [Play, Pause, and Step](#play-pause-and-step)
+    - [Runtime Editing](#runtime-editing)
+  - [Collaborate](#collaborate)
+  - [Cloud](#cloud)
+  - [Account](#account)
+  - [Layers](#layers)
+  - [Layout](#layout)
 
-    - [Hierarchy](#hierarchy)
-      - [Visibility and Picking](#visibility-and-picking)
-      - [Searching](#searching)
-    - [Inspector](#inspector)
-      - [Transform Component](#transform-component)
-      - [Adding Components](#adding-components)
-        - [Adding Scripting Components](#adding-scripting-components)
-      - [Inspecting Assets](#inspecting-assets)
-    - [Project](#project)
-  - [Views](#views)
-    - [Scene](#scene)
-      - [Draw Mode](#draw-mode)
-      - [2D / 3D](#2d--3d)
-      - [Scene Lighting](#scene-lighting)
-      - [Scene Audio](#scene-audio)
-      - [Effects](#effects)
-      - [Hidden Objects](#hidden-objects)
-      - [Grid Visibility](#grid-visibility)
-    - [Game](#game)
-      - [Displays](#displays)
-      - [Resolution Aspect](#resolution-aspect)
-      - [Scale](#scale)
-      - [Maximize on Play](#maximize-on-play)
-      - [Mute Audio](#mute-audio)
-      - [Stats](#stats)
-      - [Gizmo Options](#gizmo-options)
-  - [Tools](#tools)
-    - [Transform](#transform)
-    - [Gizmo Settings](#gizmo-settings)
-      - [Position](#position)
-      - [Rotation](#rotation)
-    - [Play, Pause, and Step](#play-pause-and-step)
-      - [Runtime Editing](#runtime-editing)
-    - [Collaborate](#collaborate)
-    - [Cloud](#cloud)
-    - [Account](#account)
-    - [Layers](#layers)
-    - [Layout](#layout)
-
+---
 
 The user interface of the Unity Editor is divided up into three central metaphors: windows, views, and tools.
 
@@ -118,11 +115,13 @@ If an Asset is selected from the Project window, its properties and contents wil
 
 ![alt text](./ProjectWindow.png "Project Window")
 
-The Project windows shows all assets that are part of the current project. This also include any imported assets or files added to the asset folder outside of using the Unity Editor to create them.
+The Project window shows all assets that are part of the current project. This also includes any imported assets or files added to the asset folder outside of using the Unity Editor to create them.
 
 The contents of the Project Window can be sorted through creating new folders using either the "+" menu under its title or using the right-click context menu. By default, the Project window includes a folder "Scenes" containing the current scene. (This is "SampleScene" by default).
 
-It is recommended to create folders for all types of Assets using in the Project sorted by either scene or by type of data. In a project with multiple scenes, for example, sorting assets by scene can help in organizing them. For smaller project, or those with only one scene, sorting by type is a good approach. Creating a folder called "Scripts" for all files related to scripting components and other for "Tiles", if they are used in the Project, for example.
+> **Note:** As of 2025, Unity's Project window supports two view modes: one-column and two-column layouts. You can switch between these using the icon in the lower-right corner of the Project window. The two-column layout provides a folder tree on the left and contents on the right, which many developers find more efficient for navigation.
+
+It is recommended to create folders for all types of Assets used in the Project sorted by either scene or by type of data. In a project with multiple scenes, for example, sorting assets by scene can help in organizing them. For smaller projects, or those with only one scene, sorting by type is a good approach. Creating a folder called "Scripts" for all files related to scripting components and another for "Sprites" or "Prefabs", for example.
 
 ## Views
 
@@ -283,25 +282,38 @@ When a scene is running, GameObjects can be manipulated and the values of its pr
 
 ![alt text](./Collab.png "Collaborate")
 
-Clicking on the "Collab" menu for the first time (assuming the user is signed in) provides the option to "Start now!". Clicking the button synchronizes the current project remotely and allows for accessing the project, when saved remotely, from another computer running Unity.
-
-![alt text](./Sync.png "Sync")
-
-Through synchronizing changes, files can be saved remotely and accessed from either another device or by other users.
-
-(Clicking on the Teams button in the lower, right-hand corner opens the Unity Dashboard in a browser and allows for adjusting organization and group settings for the project.)
+> **Note:** Unity Collaborate was deprecated in 2021 and replaced by Unity Version Control (formerly Plastic SCM). As of 2025, most Unity developers use either:
+>
+> - **Unity Version Control** (built into Unity Hub for cloud-based version control)
+> - **Git** with services like GitHub, GitLab, or Bitbucket
+> - **Perforce** for larger team projects
+>
+> For new projects, it's recommended to use Git with a `.gitignore` file configured for Unity, or Unity Version Control for integrated cloud collaboration.
 
 ### Cloud
 
 ![alt text](./Cloud.png "Cloud")
 
-Clicking on the Cloud button opens the currently available Cloud options and their current settings.
+Unity Cloud services have evolved significantly. As of 2025, Unity provides various cloud services including Unity Gaming Services (UGS) which includes:
+
+- **Unity Authentication**: Player identity management
+- **Cloud Save**: Save game data in the cloud
+- **Matchmaker**: Multiplayer matchmaking
+- **Lobby**: Multiplayer lobby management
+
+These services can be accessed through the Services window in Unity or the Unity Dashboard.
 
 ### Account
 
 ![alt text](./Account.png "Account")
 
-Clicking on the Account button shows the current signed-in user and the option to upgrade account access.
+Clicking on the Account button shows the current signed-in Unity ID user and account information. As of 2025, Unity uses:
+
+- **Unity ID**: Single sign-on for all Unity services
+- **Unity Cloud**: Access to cloud-based features and services
+- **License Management**: View and manage your Unity subscription (Personal, Plus, Pro, Enterprise, Student)
+
+You can manage your account, access Unity Cloud Dashboard, and configure license settings from this menu.
 
 ### Layers
 
@@ -315,4 +327,11 @@ The "Layers" menu allows access to which objects appear in the Scene view. If a 
 
 Clicking on the "Layout" button allows for quickly changing the layout of the windows and views within the Unity Editor.
 
-Once windows and views are arranged, the layout can also be saved as either an option to be used at a later time.
+Unity includes several built-in layout presets:
+
+- **Default**: Standard 2-column layout
+- **Tall**: Optimized for vertical monitors
+- **Wide**: Optimized for ultrawide displays
+- **2 by 3**: Game view focused layout
+
+Once windows and views are arranged, custom layouts can be saved and recalled. This is particularly useful when switching between different workflows (coding, level design, animation, etc.).

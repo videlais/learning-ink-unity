@@ -5,24 +5,23 @@ chapter_number: 17
 layout: chapter
 ---
 
-title: "Ink + Unity: Calling Ink Functions"
-order: 17
-chapter_number: 17
-layout: chapter
+Table of Contents:
 
-    - [Function Call](#function-call)
-    - [Function Call and Arguments](#function-call-and-arguments)
-    - [Function Call, Text Output, and Arguments](#function-call-text-output-and-arguments)
-  - [Buttons to Functions](#buttons-to-functions)
-    - [Calling A Function As A Result of Clicking](#calling-a-function-as-a-result-of-clicking)
-    - [Calling A Function and Saving Its Results As A Result of Clicking](#calling-a-function-and-saving-its-results-as-a-result-of-clicking)
-
+- [**EvaluateFunction()**](#evaluatefunction)
+  - [Function Call](#function-call)
+  - [Function Call and Arguments](#function-call-and-arguments)
+  - [Function Call, Text Output, and Arguments](#function-call-text-output-and-arguments)
+- [Buttons to Functions](#buttons-to-functions)
+  - [Calling A Function As A Result of Clicking](#calling-a-function-as-a-result-of-clicking)
+  - [Calling A Function and Saving Its Results As A Result of Clicking](#calling-a-function-and-saving-its-results-as-a-result-of-clicking)
 
 ## **EvaluateFunction()**
 
 In Ink, functions are globally accessible. This means that, once defined, they can be accessed from anywhere inside of an Ink story. To help in accessing these functions *outside* of a story, the Ink Story API provides the method **EvaluateFunction()**. This allows for *evaluating* Ink functions and receiving their output in C\#.
 
 Internally, there are two versions of **EvaluateFunction()**. The initial argument of both methods is the same: the name of the Ink function to call. Where they differentiate is on their second and third arguments. In practice, there are three general forms of using **EvaluateFunction()**.
+
+> **Note:** As of 2025, the **EvaluateFunction()** API remains the standard way to call Ink functions from C#. The patterns shown here are current and widely used in Ink-Unity integration.
 
 ### Function Call
 
@@ -287,34 +286,19 @@ using UnityEngine.UI;
 public class NewBehaviourScript : MonoBehaviour
 {
     // Add a TextAsset for the compiled (JSON) file
-    public TextAsset InkJSONFile;
+    [SerializeField] private TextAsset inkJSONFile;
 
     // Add Button reference
-    public Button ButtonExample;
+    [SerializeField] private Button buttonExample;
 
     // Add Text reference
-    public Text TextExample;
+    [SerializeField] private Text textExample;
 
     // Start is called before the first frame update
     void Start()
     {
         // Load the Story using the compiled file
-        Story localStory = new Story(InkJSONFile.text);
-
-        // Listen for the onClick event
-        ButtonExample.onClick.AddListener(delegate
-        {
-            // Create an empty string value
-            string textOutput = "";
-
-            // Call the "ExampleFunction" function in Ink
-            //
-            // Return the text output and set its value to textOutput
-            localStory.EvaluateFunction("ExampleFunction", out textOutput);
-
-            // Set whatever was returned to the text property
-            TextExample.text = textOutput;
-        });
+        /* Lines 302-317 omitted */
     }
 }
 ```

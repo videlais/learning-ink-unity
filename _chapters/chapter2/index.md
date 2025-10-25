@@ -5,31 +5,32 @@ chapter_number: 2
 layout: chapter
 ---
 
-title: "C#: Classes"
-order: 2
-chapter_number: 2
-layout: chapter
+- [Class Anatomy](#class-anatomy)
+  - [Fields](#fields)
+  - [Properties](#properties)
+    - [get](#get)
+    - [set](#set)
+    - [PascalCase Naming](#pascalcase-naming)
+    - [Auto-Implemented Properties](#auto-implemented-properties)
+    - [Init-Only Setters (C# 9.0+)](#init-only-setters-c-90)
+    - [Required Properties (C# 11.0+)](#required-properties-c-110)
+  - [Methods](#methods)
+    - [Method Anatomy](#method-anatomy)
+      - [Return Type](#return-type)
+      - [Name](#name)
+      - [Parameters](#parameters)
+      - [Bodies](#bodies)
+      - [Return Statement](#return-statement)
+    - [Calling Methods](#calling-methods)
+      - [Arguments](#arguments)
+      - [Returning Values](#returning-values)
+    - [Constructor](#constructor)
+    - [Variable Scope](#variable-scope)
+  - [`this`](#this)
+  - [`new`](#new)
+  - [Records (C# 9.0+)](#records-c-90)
 
-    - [Fields](#fields)
-    - [Properties](#properties)
-      - [get](#get)
-      - [set](#set)
-      - [PascalCase Naming](#pascalcase-naming)
-    - [Methods](#methods)
-      - [Method Anatomy](#method-anatomy)
-        - [Return Type](#return-type)
-        - [Name](#name)
-        - [Parameters](#parameters)
-        - [Bodies](#bodies)
-        - [Return Statement](#return-statement)
-      - [Calling Methods](#calling-methods)
-        - [Arguments](#arguments)
-        - [Returning Values](#returning-values)
-      - [Constructor](#constructor)
-      - [Variable Scope](#variable-scope)
-    - [`this`](#this)
-    - [`new`](#new)
-
+---
 
 ## Class Anatomy
 
@@ -136,6 +137,47 @@ In the above example class named **MainClass**, it has a property named *Name*. 
 Variables internal to a program are often capitalized in different ways. For properties in C\#, it is generally expected that they follow the PascalCase pattern where the first letter of each word is capitalized.
 
 For example, in the above code examples, the property **Name** began with a capital 'N'.
+
+#### Auto-Implemented Properties
+
+Modern C# supports *auto-implemented properties*, which provide a shorthand for simple getters and setters without needing a private backing field:
+
+```CSharp
+class Person {
+  public string Name { get; set; }
+  public int Age { get; set; }
+}
+```
+
+The compiler automatically creates the private backing field for you.
+
+#### Init-Only Setters (C# 9.0+)
+
+**Init-only setters** allow properties to be set during object initialization but become read-only afterward:
+
+```CSharp
+class Person {
+  public string Name { get; init; }
+  public int Age { get; init; }
+}
+
+var person = new Person { Name = "Alice", Age = 30 };
+// person.Name = "Bob";  // Error! Cannot modify after initialization
+```
+
+#### Required Properties (C# 11.0+)
+
+The `required` keyword ensures properties must be set during object initialization:
+
+```CSharp
+class Person {
+  public required string Name { get; init; }
+  public required int Age { get; init; }
+}
+
+// Must provide values for required properties
+var person = new Person { Name = "Alice", Age = 30 };
+```
 
 ### Methods
 
@@ -358,3 +400,38 @@ class Example {
 
 }
 ```
+
+### Records (C# 9.0+)
+
+**Records** are a modern C# feature designed for creating immutable data objects with less code. They're perfect for data transfer objects and value-based equality:
+
+```CSharp
+// Traditional class
+class PersonClass {
+  public string Name { get; init; }
+  public int Age { get; init; }
+}
+
+// Modern record (much simpler!)
+record Person(string Name, int Age);
+```
+
+Records automatically provide:
+
+- Value-based equality (two records with same values are considered equal)
+- Immutability by default
+- Built-in `ToString()` implementation
+- Copy-and-modify syntax with the `with` keyword
+
+```CSharp
+var person1 = new Person("Alice", 30);
+var person2 = new Person("Alice", 30);
+
+// true - records use value equality
+bool areEqual = person1 == person2;
+
+// Create a copy with modified properties
+var person3 = person1 with { Age = 31 };
+```
+
+> **Note:** Records are particularly useful in Unity for data that doesn't change often, like configuration settings or game state snapshots.

@@ -40,7 +40,11 @@ foreach (Choice choice in exampleStory.currentChoices)
 
 <p>In Unity terminology, an <em>event listener</em> is a method or other section of code that “listens” for an event and then acts in some way. Event listeners are <em>added</em> to an event so that they are called when the event happens.</p>
 
-<p>The method <a href="https://docs.unity3d.com/ScriptReference/Events.UnityEvent.AddListener.html"><strong>AddListener()</strong></a> is available on all objects that inherit from the object <a href="https://docs.unity3d.com/ScriptReference/Events.UnityEvent.html"><strong>UnityEvent</strong></a>. The property of all <strong>Buttons</strong>, <em>onClick</em>, is an <strong>UnityEvent</strong>, which means it has access to this method.</p>
+<p>The method <a href="https://docs.unity3d.com/ScriptReference/Events.UnityEvent.AddListener.html"><strong>AddListener()</strong></a> is available on all objects that inherit from <a href="https://docs.unity3d.com/ScriptReference/Events.UnityEvent.html"><strong>UnityEvent</strong></a>. The property of all <strong>Buttons</strong>, <em>onClick</em>, is a <strong>UnityEvent</strong>, which means it has access to this method.</p>
+
+<blockquote>
+  <p><strong>Note:</strong> As of 2025, while delegates and UnityActions remain valid, many developers also use lambda expressions and action delegates for cleaner, more modern code patterns.</p>
+</blockquote>
 
 <pre><code class="language-CSharp">// Create a new GameObject based on a Prefab and set its parent to this.transform
 Button choiceButton = Instantiate(ButtonPrefab, this.transform);
@@ -50,7 +54,11 @@ choiceButton.onClick.AddListener();
 
 <p>The method <strong>AddListener()</strong> accepts the parameter of a data type called <strong>UnityAction</strong>. This is a special object that allows for concentrating methods into a list and then calling them in sequence when an event happens.</p>
 
-<p>Internally, all <strong>UnityAction</strong> objects are <em>delegates</em>. In C#, a <a href="https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/delegates/"><code class="language-plaintext highlighter-rouge">delegate</code></a> is a special keyword that allows for passing in a method <em>as a parameter</em>. In other words, instead of passing a value to a method, another method is passed to it instead.</p>
+<p>Internally, all <strong>UnityAction</strong> objects are <em>delegates</em>. In C#, a <a href="https://learn.microsoft.com/en-us/dotnet/csharp/programming-guide/delegates/"><code class="language-plaintext highlighter-rouge">delegate</code></a> is a special keyword that allows for passing a method <em>as a parameter</em>. In other words, instead of passing a value to a method, another method is passed to it instead.</p>
+
+<blockquote>
+  <p><strong>Note:</strong> As of C# 9.0 (2025), modern patterns often use lambda expressions (<code class="language-plaintext highlighter-rouge">() =&gt; {}</code>) or local functions instead of explicit delegate declarations for cleaner, more readable code.</p>
+</blockquote>
 
 <p>However, in using <code class="language-plaintext highlighter-rouge">delegate</code>, there is an important requirement to remember: using a <code class="language-plaintext highlighter-rouge">delegate</code> means the method cannot have a return type. Any method used with the keyword returns a <code class="language-plaintext highlighter-rouge">delegate</code>. This allows for methods to be chained, but also, in practice, means methods used with the keyword return <code class="language-plaintext highlighter-rouge">void</code>.</p>
 

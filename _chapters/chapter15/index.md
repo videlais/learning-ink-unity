@@ -5,15 +5,13 @@ chapter_number: 15
 layout: chapter
 ---
 
-title: "Unity UI: Integrating Line Breaks and Rich Text Support"
-order: 15
-chapter_number: 15
-layout: chapter
+Table of Contents:
 
-    - [HTML in Inky](#html-in-inky)
-    - [Italics](#italics)
-    - [Bold](#bold)
-
+- [Integrating Line Breaks](#integrating-line-breaks)
+- [Rich Text Support](#rich-text-support)
+  - [HTML in Inky](#html-in-inky)
+  - [Italics](#italics)
+  - [Bold](#bold)
 
 ## Integrating Line Breaks
 
@@ -95,12 +93,22 @@ Among the properties is an option for enabling "Rich Text" support. When enabled
 In Unity, Rich Text is the ability of **Text** GameObjects to use *markup* to format the output of the text when rendered. In other words, additional opening and closing tags (like HTML) can be added to the text. When it is rendered (drawn on the screen), this markup is interpreted and used to influence the style and presentation of the text.
 
 > **Note:** Tags *must* be closed in Rich Text support.
+>
+> **2025 Note:** While Unity UI (uGUI) Rich Text remains functional, **TextMeshPro** offers significantly more powerful rich text capabilities including:
+> - More markup tags (gradient, sprite, link, etc.)
+> - Better text quality and rendering
+> - Custom styles and style sheets
+> - Advanced text effects
+>
+> For new projects in 2025, consider using TextMeshPro's rich text system instead. The basic tags shown here (`<b>`, `<i>`, `<color>`, `<size>`) work in both systems.
 
 ### HTML in Inky
 
 The editor Inky is built on [Electron](https://www.electronjs.org/) + [Ace](https://ace.c9.io/). It understands the narrative scripting language Ink *and* some HTML as well.
 
 Since Rich Text uses markup that is similar to HTML, this means that it can be used in Inky as if it was HTML and in Unity as the Rich Text tags.
+
+> **Note:** As of 2025, Inky continues to support HTML-like markup in its preview. The tags shown here work identically in both Unity UI and TextMeshPro, making them safe for cross-platform rich text formatting.
 
 ```ink
 <b>This will be in bold.</b>

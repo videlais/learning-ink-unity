@@ -5,29 +5,47 @@ layout: chapter</p>
 
 <h2 id="accessing-and-importing-ink-unity-integration">Accessing and Importing Ink Unity Integration</h2>
 
-<p>Open Unity or Unity Hub and create a new project. (This project is for testing purposes. Its name can be whatever is most convenient including the default “New Unity Project”.)</p>
+<p>Open Unity Hub and create a new project. (This project is for testing purposes. Its name can be whatever is most convenient including the default “New Unity Project”.)</p>
 
-<p><img src="./OpenAssetStore.png" alt="alt text" title="Open Asset Store" /></p>
+<blockquote>
+  <p><strong>Note:</strong> As of 2025, the recommended way to install Ink Unity Integration is through the Unity Package Manager (UPM) rather than the Asset Store. The Asset Store version is updated rarely and is not recommended.</p>
+</blockquote>
 
-<p>Go to Window -&gt; Asset Store.</p>
+<h3 id="installing-via-package-manager-recommended">Installing via Package Manager (Recommended)</h3>
 
-<p><img src="./AssetStore.png" alt="alt text" title="Asset Store" /></p>
+<p>The easiest and most up-to-date method is to install Ink Unity Integration as a UPM package:</p>
 
-<p>In the Asset Store view, click on the search box and type “Ink Unity”.</p>
+<ol>
+  <li>In Unity, go to <strong>Window → Package Manager</strong></li>
+  <li>Click the <strong>+</strong> button in the upper-left corner</li>
+  <li>Select <strong>Add package from git URL…</strong></li>
+  <li>Enter: <code class="language-plaintext highlighter-rouge">https://github.com/inkle/ink-unity-integration.git#upm</code></li>
+  <li>Click <strong>Add</strong></li>
+</ol>
 
-<p>Once the search finishes, click on “Ink Unity Integration” by Inkle.</p>
+<p>Unity will download and install the package. Once complete, the Ink Compiler, Runtime, and Examples will be available in your project.</p>
 
-<p><img src="./DownloadAndImport.png" alt="alt text" title="Download and Import" /></p>
+<blockquote>
+  <p><strong>Alternative Installation Methods:</strong></p>
 
-<p>As “Ink Unity Integration” is a free Asset, click on “Download” and then “Import”.</p>
+  <ul>
+    <li><strong>Manual manifest.json</strong>: Add <code class="language-plaintext highlighter-rouge">"com.inkle.ink-unity-integration": "https://github.com/inkle/ink-unity-integration.git#upm"</code> to your project’s <code class="language-plaintext highlighter-rouge">Packages/manifest.json</code> file</li>
+    <li><strong>OpenUPM</strong>: Visit <a href="https://openupm.com/packages/com.inkle.ink-unity-integration/">openupm.com</a> for OpenUPM installation instructions</li>
+    <li><strong>.unitypackage</strong>: Download from <a href="https://github.com/inkle/ink-unity-integration/releases">GitHub releases</a> if you need to modify the source code</li>
+  </ul>
+</blockquote>
 
-<p><img src="./ImportInkPackage.png" alt="alt text" title="Import Ink Package" /></p>
+<h3 id="importing-demo-scenes">Importing Demo Scenes</h3>
 
-<p>Once the Asset has downloaded and loaded itself, a new Import Unity Package window will open.</p>
+<p>When installed via UPM, demo projects can be imported separately:</p>
 
-<p>Click on “All” to make sure all of the file are selected and them “Import”.</p>
+<ol>
+  <li>In the Package Manager window, select <strong>Ink Unity Integration</strong></li>
+  <li>Expand the <strong>Samples</strong> section</li>
+  <li>Click <strong>Import</strong> next to the demo you want to use</li>
+</ol>
 
-<p>Once loaded, the Ink Compiler, Run-Time, and Example will be added to the current project.</p>
+<p>Once loaded, the Ink Compiler, Runtime, and Example scenes will be added to your Assets folder.</p>
 
 <h2 id="creating-example-scripting-component">Creating Example Scripting Component</h2>
 
@@ -53,7 +71,11 @@ layout: chapter</p>
 
 <p>Whenever a new scripting component is added, its C# file is added to the Assets folder. With the Ink Unity Integration plugin installed, it will be the newest file.</p>
 
-<p>Double-click this file to open it in Visual Studio.</p>
+<p>Double-click this file to open it in your code editor.</p>
+
+<blockquote>
+  <p><strong>Note:</strong> As of 2025, Unity supports multiple IDEs including Visual Studio, Visual Studio Code, and JetBrains Rider. Your default editor can be set in <strong>Edit → Preferences → External Tools</strong> (Windows/Linux) or <strong>Unity → Settings → External Tools</strong> (macOS).</p>
+</blockquote>
 
 <pre><code class="language-CSharp">using System.Collections;
 using System.Collections.Generic;
@@ -73,7 +95,7 @@ public class NewBehaviourScript : MonoBehaviour
 }
 </code></pre>
 
-<p>As reviewed in <a href="../chapter5/index.md">Chapter 5 on Scripting Basics</a>, a new behavior script will have two methods: <strong>Start()</strong> and <strong>Update()</strong>. The method <strong>Start()</strong> will be called before the first rendered frame and the method <strong>Update()</strong> will be called every frame.</p>
+<p>As reviewed in <a href="../chapter6/index.md">Chapter 6 on Scripting Basics</a>, a new behavior script will have two methods: <strong>Start()</strong> and <strong>Update()</strong>. The method <strong>Start()</strong> will be called before the first rendered frame and the method <strong>Update()</strong> will be called every frame.</p>
 
 <p>In order to use Ink and its Runtime classes, it needs to be added to the file.</p>
 
@@ -102,7 +124,7 @@ public class NewBehaviourScript : MonoBehaviour
 <p>Ink runs <em>compiled</em> files created by Inky or the Ink compiler now added to the project. However, before it can run a file, there needs to be a property added to the file so that it can be used in the Unity Editor.</p>
 
 <blockquote>
-  <p><strong>Reminder:</strong> All (public) properties added to script file can be accessed and its values changes in the Unity Editor.</p>
+  <p><strong>Reminder:</strong> All serialized fields (public properties or fields marked with <code class="language-plaintext highlighter-rouge">[SerializeField]</code>) added to a script file can be accessed and their values changed in the Unity Editor.</p>
 </blockquote>
 
 <pre><code class="language-CSharp">using System.Collections;
@@ -150,12 +172,12 @@ public class NewBehaviourScript : MonoBehaviour
 
 <h2 id="editing-the-ink-file">Editing the Ink File</h2>
 
-<p>Unless otherwise setup, <code class="language-plaintext highlighter-rouge">.ink</code> files are not associated with a program for editing. Double-clicking or clicking the “Open” button in the Inspector window will prompt to pick a program to edit in Windows.</p>
+<p>Unless otherwise setup, <code class="language-plaintext highlighter-rouge">.ink</code> files are not associated with a program for editing. Double-clicking or clicking the “Open” button in the Inspector window will prompt to pick a program to edit the file.</p>
 
-<p>It is strongly recommended to use the <a href="https://www.inklestudios.com/ink/">Inky</a> editor for editing <code class="language-plaintext highlighter-rouge">.ink</code> files. However, Notepad (in Windows) or any other plain text editors can be used.</p>
+<p>It is strongly recommended to use the <a href="https://www.inklestudios.com/ink/">Inky</a> editor for editing <code class="language-plaintext highlighter-rouge">.ink</code> files. Inky is available for Windows, macOS, and Linux. However, any plain text editor (Notepad, Visual Studio Code, Sublime Text, etc.) can be used.</p>
 
 <blockquote>
-  <p><strong>Note:</strong> This chapter will use screenshots from Inky.</p>
+  <p><strong>Note:</strong> This chapter will use screenshots from Inky. As of 2025, Inky continues to be the recommended editor for <code class="language-plaintext highlighter-rouge">.ink</code> files, with features like live preview, syntax highlighting, and issue detection.</p>
 </blockquote>
 
 <p><img src="./EmptyInky.png" alt="alt text" title="Empty Inky" /></p>

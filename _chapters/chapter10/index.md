@@ -5,23 +5,28 @@ chapter_number: 10
 layout: chapter
 ---
 
-title: "Unity UI: Introducing Canvas and Text"
-order: 10
-chapter_number: 10
-layout: chapter
+Table of Contents:
 
-    - [Adding **Text**](#adding-text)
-    - [Removing Scripting Components](#removing-scripting-components)
-    - [Attaching Existing Scripting Components](#attaching-existing-scripting-components)
-  - [Working With **Canvas** and **Text**](#working-with-canvas-and-text)
-    - [Using **GetComponentInChildren\<GameObject\>()**](#using-getcomponentinchildrengameobject)
-    - [Adjusting **Text** Properties](#adjusting-text-properties)
-    - [Working with Layouts](#working-with-layouts)
-
+- [Adding GameObjects](#adding-gameobjects)
+  - [Adding **Text**](#adding-text)
+  - [Removing Scripting Components](#removing-scripting-components)
+  - [Attaching Existing Scripting Components](#attaching-existing-scripting-components)
+- [Working With **Canvas** and **Text**](#working-with-canvas-and-text)
+  - [Using **GetComponentInChildren\<GameObject\>()**](#using-getcomponentinchildrengameobject)
+  - [Adjusting **Text** Properties](#adjusting-text-properties)
+  - [Working with Layouts](#working-with-layouts)
 
 ## Adding GameObjects
 
 Previously in this book, the method **Debug.Log()** has been used to show text content in the Console window. While useful for debugging and testing, the method does not show text within the Scene or Game Views. For that, new GameObjects are needed.
+
+> **Note:** As of 2025, Unity provides two main UI systems:
+>
+> - **Unity UI (uGUI)**: The built-in UI system covered in this chapter, suitable for most game UI needs
+> - **TextMeshPro**: A more advanced text rendering solution with better quality and features, recommended for professional projects
+> - **UI Toolkit**: Unity's newer UI framework for editor and runtime UI (more complex, primarily for tools)
+>
+> This chapter covers Unity UI (uGUI) as it's the most straightforward for beginners. For production projects, consider using TextMeshPro for superior text rendering quality.
 
 ### Adding **Text**
 
@@ -132,11 +137,20 @@ However, the contents of the Game View has changed. With a user interface GameOb
 
 In the lower, left-hand corner is the black "New Text" on a blue background. While hard to see, it shows that the **Text** GameObject is now being rendered.
 
+> **Note:** The legacy **Text** component shown here has been largely superseded by **TextMeshPro - Text (UI)** in modern Unity projects. TextMeshPro provides better text quality, more formatting options, and improved performance. To use TextMeshPro instead:
+>
+> 1. Go to **GameObject → UI → Text - TextMeshPro** (this will prompt to import TMP Essentials)
+> 2. Import TMP Essentials when prompted
+> 3. Use `using TMPro;` instead of `using UnityEngine.UI;`
+> 4. Use `TMP_Text` or `TextMeshProUGUI` instead of `Text` in your scripts
+>
+> For this tutorial, we'll continue with the legacy Text component for simplicity, but consider using TextMeshPro for your own projects.
+
 ### Using **GetComponentInChildren\<GameObject\>()**
 
-Opening `NewBehaviourScript.cs` in Visual Studio allows for changing its contents.
+Opening `NewBehaviourScript.cs` in your code editor allows for changing its contents.
 
-> **Reminder:** Double-clicking on a C\# file in the Project window will open it in Visual Studio for editing.
+> **Reminder:** Double-clicking on a C\# file in the Project window will open it in your configured code editor (Visual Studio, Visual Studio Code, or Rider).
 
 Because the script will now be accessing and working with UI elements, an additional library is needed in the script. Along with its existing libraries, it also needs the namespace **UnityEngine.UI**.
 
@@ -187,13 +201,13 @@ using UnityEngine.UI;
 public class NewBehaviourScript : MonoBehaviour
 {
     // Add a TextAsset representing the compiled Ink Asset
-    public TextAsset InkJSONAsset;
+    [SerializeField] private TextAsset inkJSONAsset;
 
     // Start is called before the first frame update
     void Start()
     {
         // Create a new Story object using the compiled (JSON) Ink story text
-        Story exampleStory = new Story(InkJSONAsset.text);
+        Story exampleStory = new Story(inkJSONAsset.text);
 
         // Each loop, check if there is more story to load
         while (exampleStory.canContinue)
@@ -250,13 +264,13 @@ using UnityEngine.UI;
 public class NewBehaviourScript : MonoBehaviour
 {
     // Add a TextAsset representing the compiled Ink Asset
-    public TextAsset InkJSONAsset;
+    [SerializeField] private TextAsset inkJSONAsset;
 
     // Start is called before the first frame update
     void Start()
     {
         // Create a new Story object using the compiled (JSON) Ink story text
-        Story exampleStory = new Story(InkJSONAsset.text);
+        Story exampleStory = new Story(inkJSONAsset.text);
 
         // From this GameObject, look in its children for a component of the type "Text".
         // Return a reference to this component and save it locally.

@@ -1,45 +1,76 @@
-<p>title: “Unity: Windows, Views, and Tools”
-order: 7
-chapter_number: 7
-layout: chapter</p>
+<ul>
+  <li><a href="#windows">Windows</a>
+    <ul>
+      <li><a href="#hierarchy">Hierarchy</a>
+        <ul>
+          <li><a href="#visibility-and-picking">Visibility and Picking</a></li>
+          <li><a href="#searching">Searching</a></li>
+        </ul>
+      </li>
+      <li><a href="#inspector">Inspector</a>
+        <ul>
+          <li><a href="#transform-component">Transform Component</a></li>
+          <li><a href="#adding-components">Adding Components</a>
+            <ul>
+              <li><a href="#adding-scripting-components">Adding Scripting Components</a></li>
+            </ul>
+          </li>
+          <li><a href="#inspecting-assets">Inspecting Assets</a></li>
+        </ul>
+      </li>
+      <li><a href="#project">Project</a></li>
+    </ul>
+  </li>
+  <li><a href="#views">Views</a>
+    <ul>
+      <li><a href="#scene">Scene</a>
+        <ul>
+          <li><a href="#draw-mode">Draw Mode</a></li>
+          <li><a href="#2d--3d">2D / 3D</a></li>
+          <li><a href="#scene-lighting">Scene Lighting</a></li>
+          <li><a href="#scene-audio">Scene Audio</a></li>
+          <li><a href="#effects">Effects</a></li>
+          <li><a href="#hidden-objects">Hidden Objects</a></li>
+          <li><a href="#grid-visibility">Grid Visibility</a></li>
+        </ul>
+      </li>
+      <li><a href="#game">Game</a>
+        <ul>
+          <li><a href="#displays">Displays</a></li>
+          <li><a href="#resolution-aspect">Resolution Aspect</a></li>
+          <li><a href="#scale">Scale</a></li>
+          <li><a href="#maximize-on-play">Maximize on Play</a></li>
+          <li><a href="#mute-audio">Mute Audio</a></li>
+          <li><a href="#stats">Stats</a></li>
+          <li><a href="#gizmo-options">Gizmo Options</a></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li><a href="#tools">Tools</a>
+    <ul>
+      <li><a href="#transform">Transform</a></li>
+      <li><a href="#gizmo-settings">Gizmo Settings</a>
+        <ul>
+          <li><a href="#position">Position</a></li>
+          <li><a href="#rotation">Rotation</a></li>
+        </ul>
+      </li>
+      <li><a href="#play-pause-and-step">Play, Pause, and Step</a>
+        <ul>
+          <li><a href="#runtime-editing">Runtime Editing</a></li>
+        </ul>
+      </li>
+      <li><a href="#collaborate">Collaborate</a></li>
+      <li><a href="#cloud">Cloud</a></li>
+      <li><a href="#account">Account</a></li>
+      <li><a href="#layers">Layers</a></li>
+      <li><a href="#layout">Layout</a></li>
+    </ul>
+  </li>
+</ul>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>- [Hierarchy](#hierarchy)
-  - [Visibility and Picking](#visibility-and-picking)
-  - [Searching](#searching)
-- [Inspector](#inspector)
-  - [Transform Component](#transform-component)
-  - [Adding Components](#adding-components)
-    - [Adding Scripting Components](#adding-scripting-components)
-  - [Inspecting Assets](#inspecting-assets)
-- [Project](#project)   - [Views](#views)
-- [Scene](#scene)
-  - [Draw Mode](#draw-mode)
-  - [2D / 3D](#2d--3d)
-  - [Scene Lighting](#scene-lighting)
-  - [Scene Audio](#scene-audio)
-  - [Effects](#effects)
-  - [Hidden Objects](#hidden-objects)
-  - [Grid Visibility](#grid-visibility)
-- [Game](#game)
-  - [Displays](#displays)
-  - [Resolution Aspect](#resolution-aspect)
-  - [Scale](#scale)
-  - [Maximize on Play](#maximize-on-play)
-  - [Mute Audio](#mute-audio)
-  - [Stats](#stats)
-  - [Gizmo Options](#gizmo-options)   - [Tools](#tools)
-- [Transform](#transform)
-- [Gizmo Settings](#gizmo-settings)
-  - [Position](#position)
-  - [Rotation](#rotation)
-- [Play, Pause, and Step](#play-pause-and-step)
-  - [Runtime Editing](#runtime-editing)
-- [Collaborate](#collaborate)
-- [Cloud](#cloud)
-- [Account](#account)
-- [Layers](#layers)
-- [Layout](#layout)
-</code></pre></div></div>
+<hr />
 
 <p>The user interface of the Unity Editor is divided up into three central metaphors: windows, views, and tools.</p>
 
@@ -109,11 +140,15 @@ layout: chapter</p>
 
 <p><img src="./ProjectWindow.png" alt="alt text" title="Project Window" /></p>
 
-<p>The Project windows shows all assets that are part of the current project. This also include any imported assets or files added to the asset folder outside of using the Unity Editor to create them.</p>
+<p>The Project window shows all assets that are part of the current project. This also includes any imported assets or files added to the asset folder outside of using the Unity Editor to create them.</p>
 
 <p>The contents of the Project Window can be sorted through creating new folders using either the “+” menu under its title or using the right-click context menu. By default, the Project window includes a folder “Scenes” containing the current scene. (This is “SampleScene” by default).</p>
 
-<p>It is recommended to create folders for all types of Assets using in the Project sorted by either scene or by type of data. In a project with multiple scenes, for example, sorting assets by scene can help in organizing them. For smaller project, or those with only one scene, sorting by type is a good approach. Creating a folder called “Scripts” for all files related to scripting components and other for “Tiles”, if they are used in the Project, for example.</p>
+<blockquote>
+  <p><strong>Note:</strong> As of 2025, Unity’s Project window supports two view modes: one-column and two-column layouts. You can switch between these using the icon in the lower-right corner of the Project window. The two-column layout provides a folder tree on the left and contents on the right, which many developers find more efficient for navigation.</p>
+</blockquote>
+
+<p>It is recommended to create folders for all types of Assets used in the Project sorted by either scene or by type of data. In a project with multiple scenes, for example, sorting assets by scene can help in organizing them. For smaller projects, or those with only one scene, sorting by type is a good approach. Creating a folder called “Scripts” for all files related to scripting components and another for “Sprites” or “Prefabs”, for example.</p>
 
 <h2 id="views">Views</h2>
 
@@ -286,25 +321,46 @@ layout: chapter</p>
 
 <p><img src="./Collab.png" alt="alt text" title="Collaborate" /></p>
 
-<p>Clicking on the “Collab” menu for the first time (assuming the user is signed in) provides the option to “Start now!”. Clicking the button synchronizes the current project remotely and allows for accessing the project, when saved remotely, from another computer running Unity.</p>
+<blockquote>
+  <p><strong>Note:</strong> Unity Collaborate was deprecated in 2021 and replaced by Unity Version Control (formerly Plastic SCM). As of 2025, most Unity developers use either:</p>
 
-<p><img src="./Sync.png" alt="alt text" title="Sync" /></p>
+  <ul>
+    <li><strong>Unity Version Control</strong> (built into Unity Hub for cloud-based version control)</li>
+    <li><strong>Git</strong> with services like GitHub, GitLab, or Bitbucket</li>
+    <li><strong>Perforce</strong> for larger team projects</li>
+  </ul>
 
-<p>Through synchronizing changes, files can be saved remotely and accessed from either another device or by other users.</p>
-
-<p>(Clicking on the Teams button in the lower, right-hand corner opens the Unity Dashboard in a browser and allows for adjusting organization and group settings for the project.)</p>
+  <p>For new projects, it’s recommended to use Git with a <code class="language-plaintext highlighter-rouge">.gitignore</code> file configured for Unity, or Unity Version Control for integrated cloud collaboration.</p>
+</blockquote>
 
 <h3 id="cloud">Cloud</h3>
 
 <p><img src="./Cloud.png" alt="alt text" title="Cloud" /></p>
 
-<p>Clicking on the Cloud button opens the currently available Cloud options and their current settings.</p>
+<p>Unity Cloud services have evolved significantly. As of 2025, Unity provides various cloud services including Unity Gaming Services (UGS) which includes:</p>
+
+<ul>
+  <li><strong>Unity Authentication</strong>: Player identity management</li>
+  <li><strong>Cloud Save</strong>: Save game data in the cloud</li>
+  <li><strong>Matchmaker</strong>: Multiplayer matchmaking</li>
+  <li><strong>Lobby</strong>: Multiplayer lobby management</li>
+</ul>
+
+<p>These services can be accessed through the Services window in Unity or the Unity Dashboard.</p>
 
 <h3 id="account">Account</h3>
 
 <p><img src="./Account.png" alt="alt text" title="Account" /></p>
 
-<p>Clicking on the Account button shows the current signed-in user and the option to upgrade account access.</p>
+<p>Clicking on the Account button shows the current signed-in Unity ID user and account information. As of 2025, Unity uses:</p>
+
+<ul>
+  <li><strong>Unity ID</strong>: Single sign-on for all Unity services</li>
+  <li><strong>Unity Cloud</strong>: Access to cloud-based features and services</li>
+  <li><strong>License Management</strong>: View and manage your Unity subscription (Personal, Plus, Pro, Enterprise, Student)</li>
+</ul>
+
+<p>You can manage your account, access Unity Cloud Dashboard, and configure license settings from this menu.</p>
 
 <h3 id="layers">Layers</h3>
 
@@ -318,4 +374,13 @@ layout: chapter</p>
 
 <p>Clicking on the “Layout” button allows for quickly changing the layout of the windows and views within the Unity Editor.</p>
 
-<p>Once windows and views are arranged, the layout can also be saved as either an option to be used at a later time.</p>
+<p>Unity includes several built-in layout presets:</p>
+
+<ul>
+  <li><strong>Default</strong>: Standard 2-column layout</li>
+  <li><strong>Tall</strong>: Optimized for vertical monitors</li>
+  <li><strong>Wide</strong>: Optimized for ultrawide displays</li>
+  <li><strong>2 by 3</strong>: Game view focused layout</li>
+</ul>
+
+<p>Once windows and views are arranged, custom layouts can be saved and recalled. This is particularly useful when switching between different workflows (coding, level design, animation, etc.).</p>

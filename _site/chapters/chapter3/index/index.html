@@ -1,18 +1,30 @@
-<p>title: “C#: Object-Oriented Programming”
-order: 3
-chapter_number: 3
-layout: chapter</p>
+<ul>
+  <li><a href="#inheritance">Inheritance</a>
+    <ul>
+      <li><a href="#inheriting-fields-properties-and-methods">Inheriting Fields, Properties, and Methods</a></li>
+      <li><a href="#using-static">Using <code class="language-plaintext highlighter-rouge">static</code></a>
+        <ul>
+          <li><a href="#main"><strong>Main()</strong></a></li>
+          <li><a href="#cannot-access-this">Cannot Access <code class="language-plaintext highlighter-rouge">this</code></a></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li><a href="#polymorphism">Polymorphism</a>
+    <ul>
+      <li><a href="#run-time-polymorphism">Run-Time Polymorphism</a></li>
+      <li><a href="#accessing-base">Accessing <code class="language-plaintext highlighter-rouge">base</code></a></li>
+      <li><a href="#overriding-base-methods">Overriding Base Methods</a>
+        <ul>
+          <li><a href="#virtual-methods">Virtual Methods</a></li>
+          <li><a href="#abstract-methods">Abstract Methods</a></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>- [Inheriting Fields, Properties, and Methods](#inheriting-fields-properties-and-methods)
-- [Using `static`](#using-static)
-  - [**Main()**](#main)
-  - [Cannot Access `this`](#cannot-access-this)   - [Polymorphism](#polymorphism)
-- [Run-Time Polymorphism](#run-time-polymorphism)
-- [Accessing `base`](#accessing-base)
-- [Overriding Base Methods](#overriding-base-methods)
-  - [Virtual Methods](#virtual-methods)
-  - [Abstract Methods](#abstract-methods)
-</code></pre></div></div>
+<hr />
 
 <p>C# is <em>object-oriented</em>. This means that all interactions between code happens between <em>objects</em>. This also means that classes, as the “blueprints” of an object, are written to include fields, properties, and methods in order to calculate values and potentially communicate between objects.</p>
 
@@ -91,6 +103,23 @@ Example.Add(2, 2);
 
 <blockquote>
   <p><strong>Note:</strong> The data type <code class="language-plaintext highlighter-rouge">void</code> is special. It cannot be used with variables, but signals that a method <em>does not return a value</em>.</p>
+</blockquote>
+
+<p><strong>Modern C# (9.0+) supports top-level statements</strong>, which eliminates the need for the Main method boilerplate in simple programs:</p>
+
+<pre><code class="language-CSharp">// Old way
+class Example {
+  public static void Main() {
+    Console.WriteLine("Hello!");
+  }
+}
+
+// Modern way (C# 9.0+)
+Console.WriteLine("Hello!");
+</code></pre>
+
+<blockquote>
+  <p><strong>Note:</strong> While Unity doesn’t use top-level statements for MonoBehaviour scripts, you might encounter them in modern C# console applications or tools.</p>
 </blockquote>
 
 <h4 id="cannot-access-this">Cannot Access <code class="language-plaintext highlighter-rouge">this</code></h4>
@@ -237,3 +266,38 @@ public class Bob: Person {
 
 }
 </code></pre>
+
+<h3 id="sealed-classes-and-methods">Sealed Classes and Methods</h3>
+
+<p>The <code class="language-plaintext highlighter-rouge">sealed</code> keyword prevents a class from being inherited or a method from being overridden. This is useful when you want to prevent further derivation:</p>
+
+<pre><code class="language-CSharp">// Sealed class - cannot be inherited
+public sealed class FinalPerson {
+  public string Name { get; set; }
+}
+
+// This would cause an error:
+// public class ExtendedPerson : FinalPerson { }
+
+// Sealed method - can override but cannot be overridden further
+public class Person {
+  public virtual string Greeting() {
+    return "Hi!";
+  }
+}
+
+public class Bob : Person {
+  public sealed override string Greeting() {
+    return "Hello!";
+  }
+}
+
+// Alice can inherit from Person but cannot override Bob's sealed Greeting
+public class Alice : Bob {
+  // Cannot override sealed method
+}
+</code></pre>
+
+<blockquote>
+  <p><strong>Note:</strong> In Unity, many built-in classes like <code class="language-plaintext highlighter-rouge">MonoBehaviour</code> cannot be sealed as they’re designed to be inherited, but you might use sealed classes for data containers or utility classes that shouldn’t be extended.</p>
+</blockquote>

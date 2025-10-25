@@ -1,17 +1,23 @@
-<p>title: “Unity: Terms and Concepts”
-order: 5
-chapter_number: 5
-layout: chapter</p>
+<ul>
+  <li><a href="#common-terms">Common Terms</a>
+    <ul>
+      <li><a href="#project">Project</a></li>
+      <li><a href="#scene">Scene</a></li>
+      <li><a href="#asset">Asset</a></li>
+      <li><a href="#gameobject">GameObject</a></li>
+      <li><a href="#component">Component</a></li>
+    </ul>
+  </li>
+  <li><a href="#concepts">Concepts</a>
+    <ul>
+      <li><a href="#entity-component-model">Entity-Component Model</a></li>
+      <li><a href="#game-loops">Game Loops</a></li>
+      <li><a href="#composition-over-inheritance">Composition Over Inheritance</a></li>
+    </ul>
+  </li>
+</ul>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>- [Project](#project)
-- [Scene](#scene)
-- [Asset](#asset)
-- [GameObject](#gameobject)
-- [Component](#component)   - [Concepts](#concepts)
-- [Entity-Component Model](#entity-component-model)
-- [Game Loops](#game-loops)
-- [Composition Over Inheritance](#composition-over-inheritance)
-</code></pre></div></div>
+<hr />
 
 <h2 id="common-terms">Common Terms</h2>
 
@@ -21,7 +27,13 @@ layout: chapter</p>
 
 <p>It is often helpful to think of each project as its own <em>game</em>, but the name “project” is a general description for any collection of settings and files used to create something in Unity.</p>
 
-<p>When creating a project in Unity or the Unity Hub, there are also two general types are available: 2D and 3D. The difference between the two concern what general camera options are available; however, one type of project can easily become another.</p>
+<p>When creating a project in Unity Hub (the standard way to create projects in 2025), there are multiple templates available including 2D, 3D, High Definition Render Pipeline (HDRP), Universal Render Pipeline (URP), and others. These templates provide different starting configurations optimized for specific types of projects.</p>
+
+<blockquote>
+  <p><strong>Note:</strong> As of 2025, Unity Hub is the primary method for creating and managing Unity projects. It allows you to manage multiple Unity versions and easily switch between projects.</p>
+</blockquote>
+
+<p>The choice of template determines initial project settings, but projects can be reconfigured later. URP (Universal Render Pipeline) has become the recommended choice for most projects as it provides a good balance between visual quality and performance across platforms.</p>
 
 <p>A single Unity project will often have multiple scenes.</p>
 
@@ -39,7 +51,11 @@ layout: chapter</p>
 
 <p>Unity has an <em>Asset Store</em> where signed-in users can download and use <em>assets</em> created by others for different purposes. These include everything from plugins for working with different languages and tools to 3D models or even templates for creating games.</p>
 
-<p>Assets are used with working with GameObjects.</p>
+<blockquote>
+  <p><strong>Note:</strong> As of 2025, Unity also has a Package Manager that provides access to both official Unity packages and community packages. Many essential tools and features are now distributed as packages rather than being built into the core editor.</p>
+</blockquote>
+
+<p>Assets are used when working with GameObjects.</p>
 
 <h3 id="gameobject">GameObject</h3>
 
@@ -70,6 +86,10 @@ layout: chapter</p>
     <p><strong>System</strong>: one or more processes that work on entities. For example, in Unity, there are rendering and physics systems. These each work separately, but understand a scene through its GameObjects and the components each has that define itself and its relationships.</p>
   </li>
 </ul>
+
+<blockquote>
+  <p><strong>Note:</strong> Unity has also introduced the Entity Component System (ECS) as an alternative architecture for high-performance scenarios. While traditional GameObjects with MonoBehaviour scripts remain the standard approach (especially for beginners), ECS provides a data-oriented approach for projects requiring maximum performance. This textbook focuses on the traditional GameObject-Component model, which is more intuitive for learning and suitable for most projects.</p>
+</blockquote>
 
 <h3 id="game-loops">Game Loops</h3>
 

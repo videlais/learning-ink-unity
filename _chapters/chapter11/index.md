@@ -5,21 +5,20 @@ chapter_number: 11
 layout: chapter
 ---
 
-title: "Unity UI: Buttons and User Input"
-order: 11
-chapter_number: 11
-layout: chapter
+Table of Contents:
 
-    - [Forcing Child Expansion](#forcing-child-expansion)
-    - [Parsing Choices into Buttons](#parsing-choices-into-buttons)
-  - [Creating Prefabs](#creating-prefabs)
-    - [Creating a Button Prefab](#creating-a-button-prefab)
-    - [Dynamically Creating Buttons](#dynamically-creating-buttons)
-
+- [Working with Buttons](#working-with-buttons)
+  - [Forcing Child Expansion](#forcing-child-expansion)
+  - [Parsing Choices into Buttons](#parsing-choices-into-buttons)
+- [Creating Prefabs](#creating-prefabs)
+  - [Creating a Button Prefab](#creating-a-button-prefab)
+  - [Dynamically Creating Buttons](#dynamically-creating-buttons)
 
 ## Working with Buttons
 
-The **Button** is a fundamental user interface element. It is a something a user can click on that should produce some effect.
+The **Button** is a fundamental user interface element. It is something a user can click on that should produce some effect.
+
+> **Note:** As of 2025, while Unity UI (uGUI) buttons remain widely used, consider using **TextMeshPro - Button** for better text rendering quality. The concepts in this chapter apply to both, but TextMeshPro provides superior text display and more formatting options.
 
 ![alt text](./AddingButtons.png "Adding Buttons")
 
@@ -53,7 +52,9 @@ While not ideal, the new arrangement of GameObjects is a good place to stop and 
 
 ### Parsing Choices into Buttons
 
-Based on what was introduced in a previous chapter, the [method **GetComponentInChildren\<GameObject\>()**](https://docs.unity3d.com/ScriptReference/Component.GetComponentInChildren.html) can be used to search for a child component starting from a parent GameObject. In the case of **Canvas**, because the added **Button** is now a child of it, the method can be used again. This time, instead of searching for **Text**, it can be used to find the added **Button**.
+Based on what was introduced in a previous chapter, the [method **GetComponentInChildren\<T\>()**](https://docs.unity3d.com/ScriptReference/Component.GetComponentInChildren.html) can be used to search for a child component starting from a parent GameObject. In the case of **Canvas**, because the added **Button** is now a child of it, the method can be used again. This time, instead of searching for **Text**, it can be used to find the added **Button**.
+
+> **Note:** As of 2025, it's recommended to use specific type parameters with generic methods. The syntax `GetComponentInChildren<Button>()` is preferred over the older `GetComponentInChildren<GameObject>()` pattern.
 
 ```CSharp
 // From this GameObject, look in its children for a component of the type "Button".
@@ -73,7 +74,7 @@ Button childButton = GetComponentInChildren<Button>();
 Text buttonText = childButton.GetComponentInChildren<Text>();
 ```
 
-> **Note:** It would seem to make sense that **GetComponentInChildren\<GameObject\>()** could be used to get the second **Text** through using it a second time, but is not the case. The method **GetComponentInChildren\<GameObject\>()** returns the *first* component it finds. When searching from **Canvas**, this finds its child **Text** first. When searching from **Button**, this finds *its* **Text** component first.
+> **Note:** The method `GetComponentInChildren<T>()` returns the *first* component it finds of the specified type. When searching from **Canvas**, this finds its child **Text** first. When searching from **Button**, this finds *its* **Text** component first.
 
 Finally, to demonstrate the editing of its *text* property, the following line is added:
 
@@ -98,60 +99,41 @@ using UnityEngine.UI;
 public class NewBehaviourScript : MonoBehaviour
 {
     // Add a TextAsset representing the compiled Ink Asset
-    public TextAsset InkJSONAsset;
-
+    [SerializeField] private TextAsset inkJSONAsset;
+    
+    // Add a Button Prefab
+    [SerializeField] private Button buttonPrefab;
+    
+    // Private Story object
+    private Story exampleStory;
+    
+    // Private Text reference
+    private Text childText;
+    
     // Start is called before the first frame update
     void Start()
     {
         // Create a new Story object using the compiled (JSON) Ink story text
-        Story exampleStory = new Story(InkJSONAsset.text);
-
+        exampleStory = new Story(inkJSONAsset.text);
+        
         // From this GameObject, look in its children for a component of the type "Text".
-        // Return a reference to this component and save it locally.
-        Text childText = GetComponentInChildren<Text>();
-
-        // Reset the existing text of "New Text" to an empty string
+        childText = GetComponentInChildren<Text>();
+        
+        // Reset the existing text
         childText.text = "";
-
+        
         // From this GameObject, look in its children for a component of the type "Button".
-        // Return a reference to this component and save it locally.
         Button childButton = GetComponentInChildren<Button>();
-
-        // From this GameObject, look in its children for a component of the type "Text".
-        // Return a reference to this component and save it locally.
+        
+        // From the Button, get its Text child
         Text buttonText = childButton.GetComponentInChildren<Text>();
-
+        
         // Change the text
         buttonText.text = "Testing";
-
-        // Each loop, check if there is more story to load
-        while (exampleStory.canContinue)
-        {
-            // Load the next story chunk and return the current text
-            string currentTextChunk = exampleStory.Continue();
-
-            // Get any tags loaded in the current story chunk
-            List<string> currentTags = exampleStory.currentTags;
-
-            // Create a blank line of dialogue
-            string line = "";
-
-            // For each tag in currentTag, set its values to the new variable 'tag'
-            foreach (string tag in currentTags)
-            {
-                // Concatenate the tag and a colon
-                line += tag + ": ";
-            }
-
-            // Concatenate the current text chunk
-            // (This will either have a tag before it or be by itself.)
-            line += currentTextChunk;
-
-            // Concatenate the content of 'line' to the existing text
-            childText.text += line;
-        }
+    /* Lines 101-153 omitted */
     }
 }
+```
 ```
 
 When run, the *text* of the child GameObject of **Button** will be overwritten.
@@ -209,13 +191,13 @@ using UnityEngine.UI;
 public class NewBehaviourScript : MonoBehaviour
 {
     // Add a TextAsset representing the compiled Ink Asset
-    public TextAsset InkJSONAsset;
+    [SerializeField] private TextAsset inkJSONAsset;
 
     // Start is called before the first frame update
     void Start()
     {
         // Create a new Story object using the compiled (JSON) Ink story text
-        Story exampleStory = new Story(InkJSONAsset.text);
+        Story exampleStory = new Story(inkJSONAsset.text);
 
         // From this GameObject, look in its children for a component of the type "Text".
         // Return a reference to this component and save it locally.

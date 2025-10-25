@@ -5,39 +5,37 @@ chapter_number: 4
 layout: chapter
 ---
 
-title: "C#: Operators"
-order: 4
-chapter_number: 4
-layout: chapter
+- [Assignment Operator](#assignment-operator)
+- [Arithmetic Operators](#arithmetic-operators)
+  - [Addition](#addition)
+  - [Addition Assignment](#addition-assignment)
+  - [Subtraction](#subtraction)
+  - [Subtraction Assignment](#subtraction-assignment)
+  - [Multiplication](#multiplication)
+  - [Division](#division)
+  - [Modulus](#modulus)
+  - [Increment](#increment)
+  - [Decrement](#decrement)
+- [String Operators](#string-operators)
+  - [Concatenation](#concatenation)
+  - [String Escape Sequences](#string-escape-sequences)
+  - [String Interpolation](#string-interpolation)
+- [Comparison Operators](#comparison-operators)
+  - [Equality](#equality)
+  - [Inequality](#inequality)
+  - [Negation](#negation)
+  - [Less-than](#less-than)
+  - [Greater-than](#greater-than)
+  - [Less-Than-Or-Equal-To](#less-than-or-equal-to)
+  - [Greater-Than-Or-Equal-To](#greater-than-or-equal-to)
+  - [Complex Comparisons](#complex-comparisons)
+    - [AND](#and)
+    - [OR](#or)
+- [Type-Testing Operators](#type-testing-operators)
+  - [`is`](#is)
+  - [`typeof`](#typeof)
 
-    - [Addition](#addition)
-    - [Addition Assignment](#addition-assignment)
-    - [Subtraction](#subtraction)
-    - [Subtraction Assignment](#subtraction-assignment)
-    - [Multiplication](#multiplication)
-    - [Division](#division)
-    - [Modulus](#modulus)
-    - [Increment](#increment)
-    - [Decrement](#decrement)
-  - [String Operators](#string-operators)
-    - [Concatenation](#concatenation)
-    - [String Escape Sequences](#string-escape-sequences)
-    - [String Interpolation](#string-interpolation)
-  - [Comparison Operators](#comparison-operators)
-    - [Equality](#equality)
-    - [Inequality](#inequality)
-    - [Negation](#negation)
-    - [Less-than](#less-than)
-    - [Greater-than](#greater-than)
-    - [Less-Than-Or-Equal-To](#less-than-or-equal-to)
-    - [Greater-Than-Or-Equal-To](#greater-than-or-equal-to)
-    - [Complex Comparisons](#complex-comparisons)
-      - [AND](#and)
-      - [OR](#or)
-  - [Type-Testing Operators](#type-testing-operators)
-    - [`is`](#is)
-    - [`typeof`](#typeof)
-
+---
 
 ## Assignment Operator
 
@@ -309,6 +307,23 @@ if(name is string) {
 
 ```
 
+**Modern C# (7.0+) supports pattern matching with `is`**, which allows you to test and extract values in one operation:
+
+```CSharp
+object obj = "Hello";
+
+// Pattern matching with type test and variable declaration
+if (obj is string str) {
+  // str is available here as a string
+  Console.WriteLine(str.ToUpper());
+}
+
+// Property pattern matching (C# 8.0+)
+if (person is { Age: > 18 }) {
+  // Person is an adult
+}
+```
+
 ### `typeof`
 
 The keyword `typeof` returns a **Type** object containing the *type*.
@@ -317,3 +332,98 @@ The keyword `typeof` returns a **Type** object containing the *type*.
 // System.String
 typeof(string)
 ```
+
+## Null-Handling Operators (C# 6.0+)
+
+Modern C# provides several operators to safely handle `null` values, which are common sources of errors.
+
+### Null-Conditional Operator (`?.`)
+
+The null-conditional operator safely accesses members only if the object is not null:
+
+```CSharp
+string name = person?.Name;  // Returns null if person is null
+int? length = name?.Length;  // Returns null if name is null
+```
+
+### Null-Coalescing Operator (`??`)
+
+The null-coalescing operator provides a default value when the left side is null:
+
+```CSharp
+string name = person?.Name ?? "Unknown";  // Use "Unknown" if null
+int count = list?.Count ?? 0;             // Use 0 if null
+```
+
+### Null-Coalescing Assignment (`??=`, C# 8.0+)
+
+Assigns a value only if the variable is currently null:
+
+```CSharp
+name ??= "Default";  // Only assign if name is null
+```
+
+## Switch Expressions (C# 8.0+)
+
+Switch expressions provide a more concise alternative to traditional switch statements:
+
+```CSharp
+// Traditional switch statement
+string result;
+switch (value) {
+  case 1:
+    result = "One";
+    break;
+  case 2:
+    result = "Two";
+    break;
+  default:
+    result = "Other";
+    break;
+}
+
+// Modern switch expression
+string result = value switch {
+  1 => "One",
+  2 => "Two",
+  _ => "Other"  // _ is the discard pattern (default)
+};
+```
+
+Switch expressions can also use pattern matching:
+
+```CSharp
+string description = person switch {
+  { Age: < 13 } => "Child",
+  { Age: < 20 } => "Teenager",
+  { Age: < 65 } => "Adult",
+  _ => "Senior"
+};
+```
+
+## Range and Index Operators (C# 8.0+)
+
+C# provides operators for working with sequences more easily.
+
+### Index from End (`^`)
+
+The `^` operator counts from the end of a sequence:
+
+```CSharp
+int[] numbers = { 1, 2, 3, 4, 5 };
+int last = numbers[^1];      // 5 (last element)
+int secondLast = numbers[^2]; // 4
+```
+
+### Range Operator (`..`)
+
+The `..` operator creates a range of indices:
+
+```CSharp
+int[] numbers = { 1, 2, 3, 4, 5 };
+int[] slice = numbers[1..4];    // { 2, 3, 4 }
+int[] fromStart = numbers[..3]; // { 1, 2, 3 }
+int[] toEnd = numbers[2..];     // { 3, 4, 5 }
+```
+
+> **Note:** These modern operators make C# code more concise and expressive. While Unity's MonoBehaviour scripts may not use all of them, understanding these patterns will help when working with modern C# codebases or Unity's newer APIs.

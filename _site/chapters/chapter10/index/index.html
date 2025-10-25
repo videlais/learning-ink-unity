@@ -15,6 +15,18 @@ layout: chapter</p>
 
 <p>Previously in this book, the method <strong>Debug.Log()</strong> has been used to show text content in the Console window. While useful for debugging and testing, the method does not show text within the Scene or Game Views. For that, new GameObjects are needed.</p>
 
+<blockquote>
+  <p><strong>Note:</strong> As of 2025, Unity provides two main UI systems:</p>
+
+  <ul>
+    <li><strong>Unity UI (uGUI)</strong>: The built-in UI system covered in this chapter, suitable for most game UI needs</li>
+    <li><strong>TextMeshPro</strong>: A more advanced text rendering solution with better quality and features, recommended for professional projects</li>
+    <li><strong>UI Toolkit</strong>: Unity’s newer UI framework for editor and runtime UI (more complex, primarily for tools)</li>
+  </ul>
+
+  <p>This chapter covers Unity UI (uGUI) as it’s the most straightforward for beginners. For production projects, consider using TextMeshPro for superior text rendering quality.</p>
+</blockquote>
+
 <h3 id="adding-text">Adding <strong>Text</strong></h3>
 
 <p><img src="./AddingTextGameObject.png" alt="alt text" title="Dialogue Tags" /></p>
@@ -124,12 +136,25 @@ The genie nodded and then snapped their fingers.
 
 <p>In the lower, left-hand corner is the black “New Text” on a blue background. While hard to see, it shows that the <strong>Text</strong> GameObject is now being rendered.</p>
 
+<blockquote>
+  <p><strong>Note:</strong> The legacy <strong>Text</strong> component shown here has been largely superseded by <strong>TextMeshPro - Text (UI)</strong> in modern Unity projects. TextMeshPro provides better text quality, more formatting options, and improved performance. To use TextMeshPro instead:</p>
+
+  <ol>
+    <li>Go to <strong>GameObject → UI → Text - TextMeshPro</strong> (this will prompt to import TMP Essentials)</li>
+    <li>Import TMP Essentials when prompted</li>
+    <li>Use <code class="language-plaintext highlighter-rouge">using TMPro;</code> instead of <code class="language-plaintext highlighter-rouge">using UnityEngine.UI;</code></li>
+    <li>Use <code class="language-plaintext highlighter-rouge">TMP_Text</code> or <code class="language-plaintext highlighter-rouge">TextMeshProUGUI</code> instead of <code class="language-plaintext highlighter-rouge">Text</code> in your scripts</li>
+  </ol>
+
+  <p>For this tutorial, we’ll continue with the legacy Text component for simplicity, but consider using TextMeshPro for your own projects.</p>
+</blockquote>
+
 <h3 id="using-getcomponentinchildrengameobject">Using <strong>GetComponentInChildren&lt;GameObject&gt;()</strong></h3>
 
-<p>Opening <code class="language-plaintext highlighter-rouge">NewBehaviourScript.cs</code> in Visual Studio allows for changing its contents.</p>
+<p>Opening <code class="language-plaintext highlighter-rouge">NewBehaviourScript.cs</code> in your code editor allows for changing its contents.</p>
 
 <blockquote>
-  <p><strong>Reminder:</strong> Double-clicking on a C# file in the Project window will open it in Visual Studio for editing.</p>
+  <p><strong>Reminder:</strong> Double-clicking on a C# file in the Project window will open it in your configured code editor (Visual Studio, Visual Studio Code, or Rider).</p>
 </blockquote>
 
 <p>Because the script will now be accessing and working with UI elements, an additional library is needed in the script. Along with its existing libraries, it also needs the namespace <strong>UnityEngine.UI</strong>.</p>
@@ -179,13 +204,13 @@ using UnityEngine.UI;
 public class NewBehaviourScript : MonoBehaviour
 {
     // Add a TextAsset representing the compiled Ink Asset
-    public TextAsset InkJSONAsset;
+    [SerializeField] private TextAsset inkJSONAsset;
 
     // Start is called before the first frame update
     void Start()
     {
         // Create a new Story object using the compiled (JSON) Ink story text
-        Story exampleStory = new Story(InkJSONAsset.text);
+        Story exampleStory = new Story(inkJSONAsset.text);
 
         // Each loop, check if there is more story to load
         while (exampleStory.canContinue)
@@ -241,13 +266,13 @@ using UnityEngine.UI;
 public class NewBehaviourScript : MonoBehaviour
 {
     // Add a TextAsset representing the compiled Ink Asset
-    public TextAsset InkJSONAsset;
+    [SerializeField] private TextAsset inkJSONAsset;
 
     // Start is called before the first frame update
     void Start()
     {
         // Create a new Story object using the compiled (JSON) Ink story text
-        Story exampleStory = new Story(InkJSONAsset.text);
+        Story exampleStory = new Story(inkJSONAsset.text);
 
         // From this GameObject, look in its children for a component of the type "Text".
         // Return a reference to this component and save it locally.

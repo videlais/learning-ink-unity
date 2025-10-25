@@ -5,38 +5,39 @@ chapter_number: 8
 layout: chapter
 ---
 
-title: "Ink: Loading Ink-Unity Plugin"
-order: 8
-chapter_number: 8
-layout: chapter
-
-
-
 ## Accessing and Importing Ink Unity Integration
 
-Open Unity or Unity Hub and create a new project. (This project is for testing purposes. Its name can be whatever is most convenient including the default "New Unity Project".)
+Open Unity Hub and create a new project. (This project is for testing purposes. Its name can be whatever is most convenient including the default "New Unity Project".)
 
-![alt text](./OpenAssetStore.png "Open Asset Store")
+> **Note:** As of 2025, the recommended way to install Ink Unity Integration is through the Unity Package Manager (UPM) rather than the Asset Store. The Asset Store version is updated rarely and is not recommended.
 
-Go to Window -> Asset Store.
+### Installing via Package Manager (Recommended)
 
-![alt text](./AssetStore.png "Asset Store")
+The easiest and most up-to-date method is to install Ink Unity Integration as a UPM package:
 
-In the Asset Store view, click on the search box and type "Ink Unity".
+1. In Unity, go to **Window → Package Manager**
+2. Click the **+** button in the upper-left corner
+3. Select **Add package from git URL...**
+4. Enter: `https://github.com/inkle/ink-unity-integration.git#upm`
+5. Click **Add**
 
-Once the search finishes, click on "Ink Unity Integration" by Inkle.
+Unity will download and install the package. Once complete, the Ink Compiler, Runtime, and Examples will be available in your project.
 
-![alt text](./DownloadAndImport.png "Download and Import")
+> **Alternative Installation Methods:**
+>
+> - **Manual manifest.json**: Add `"com.inkle.ink-unity-integration": "https://github.com/inkle/ink-unity-integration.git#upm"` to your project's `Packages/manifest.json` file
+> - **OpenUPM**: Visit [openupm.com](https://openupm.com/packages/com.inkle.ink-unity-integration/) for OpenUPM installation instructions
+> - **.unitypackage**: Download from [GitHub releases](https://github.com/inkle/ink-unity-integration/releases) if you need to modify the source code
 
-As "Ink Unity Integration" is a free Asset, click on "Download" and then "Import".
+### Importing Demo Scenes
 
-![alt text](./ImportInkPackage.png "Import Ink Package")
+When installed via UPM, demo projects can be imported separately:
 
-Once the Asset has downloaded and loaded itself, a new Import Unity Package window will open.
+1. In the Package Manager window, select **Ink Unity Integration**
+2. Expand the **Samples** section
+3. Click **Import** next to the demo you want to use
 
-Click on "All" to make sure all of the file are selected and them "Import".
-
-Once loaded, the Ink Compiler, Run-Time, and Example will be added to the current project.
+Once loaded, the Ink Compiler, Runtime, and Example scenes will be added to your Assets folder.
 
 ## Creating Example Scripting Component
 
@@ -58,7 +59,9 @@ Click on "Add Script" and then the "Create and Add Script" button.
 
 Whenever a new scripting component is added, its C\# file is added to the Assets folder. With the Ink Unity Integration plugin installed, it will be the newest file.
 
-Double-click this file to open it in Visual Studio.
+Double-click this file to open it in your code editor.
+
+> **Note:** As of 2025, Unity supports multiple IDEs including Visual Studio, Visual Studio Code, and JetBrains Rider. Your default editor can be set in **Edit → Preferences → External Tools** (Windows/Linux) or **Unity → Settings → External Tools** (macOS).
 
 ```CSharp
 using System.Collections;
@@ -79,7 +82,7 @@ public class NewBehaviourScript : MonoBehaviour
 }
 ```
 
-As reviewed in [Chapter 5 on Scripting Basics](../chapter5/index.md), a new behavior script will have two methods: **Start()** and **Update()**. The method **Start()** will be called before the first rendered frame and the method **Update()** will be called every frame.
+As reviewed in [Chapter 6 on Scripting Basics](../chapter6/index.md), a new behavior script will have two methods: **Start()** and **Update()**. The method **Start()** will be called before the first rendered frame and the method **Update()** will be called every frame.
 
 In order to use Ink and its Runtime classes, it needs to be added to the file.
 
@@ -108,7 +111,7 @@ public class NewBehaviourScript : MonoBehaviour
 
 Ink runs *compiled* files created by Inky or the Ink compiler now added to the project. However, before it can run a file, there needs to be a property added to the file so that it can be used in the Unity Editor.
 
-> **Reminder:** All (public) properties added to script file can be accessed and its values changes in the Unity Editor.
+> **Reminder:** All serialized fields (public properties or fields marked with `[SerializeField]`) added to a script file can be accessed and their values changed in the Unity Editor.
 
 ```CSharp
 using System.Collections;
@@ -156,11 +159,11 @@ With the `New Ink.json` file now associated with the scripting component, any sa
 
 ## Editing the Ink File
 
-Unless otherwise setup, `.ink` files are not associated with a program for editing. Double-clicking or clicking the "Open" button in the Inspector window will prompt to pick a program to edit in Windows.
+Unless otherwise setup, `.ink` files are not associated with a program for editing. Double-clicking or clicking the "Open" button in the Inspector window will prompt to pick a program to edit the file.
 
-It is strongly recommended to use the [Inky](https://www.inklestudios.com/ink/) editor for editing `.ink` files. However, Notepad (in Windows) or any other plain text editors can be used.
+It is strongly recommended to use the [Inky](https://www.inklestudios.com/ink/) editor for editing `.ink` files. Inky is available for Windows, macOS, and Linux. However, any plain text editor (Notepad, Visual Studio Code, Sublime Text, etc.) can be used.
 
-> **Note:** This chapter will use screenshots from Inky.
+> **Note:** This chapter will use screenshots from Inky. As of 2025, Inky continues to be the recommended editor for `.ink` files, with features like live preview, syntax highlighting, and issue detection.
 
 ![alt text](./EmptyInky.png "Empty Inky")
 

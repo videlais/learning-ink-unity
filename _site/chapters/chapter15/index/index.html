@@ -87,6 +87,16 @@ childText.text += line + '\n';
 
 <blockquote>
   <p><strong>Note:</strong> Tags <em>must</em> be closed in Rich Text support.</p>
+
+  <p><strong>2025 Note:</strong> While Unity UI (uGUI) Rich Text remains functional, <strong>TextMeshPro</strong> offers significantly more powerful rich text capabilities including:</p>
+  <ul>
+    <li>More markup tags (gradient, sprite, link, etc.)</li>
+    <li>Better text quality and rendering</li>
+    <li>Custom styles and style sheets</li>
+    <li>Advanced text effects</li>
+  </ul>
+
+  <p>For new projects in 2025, consider using TextMeshPro’s rich text system instead. The basic tags shown here (<code class="language-plaintext highlighter-rouge">&lt;b&gt;</code>, <code class="language-plaintext highlighter-rouge">&lt;i&gt;</code>, <code class="language-plaintext highlighter-rouge">&lt;color&gt;</code>, <code class="language-plaintext highlighter-rouge">&lt;size&gt;</code>) work in both systems.</p>
 </blockquote>
 
 <h3 id="html-in-inky">HTML in Inky</h3>
@@ -94,6 +104,10 @@ childText.text += line + '\n';
 <p>The editor Inky is built on <a href="https://www.electronjs.org/">Electron</a> + <a href="https://ace.c9.io/">Ace</a>. It understands the narrative scripting language Ink <em>and</em> some HTML as well.</p>
 
 <p>Since Rich Text uses markup that is similar to HTML, this means that it can be used in Inky as if it was HTML and in Unity as the Rich Text tags.</p>
+
+<blockquote>
+  <p><strong>Note:</strong> As of 2025, Inky continues to support HTML-like markup in its preview. The tags shown here work identically in both Unity UI and TextMeshPro, making them safe for cross-platform rich text formatting.</p>
+</blockquote>
 
 <pre><code class="language-ink">&lt;b&gt;This will be in bold.&lt;/b&gt;
 

@@ -5,13 +5,6 @@ chapter_number: 13
 layout: chapter
 ---
 
-title: "Ink: Selective Output and Story Organization"
-order: 13
-chapter_number: 13
-layout: chapter
-
-
-
 ## Selective Output
 
 In all previous Ink story examples in this book, choices appeared like the following:
@@ -53,7 +46,9 @@ When run in Unity, this shows the same effect. Through using selective output (p
 
 ## Story Organization
 
-Ink uses the `INCLUDE` keyword to pull the contents of other files into a central one. This helps when organizing projects through dividing up files as parts of area, regions, character, or other logical divisions.
+Ink uses the `INCLUDE` keyword to pull the contents of other files into a central one. This helps when organizing projects through dividing up files as parts of areas, regions, characters, or other logical divisions.
+
+> **Note:** As of 2025, the INCLUDE system remains the standard way to organize Ink projects. This pattern is still widely used and recommended for maintaining large, complex narratives.
 
 For example, if a project had two areas that were self-contained in files matching their names, it might look like the following:
 
@@ -91,7 +86,7 @@ Although not covered in-depth in this book, *tunnels*, a concept in Ink where a 
 
 Through creating tunnels and then returning, the two locations (across two files) can be "explored" as the story branches to the knots and then back again, repeating the search options through sticky choices.
 
-> **Note:** In Ink, a choice can be made "sticky" through using a plus sign, `+`, instead of the normal asterisk, `*`. If the spot in the story where the choice was chosen is returned to, it will remain an option for a player to pick again.
+> **Note:** In Ink, a choice can be made "sticky" through using a plus sign, `+`, instead of the normal asterisk, `*`. If the spot in the story where the choice was chosen is returned to, it will remain an option for a player to pick again. This pattern remains current in 2025 and is widely used for menu systems and explorable locations.
 
 **Bedroom.ink:**
 

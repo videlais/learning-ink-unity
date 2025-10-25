@@ -5,20 +5,19 @@ chapter_number: 6
 layout: chapter
 ---
 
-title: "Unity: Scripting Basics"
-order: 6
-chapter_number: 6
-layout: chapter
+Because all GameObjects can have scripting components, their behaviors can be changed through writing C\# code. The *scripting component* is additional code that is written that is run as part of the GameObject and can generally be adjusted alongside its other components. However, unlike other components, scripting components (behavior scripts) are edited in an external code editor.
 
+**As of 2025**, Unity supports multiple code editors:
 
+- **Visual Studio** (Windows/Mac): Microsoft's full-featured IDE, still bundled with Unity installations
+- **Visual Studio Code**: A lightweight, cross-platform editor that many Unity developers prefer
+- **JetBrains Rider**: A powerful C# IDE popular among professional Unity developers for its advanced refactoring and debugging features
 
-Because all GameObjects can have scripting components, their behaviors can be changed through writing C\# code. The *scripting component* is additional code that is written that is run as part of the GameObject and can generally be adjusted alongside its other components. However, unlike other components, scripting components (behavior scripts) are edited in an external program: Visual Studio.
+> **Note:** While Visual Studio remains a common choice, Visual Studio Code with the Unity extension has become increasingly popular due to its speed and flexibility. Unity will automatically open scripts in your configured editor.
 
-Packaged with Unity, Visual Studio allows for writing C\# within an integrated development environment (IDE) specialized for writing and testing code.
+Attempting to open a behavior script in Unity opens the code in your configured external editor.
 
-Attempting to open a behavior script in Unity opens the code in Visual Studio.
-
-## Anatomy of a MonoBehavior Script
+## Anatomy of a MonoBehaviour Script
 
 ```CSharp
 using System.Collections;
@@ -26,7 +25,9 @@ using System.Collections.Generic;
 using UnityEngine;
 ```
 
-Three libraries are added by default to all scripts: **System.Collections**, **System.Collections.Generic**, and **UnityEngine**. The first two, **System.Collections**, **System.Collections.Generic**, allow for using the built-in collection data types in C\#. The third, **UnityEngine**, gives access to a large number of built-in data types that come with Unity. These allow for manipulating GameObjects and any values associated with their components.
+Three namespaces are added by default to all scripts: **System.Collections**, **System.Collections.Generic**, and **UnityEngine**. The first two, **System.Collections** and **System.Collections.Generic**, allow for using the built-in collection data types in C\#. The third, **UnityEngine**, gives access to a large number of built-in data types that come with Unity. These allow for manipulating GameObjects and any values associated with their components.
+
+> **Note:** Modern C# supports implicit `using` directives (C# 10.0+), which means some namespaces may be automatically available without explicit declarations. However, Unity's script templates still include these for clarity.
 
 ```CSharp
 using System.Collections;
@@ -37,7 +38,9 @@ public class NewBehaviourScript : MonoBehaviour
 {}
 ```
 
-The library **UnityEngine** also allows access to the object **MonoBehaviour** from which all behavior scripts inherit. This provides a number of methods such as **Start()** and **Update()**.
+The namespace **UnityEngine** also allows access to the class **MonoBehaviour** from which all behavior scripts inherit. This provides a number of methods such as **Start()** and **Update()**.
+
+> **Note:** The spelling "MonoBehaviour" uses the British English spelling. This is maintained for historical reasons and consistency across Unity's API.
 
 As Unity uses the Entity-Component Model as part of its order of execution, these methods will be called as part of the GameObject in the scene.
 
@@ -122,9 +125,16 @@ public class NewBehaviourScript : MonoBehaviour
 
 ## Private and Public Properties
 
-As with any other class in C\#, any private field in an object cannot be accessed outside of that object. However, while setting a field as `public` may seem to allow access outside of the object, it has an additional aspect when used in a scripting component in Unity. All public properties in a scripting components can *also* be accessed in the Unity Editor itself.
+As with any other class in C\#, any private field in an object cannot be accessed outside of that object. However, while setting a field as `public` may seem to allow access outside of the object, it has an additional aspect when used in a scripting component in Unity. All public properties in a scripting component can *also* be accessed in the Unity Editor itself.
 
-While not obvious, using public properties and then adjusting their values from inside of the Unity Editor is a standard and encouraged practice when using scripting components and the Unity Editor. In fact, many tutorials, guides, and other resources demonstrate this practice frequently.
+> **Modern Best Practice (2025):** While public fields still work, Unity now recommends using `[SerializeField]` with private fields for better encapsulation:
+
+```CSharp
+[SerializeField] private int example;  // Visible in Inspector, but encapsulated
+public int Example { get; private set; } // Property pattern
+```
+
+While not obvious, exposing values in the Inspector through public fields or `[SerializeField]` and then adjusting their values from inside the Unity Editor is a standard and encouraged practice when using scripting components and the Unity Editor. In fact, many tutorials, guides, and other resources demonstrate this practice frequently.
 
 **Note:** The reasoning behind this practice is because Unity uses the Entity-Component Model. Scripting components are just that, *components*. Any scripting added to a GameObject is not the object itself, but *additional* components added to that entity. The code is **not** the GameObject. It is scripting *added* to the GameObject to adjust its default behaviors.
 
