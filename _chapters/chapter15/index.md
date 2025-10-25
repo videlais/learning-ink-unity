@@ -5,13 +5,23 @@ chapter_number: 15
 layout: chapter
 ---
 
-Table of Contents:
+## Objectives
+
+- **Implement** line break handling using the newline character (`\n`)
+- **Apply** Rich Text formatting tags in Unity UI Text components
+- **Utilize** HTML-like tags for text styling (bold, italics, color, size)
+- **Integrate** Ink story tags with Rich Text formatting
+- **Create** visually enhanced narrative text using combined formatting techniques
+
+## Table of Contents
 
 - [Integrating Line Breaks](#integrating-line-breaks)
 - [Rich Text Support](#rich-text-support)
   - [HTML in Inky](#html-in-inky)
   - [Italics](#italics)
   - [Bold](#bold)
+
+---
 
 ## Integrating Line Breaks
 

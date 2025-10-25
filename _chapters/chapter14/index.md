@@ -5,13 +5,23 @@ chapter_number: 14
 layout: chapter
 ---
 
-Table of Contents:
+## Objectives
+
+- **Identify** default Unity project structure and folder organization
+- **Explain** the purpose of InkLibrary and InkSettings files
+- **Create** organizational folders for Scripts, Prefabs, Ink files, and Scenes
+- **Evaluate** UPM vs .unitypackage installation folder structures
+- **Apply** 2025 best practices for Unity project organization
+
+## Table of Contents
 
 - [Reviewing Project Window Defaults](#reviewing-project-window-defaults)
   - [`InkLibrary`](#inklibrary)
   - [`InkSettings`](#inksettings)
 - [Organizing Folders](#organizing-folders)
   - [Making Folders](#making-folders)
+
+---
 
 ## Reviewing Project Window Defaults
 

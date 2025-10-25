@@ -5,6 +5,21 @@ chapter_number: 13
 layout: chapter
 ---
 
+## Objectives
+
+- **Apply** selective output syntax using square brackets in Ink
+- **Implement** the INCLUDE keyword to organize multi-file Ink projects
+- **Analyze** the difference between choice text display and story continuation
+- **Utilize** bracketed choice text to control narrative flow
+- **Organize** large Ink stories across multiple files
+
+## Table of Contents
+
+- [Selective Output](#selective-output)
+- [Story Organization](#story-organization)
+
+---
+
 ## Selective Output
 
 In all previous Ink story examples in this book, choices appeared like the following:

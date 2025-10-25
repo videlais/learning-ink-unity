@@ -5,7 +5,16 @@ chapter_number: 16
 layout: chapter
 ---
 
-Table of Contents:
+## Objectives
+
+- **Access** Ink global variables using variablesState
+- **Modify** Ink variable values from C# code
+- **Implement** ObserveVariable() to monitor variable changes
+- **Utilize** ObserveVariables() for tracking multiple variables
+- **Update** Unity UI Text elements based on Ink variable changes
+- **Remove** variable observers when no longer needed
+
+## Table of Contents
 
 - [*variablesState*](#variablesstate)
   - [Accessing](#accessing)
@@ -17,6 +26,8 @@ Table of Contents:
 - [Using Variable Observers in Unity UI](#using-variable-observers-in-unity-ui)
   - [Observing Values](#observing-values)
   - [Updating **Text** Values](#updating-text-values)
+
+---
 
 Along with providing methods load story content, the Ink Story API also provides two ways to interact with Ink variables: state and observing variables.
 

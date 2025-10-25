@@ -1,13 +1,32 @@
-<p>title: “Unity UI: Buttons and User Input”
-order: 11
-chapter_number: 11
-layout: chapter</p>
+<h2 id="objectives">Objectives</h2>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>- [Forcing Child Expansion](#forcing-child-expansion)
-- [Parsing Choices into Buttons](#parsing-choices-into-buttons)   - [Creating Prefabs](#creating-prefabs)
-- [Creating a Button Prefab](#creating-a-button-prefab)
-- [Dynamically Creating Buttons](#dynamically-creating-buttons)
-</code></pre></div></div>
+<ul>
+  <li><strong>Create</strong> Button GameObjects within a Canvas</li>
+  <li><strong>Configure</strong> Vertical Layout Group to force child expansion</li>
+  <li><strong>Implement</strong> dynamic button creation using prefabs</li>
+  <li><strong>Apply</strong> Instantiate() to create UI elements at runtime</li>
+  <li><strong>Parse</strong> Ink Choice objects into Button text</li>
+  <li><strong>Evaluate</strong> Unity UI vs TextMeshPro for button text rendering</li>
+</ul>
+
+<h2 id="table-of-contents">Table of Contents</h2>
+
+<ul>
+  <li><a href="#working-with-buttons">Working with Buttons</a>
+    <ul>
+      <li><a href="#forcing-child-expansion">Forcing Child Expansion</a></li>
+      <li><a href="#parsing-choices-into-buttons">Parsing Choices into Buttons</a></li>
+    </ul>
+  </li>
+  <li><a href="#creating-prefabs">Creating Prefabs</a>
+    <ul>
+      <li><a href="#creating-a-button-prefab">Creating a Button Prefab</a></li>
+      <li><a href="#dynamically-creating-buttons">Dynamically Creating Buttons</a></li>
+    </ul>
+  </li>
+</ul>
+
+<hr />
 
 <h2 id="working-with-buttons">Working with Buttons</h2>
 
@@ -133,23 +152,22 @@ public class NewBehaviourScript : MonoBehaviour
     }
 }
 </code></pre>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
-When run, the *text* of the child GameObject of **Button** will be overwritten.
 
-![alt text](./UpdatedButtonText.png "Forced Expansion")
+<p>When run, the <em>text</em> of the child GameObject of <strong>Button</strong> will be overwritten.</p>
 
-With this in place, it is time to change the existing Ink story from the previous chapters and re-introduce the code to parse **Choice** objects.
+<p><img src="./UpdatedButtonText.png" alt="alt text" title="Forced Expansion" /></p>
 
-**New Ink.ink:**
+<p>With this in place, it is time to change the existing Ink story from the previous chapters and re-introduce the code to parse <strong>Choice</strong> objects.</p>
 
-```ink
-The door opens upon a darkly-lit attic.
+<p><strong>New Ink.ink:</strong></p>
+
+<pre><code class="language-ink">The door opens upon a darkly-lit attic.
 
 * [Proceed?]
 -
 
 You cautiously walk forward, noting the dust coating everything around you. Looking down, you even seen your own footprints in the dust from the door.
-</code></pre></div></div>
+</code></pre>
 
 <p>In the new Ink code, there is a choice with selected output. (This means the words in the choice will not appear in the output.) It is also using a gathering point, <code class="language-plaintext highlighter-rouge">-</code>, that will gather the story back into the point after the set of choices instead of branching it.</p>
 

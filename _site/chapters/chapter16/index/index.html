@@ -1,16 +1,39 @@
-<p>title: “Ink + Unity: Accessing and Observing Ink Variables”
-order: 16
-chapter_number: 16
-layout: chapter</p>
+<h2 id="objectives">Objectives</h2>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>- [Accessing](#accessing)
-- [Mutating](#mutating)   - [Observing Variables](#observing-variables)
-- [**ObserveVariable()**](#observevariable)
-- [**ObserveVariables()**](#observevariables)
-- [Removing Observers](#removing-observers)   - [Using Variable Observers in Unity UI](#using-variable-observers-in-unity-ui)
-- [Observing Values](#observing-values)
-- [Updating **Text** Values](#updating-text-values)
-</code></pre></div></div>
+<ul>
+  <li><strong>Access</strong> Ink global variables using variablesState</li>
+  <li><strong>Modify</strong> Ink variable values from C# code</li>
+  <li><strong>Implement</strong> ObserveVariable() to monitor variable changes</li>
+  <li><strong>Utilize</strong> ObserveVariables() for tracking multiple variables</li>
+  <li><strong>Update</strong> Unity UI Text elements based on Ink variable changes</li>
+  <li><strong>Remove</strong> variable observers when no longer needed</li>
+</ul>
+
+<h2 id="table-of-contents">Table of Contents</h2>
+
+<ul>
+  <li><a href="#variablesstate"><em>variablesState</em></a>
+    <ul>
+      <li><a href="#accessing">Accessing</a></li>
+      <li><a href="#mutating">Mutating</a></li>
+    </ul>
+  </li>
+  <li><a href="#observing-variables">Observing Variables</a>
+    <ul>
+      <li><a href="#observevariable"><strong>ObserveVariable()</strong></a></li>
+      <li><a href="#observevariables"><strong>ObserveVariables()</strong></a></li>
+      <li><a href="#removing-observers">Removing Observers</a></li>
+    </ul>
+  </li>
+  <li><a href="#using-variable-observers-in-unity-ui">Using Variable Observers in Unity UI</a>
+    <ul>
+      <li><a href="#observing-values">Observing Values</a></li>
+      <li><a href="#updating-text-values">Updating <strong>Text</strong> Values</a></li>
+    </ul>
+  </li>
+</ul>
+
+<hr />
 
 <p>Along with providing methods load story content, the Ink Story API also provides two ways to interact with Ink variables: state and observing variables.</p>
 

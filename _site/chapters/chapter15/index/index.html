@@ -1,12 +1,27 @@
-<p>title: “Unity UI: Integrating Line Breaks and Rich Text Support”
-order: 15
-chapter_number: 15
-layout: chapter</p>
+<h2 id="objectives">Objectives</h2>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>- [HTML in Inky](#html-in-inky)
-- [Italics](#italics)
-- [Bold](#bold)
-</code></pre></div></div>
+<ul>
+  <li><strong>Implement</strong> line break handling using the newline character (<code class="language-plaintext highlighter-rouge">\n</code>)</li>
+  <li><strong>Apply</strong> Rich Text formatting tags in Unity UI Text components</li>
+  <li><strong>Utilize</strong> HTML-like tags for text styling (bold, italics, color, size)</li>
+  <li><strong>Integrate</strong> Ink story tags with Rich Text formatting</li>
+  <li><strong>Create</strong> visually enhanced narrative text using combined formatting techniques</li>
+</ul>
+
+<h2 id="table-of-contents">Table of Contents</h2>
+
+<ul>
+  <li><a href="#integrating-line-breaks">Integrating Line Breaks</a></li>
+  <li><a href="#rich-text-support">Rich Text Support</a>
+    <ul>
+      <li><a href="#html-in-inky">HTML in Inky</a></li>
+      <li><a href="#italics">Italics</a></li>
+      <li><a href="#bold">Bold</a></li>
+    </ul>
+  </li>
+</ul>
+
+<hr />
 
 <h2 id="integrating-line-breaks">Integrating Line Breaks</h2>
 
@@ -87,15 +102,18 @@ childText.text += line + '\n';
 
 <blockquote>
   <p><strong>Note:</strong> Tags <em>must</em> be closed in Rich Text support.</p>
+</blockquote>
 
-  <p><strong>2025 Note:</strong> While Unity UI (uGUI) Rich Text remains functional, <strong>TextMeshPro</strong> offers significantly more powerful rich text capabilities including:</p>
-  <ul>
-    <li>More markup tags (gradient, sprite, link, etc.)</li>
-    <li>Better text quality and rendering</li>
-    <li>Custom styles and style sheets</li>
-    <li>Advanced text effects</li>
-  </ul>
+<p><strong>2025 Note:</strong> While Unity UI (uGUI) Rich Text remains functional, <strong>TextMeshPro</strong> offers significantly more powerful rich text capabilities including:</p>
 
+<ul>
+  <li>More markup tags (gradient, sprite, link, etc.)</li>
+  <li>Better text quality and rendering</li>
+  <li>Custom styles and style sheets</li>
+  <li>Advanced text effects</li>
+</ul>
+
+<blockquote>
   <p>For new projects in 2025, consider using TextMeshPro’s rich text system instead. The basic tags shown here (<code class="language-plaintext highlighter-rouge">&lt;b&gt;</code>, <code class="language-plaintext highlighter-rouge">&lt;i&gt;</code>, <code class="language-plaintext highlighter-rouge">&lt;color&gt;</code>, <code class="language-plaintext highlighter-rouge">&lt;size&gt;</code>) work in both systems.</p>
 </blockquote>
 

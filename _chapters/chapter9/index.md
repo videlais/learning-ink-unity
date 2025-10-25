@@ -5,7 +5,16 @@ chapter_number: 9
 layout: chapter
 ---
 
-Table of Contents:
+## Objectives
+
+- **Apply** the Continue() and ContinueMaximally() methods to load story content
+- **Utilize** the canContinue property to detect story continuation
+- **Implement** choice loading using currentChoices
+- **Execute** player choices with ChooseChoiceIndex()
+- **Access** tags from Ink stories using currentTags
+- **Analyze** the canContinue-ContinueMaximally-currentChoices pattern
+
+## Table of Contents
 
 - [Loading Story Chunks](#loading-story-chunks)
   - [**Continue()**](#continue)
@@ -23,6 +32,8 @@ Table of Contents:
   - [*currentTags*](#currenttags)
   - [**Continue()** versus **ContinueMaximally()** with Tags](#continue-versus-continuemaximally-with-tags)
   - [Dialogue Tags](#dialogue-tags)
+
+---
 
 ## Loading Story Chunks
 

@@ -5,7 +5,16 @@ chapter_number: 11
 layout: chapter
 ---
 
-Table of Contents:
+## Objectives
+
+- **Create** Button GameObjects within a Canvas
+- **Configure** Vertical Layout Group to force child expansion
+- **Implement** dynamic button creation using prefabs
+- **Apply** Instantiate() to create UI elements at runtime
+- **Parse** Ink Choice objects into Button text
+- **Evaluate** Unity UI vs TextMeshPro for button text rendering
+
+## Table of Contents
 
 - [Working with Buttons](#working-with-buttons)
   - [Forcing Child Expansion](#forcing-child-expansion)
@@ -13,6 +22,8 @@ Table of Contents:
 - [Creating Prefabs](#creating-prefabs)
   - [Creating a Button Prefab](#creating-a-button-prefab)
   - [Dynamically Creating Buttons](#dynamically-creating-buttons)
+
+---
 
 ## Working with Buttons
 

@@ -5,7 +5,16 @@ chapter_number: 10
 layout: chapter
 ---
 
-Table of Contents:
+## Objectives
+
+- **Create** Canvas and Text GameObjects for displaying UI content
+- **Utilize** GetComponentInChildren<>() to access child components
+- **Configure** Text properties (font, size, color, alignment)
+- **Apply** layout components (Vertical/Horizontal Layout Groups)
+- **Evaluate** Unity UI systems (uGUI, TextMeshPro, UI Toolkit)
+- **Attach** and remove scripting components from GameObjects
+
+## Table of Contents
 
 - [Adding GameObjects](#adding-gameobjects)
   - [Adding **Text**](#adding-text)
@@ -15,6 +24,8 @@ Table of Contents:
   - [Using **GetComponentInChildren\<GameObject\>()**](#using-getcomponentinchildrengameobject)
   - [Adjusting **Text** Properties](#adjusting-text-properties)
   - [Working with Layouts](#working-with-layouts)
+
+---
 
 ## Adding GameObjects
 

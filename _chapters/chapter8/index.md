@@ -5,6 +5,23 @@ chapter_number: 8
 layout: chapter
 ---
 
+## Objectives
+
+- **Install** the Ink Unity Integration package using the Unity Package Manager
+- **Evaluate** different installation methods (UPM, manifest.json, OpenUPM, .unitypackage)
+- **Import** Ink demo scenes and samples
+- **Create** a basic scripting component for testing Ink integration
+- **Utilize** the Ink Compiler and Runtime in Unity projects
+
+## Table of Contents
+
+- [Accessing and Importing Ink Unity Integration](#accessing-and-importing-ink-unity-integration)
+  - [Installing via Package Manager (Recommended)](#installing-via-package-manager-recommended)
+  - [Importing Demo Scenes](#importing-demo-scenes)
+- [Creating Example Scripting Component](#creating-example-scripting-component)
+
+---
+
 ## Accessing and Importing Ink Unity Integration
 
 Open Unity Hub and create a new project. (This project is for testing purposes. Its name can be whatever is most convenient including the default "New Unity Project".)

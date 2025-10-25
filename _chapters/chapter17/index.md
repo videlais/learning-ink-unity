@@ -5,7 +5,16 @@ chapter_number: 17
 layout: chapter
 ---
 
-Table of Contents:
+## Objectives
+
+- **Apply** EvaluateFunction() to call Ink functions from C#
+- **Implement** function calls with arguments passed from Unity to Ink
+- **Capture** function return values and text output from Ink functions
+- **Utilize** buttons to trigger Ink function execution
+- **Integrate** function results into Unity UI dynamically
+- **Analyze** the three general forms of EvaluateFunction() usage
+
+## Table of Contents
 
 - [**EvaluateFunction()**](#evaluatefunction)
   - [Function Call](#function-call)
@@ -14,6 +23,8 @@ Table of Contents:
 - [Buttons to Functions](#buttons-to-functions)
   - [Calling A Function As A Result of Clicking](#calling-a-function-as-a-result-of-clicking)
   - [Calling A Function and Saving Its Results As A Result of Clicking](#calling-a-function-and-saving-its-results-as-a-result-of-clicking)
+
+---
 
 ## **EvaluateFunction()**
 

@@ -5,7 +5,16 @@ chapter_number: 12
 layout: chapter
 ---
 
-Table of Contents:
+## Objectives
+
+- **Implement** event listeners using AddListener() for Button onClick events
+- **Utilize** UnityAction delegates and lambda expressions for event handling
+- **Execute** ChooseChoiceIndex() through button interactions
+- **Destroy** dynamically created GameObjects to refresh UI
+- **Create** text elements dynamically to display story content
+- **Apply** the event-driven pattern for interactive storytelling
+
+## Table of Contents
 
 - [User Events](#user-events)
   - [Adding Event Listeners](#adding-event-listeners)
@@ -13,6 +22,8 @@ Table of Contents:
 - [Refreshing User Interfaces](#refreshing-user-interfaces)
   - [Destroying Buttons](#destroying-buttons)
   - [Creating Text](#creating-text)
+
+---
 
 ## User Events
 

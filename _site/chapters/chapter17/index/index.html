@@ -1,14 +1,33 @@
-<p>title: “Ink + Unity: Calling Ink Functions”
-order: 17
-chapter_number: 17
-layout: chapter</p>
+<h2 id="objectives">Objectives</h2>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>- [Function Call](#function-call)
-- [Function Call and Arguments](#function-call-and-arguments)
-- [Function Call, Text Output, and Arguments](#function-call-text-output-and-arguments)   - [Buttons to Functions](#buttons-to-functions)
-- [Calling A Function As A Result of Clicking](#calling-a-function-as-a-result-of-clicking)
-- [Calling A Function and Saving Its Results As A Result of Clicking](#calling-a-function-and-saving-its-results-as-a-result-of-clicking)
-</code></pre></div></div>
+<ul>
+  <li><strong>Apply</strong> EvaluateFunction() to call Ink functions from C#</li>
+  <li><strong>Implement</strong> function calls with arguments passed from Unity to Ink</li>
+  <li><strong>Capture</strong> function return values and text output from Ink functions</li>
+  <li><strong>Utilize</strong> buttons to trigger Ink function execution</li>
+  <li><strong>Integrate</strong> function results into Unity UI dynamically</li>
+  <li><strong>Analyze</strong> the three general forms of EvaluateFunction() usage</li>
+</ul>
+
+<h2 id="table-of-contents">Table of Contents</h2>
+
+<ul>
+  <li><a href="#evaluatefunction"><strong>EvaluateFunction()</strong></a>
+    <ul>
+      <li><a href="#function-call">Function Call</a></li>
+      <li><a href="#function-call-and-arguments">Function Call and Arguments</a></li>
+      <li><a href="#function-call-text-output-and-arguments">Function Call, Text Output, and Arguments</a></li>
+    </ul>
+  </li>
+  <li><a href="#buttons-to-functions">Buttons to Functions</a>
+    <ul>
+      <li><a href="#calling-a-function-as-a-result-of-clicking">Calling A Function As A Result of Clicking</a></li>
+      <li><a href="#calling-a-function-and-saving-its-results-as-a-result-of-clicking">Calling A Function and Saving Its Results As A Result of Clicking</a></li>
+    </ul>
+  </li>
+</ul>
+
+<hr />
 
 <h2 id="evaluatefunction"><strong>EvaluateFunction()</strong></h2>
 
@@ -286,11 +305,9 @@ public class NewBehaviourScript : MonoBehaviour
     {
         // Load the Story using the compiled file
         /* Lines 302-317 omitted */
-        });
     }
 }
 </code></pre>
-<p>```</p>
 
 <p>In the above code, when the <strong>Button</strong> is clicked, its text output is saved via the variable  <em>textOutput</em>. This is then used as part of the <em>text</em> property.</p>
 

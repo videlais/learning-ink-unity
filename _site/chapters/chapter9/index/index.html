@@ -1,22 +1,48 @@
-<p>title: “Ink: Introducing Story API”
-order: 9
-chapter_number: 9
-layout: chapter</p>
+<h2 id="objectives">Objectives</h2>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>- [**Continue()**](#continue)
-- [**ContinueMaximally()**](#continuemaximally)
-- [End of Story](#end-of-story)
-- [*canContinue*](#cancontinue)   - [Loading Choices](#loading-choices)
-- [*currentChoices*](#currentchoices)
-- [**Choice** Objects](#choice-objects)
-- [The *canContinue*-**ContinueMaximally()**-*currentChoices* Pattern](#the-cancontinue-continuemaximally-currentchoices-pattern)
-- [Making Choices](#making-choices)
-  - [**ChooseChoiceIndex()**](#choosechoiceindex)
-  - [Choice Out of Range Error](#choice-out-of-range-error)   - [Loading Tags](#loading-tags)
-- [*currentTags*](#currenttags)
-- [**Continue()** versus **ContinueMaximally()** with Tags](#continue-versus-continuemaximally-with-tags)
-- [Dialogue Tags](#dialogue-tags)
-</code></pre></div></div>
+<ul>
+  <li><strong>Apply</strong> the Continue() and ContinueMaximally() methods to load story content</li>
+  <li><strong>Utilize</strong> the canContinue property to detect story continuation</li>
+  <li><strong>Implement</strong> choice loading using currentChoices</li>
+  <li><strong>Execute</strong> player choices with ChooseChoiceIndex()</li>
+  <li><strong>Access</strong> tags from Ink stories using currentTags</li>
+  <li><strong>Analyze</strong> the canContinue-ContinueMaximally-currentChoices pattern</li>
+</ul>
+
+<h2 id="table-of-contents">Table of Contents</h2>
+
+<ul>
+  <li><a href="#loading-story-chunks">Loading Story Chunks</a>
+    <ul>
+      <li><a href="#continue"><strong>Continue()</strong></a></li>
+      <li><a href="#continuemaximally"><strong>ContinueMaximally()</strong></a></li>
+      <li><a href="#end-of-story">End of Story</a></li>
+      <li><a href="#cancontinue"><em>canContinue</em></a></li>
+    </ul>
+  </li>
+  <li><a href="#loading-choices">Loading Choices</a>
+    <ul>
+      <li><a href="#currentchoices"><em>currentChoices</em></a></li>
+      <li><a href="#choice-objects"><strong>Choice</strong> Objects</a></li>
+      <li><a href="#the-cancontinue-continuemaximally-currentchoices-pattern">The <em>canContinue</em>-<strong>ContinueMaximally()</strong>-<em>currentChoices</em> Pattern</a></li>
+      <li><a href="#making-choices">Making Choices</a>
+        <ul>
+          <li><a href="#choosechoiceindex"><strong>ChooseChoiceIndex()</strong></a></li>
+          <li><a href="#choice-out-of-range-error">Choice Out of Range Error</a></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li><a href="#loading-tags">Loading Tags</a>
+    <ul>
+      <li><a href="#currenttags"><em>currentTags</em></a></li>
+      <li><a href="#continue-versus-continuemaximally-with-tags"><strong>Continue()</strong> versus <strong>ContinueMaximally()</strong> with Tags</a></li>
+      <li><a href="#dialogue-tags">Dialogue Tags</a></li>
+    </ul>
+  </li>
+</ul>
+
+<hr />
 
 <h2 id="loading-story-chunks">Loading Story Chunks</h2>
 
