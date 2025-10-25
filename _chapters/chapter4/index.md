@@ -5,6 +5,19 @@ chapter_number: 4
 layout: chapter
 ---
 
+## Objectives
+
+- **Apply** assignment and arithmetic operators to manipulate values
+- **Utilize** string operators including concatenation, escape sequences, and interpolation
+- **Evaluate** expressions using comparison operators
+- **Construct** complex conditional logic with AND and OR operators
+- **Implement** pattern matching with the `is` operator
+- **Use** null-conditional and null-coalescing operators for safe null handling
+- **Apply** switch expressions for concise conditional logic
+- **Access** collection elements using range and index operators
+
+## Table of Contents
+
 - [Assignment Operator](#assignment-operator)
 - [Arithmetic Operators](#arithmetic-operators)
   - [Addition](#addition)

@@ -5,6 +5,17 @@ chapter_number: 7
 layout: chapter
 ---
 
+## Objectives
+
+- **Navigate** the Unity Editor using the Hierarchy, Inspector, and Project windows
+- **Manipulate** GameObjects using Transform tools (move, rotate, scale)
+- **Configure** Scene and Game views for effective development
+- **Utilize** Unity's search and filtering capabilities
+- **Apply** modern Unity services including Version Control and Gaming Services
+- **Organize** project layouts for efficient workflow
+
+## Table of Contents
+
 - [Windows](#windows)
   - [Hierarchy](#hierarchy)
     - [Visibility and Picking](#visibility-and-picking)

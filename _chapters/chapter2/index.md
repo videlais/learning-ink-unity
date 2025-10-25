@@ -5,6 +5,17 @@ chapter_number: 2
 layout: chapter
 ---
 
+## Objectives
+
+- **Explain** the anatomy of a class including fields, properties, and methods
+- **Create** classes with auto-implemented properties and init-only setters
+- **Implement** required properties using C# 11.0+ syntax
+- **Construct** objects using constructors and the `new` keyword
+- **Apply** the `this` keyword to reference the current instance
+- **Utilize** records for immutable data structures
+
+## Table of Contents
+
 - [Class Anatomy](#class-anatomy)
   - [Fields](#fields)
   - [Properties](#properties)

@@ -5,6 +5,17 @@ chapter_number: 1
 layout: chapter
 ---
 
+## Objectives
+
+- **Define** variables, constants, and data types in C#
+- **Distinguish** between common data types (integers, floats, booleans, characters, strings)
+- **Apply** type inference using the `var` keyword
+- **Create** and manipulate arrays, lists, and dictionaries
+- **Utilize** modern C# collection expressions and target-typed new syntax
+- **Implement** raw string literals for multi-line text
+
+## Table of Contents
+
 - [Comments](#comments)
 - [Variables and Constants](#variables-and-constants)
   - [Common Data Types](#common-data-types)

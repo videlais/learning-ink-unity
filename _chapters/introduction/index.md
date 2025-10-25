@@ -5,6 +5,16 @@ chapter_number: 0
 layout: chapter
 ---
 
+## Objectives
+
+- **Identify** the purpose and scope of this book project
+- **Recognize** the relationship between this book and the Unofficial Ink Cookbook
+- **Understand** the background and expertise of the author
+
+## Table of Contents
+
+- [Objectives](#objectives)
+- [Table of Contents](#table-of-contents)
 - [About this Project](#about-this-project)
 - [About the Author](#about-the-author)
 

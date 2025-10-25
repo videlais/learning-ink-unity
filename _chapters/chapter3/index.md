@@ -5,6 +5,18 @@ chapter_number: 3
 layout: chapter
 ---
 
+## Objectives
+
+- **Define** object-oriented programming and its core concepts
+- **Analyze** class relationships using "is a" and "has a" patterns
+- **Implement** inheritance to create child classes from parent classes
+- **Apply** the `static` keyword to create class-level members
+- **Demonstrate** polymorphism through method overriding
+- **Utilize** `virtual` and `abstract` methods for run-time polymorphism
+- **Access** base class members using the `base` keyword
+
+## Table of Contents
+
 - [Inheritance](#inheritance)
   - [Inheriting Fields, Properties, and Methods](#inheriting-fields-properties-and-methods)
   - [Using `static`](#using-static)

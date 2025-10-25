@@ -5,6 +5,25 @@ chapter_number: 6
 layout: chapter
 ---
 
+## Objectives
+
+- **Identify** the anatomy of a MonoBehaviour script
+- **Explain** the purpose of Unity namespaces and using directives
+- **Apply** the Start() and Update() methods in Unity scripts
+- **Utilize** SerializeField for exposing private fields in the Inspector
+- **Configure** external code editors for Unity development
+- **Create** and attach scripting components to GameObjects
+
+## Table of Contents
+
+- [Anatomy of a MonoBehaviour Script](#anatomy-of-a-monobehaviour-script)
+- [Using Directives and Namespaces](#using-directives-and-namespaces)
+- [Start() and Update() Methods](#start-and-update-methods)
+- [SerializeField and Inspector Access](#serializefield-and-inspector-access)
+- [Configuring Code Editors](#configuring-code-editors)
+
+---
+
 Because all GameObjects can have scripting components, their behaviors can be changed through writing C\# code. The *scripting component* is additional code that is written that is run as part of the GameObject and can generally be adjusted alongside its other components. However, unlike other components, scripting components (behavior scripts) are edited in an external code editor.
 
 **As of 2025**, Unity supports multiple code editors:

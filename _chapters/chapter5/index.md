@@ -5,6 +5,16 @@ chapter_number: 5
 layout: chapter
 ---
 
+## Objectives
+
+- **Define** fundamental Unity terms: Project, Scene, Asset, GameObject, and Component
+- **Explain** the Entity-Component model and its advantages
+- **Describe** how game loops function in Unity
+- **Understand** the principle of composition over inheritance in Unity development
+- **Identify** modern Unity project templates (URP, HDRP) and their use cases
+
+## Table of Contents
+
 - [Common Terms](#common-terms)
   - [Project](#project)
   - [Scene](#scene)
