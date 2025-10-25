@@ -1,0 +1,280 @@
+<h2 id="objectives">Objectives</h2>
+
+<ul>
+  <li><strong>Define</strong> variables, constants, and data types in C#</li>
+  <li><strong>Distinguish</strong> between common data types (integers, floats, booleans, characters, strings)</li>
+  <li><strong>Apply</strong> type inference using the <code class="language-plaintext highlighter-rouge">var</code> keyword</li>
+  <li><strong>Create</strong> and manipulate arrays, lists, and dictionaries</li>
+  <li><strong>Utilize</strong> modern C# collection expressions and target-typed new syntax</li>
+  <li><strong>Implement</strong> raw string literals for multi-line text</li>
+</ul>
+
+<h2 id="table-of-contents">Table of Contents</h2>
+
+<ul>
+  <li><a href="#comments">Comments</a></li>
+  <li><a href="#variables-and-constants">Variables and Constants</a>
+    <ul>
+      <li><a href="#common-data-types">Common Data Types</a>
+        <ul>
+          <li><a href="#integers">Integers</a></li>
+          <li><a href="#floats">Floats</a></li>
+          <li><a href="#booleans">Booleans</a></li>
+          <li><a href="#characters">Characters</a></li>
+        </ul>
+      </li>
+      <li><a href="#constants">Constants</a></li>
+    </ul>
+  </li>
+  <li><a href="#collections">Collections</a>
+    <ul>
+      <li><a href="#arrays">Arrays</a></li>
+      <li><a href="#lists">Lists</a></li>
+      <li><a href="#dictionaries">Dictionaries</a></li>
+      <li><a href="#strings">Strings</a></li>
+    </ul>
+  </li>
+</ul>
+
+<hr />
+
+<h2 id="comments">Comments</h2>
+
+<p>A <em>comment</em> is a special type of code that is ignored by computers. Comments are written as notes for other programmers or as reminders. They are part of the code, but not run when a program does.</p>
+
+<p>In C#, a single-line comment start with two backslashes, <code class="language-plaintext highlighter-rouge">//</code>. Anything after the backslashes until the end of the line is considered a <em>comment</em>.</p>
+
+<p><strong>Example:</strong></p>
+
+<pre><code class="language-CSharp">// Single line comment!
+// Another single line comment!
+</code></pre>
+
+<p>For multi-line comments, a single backslash, <code class="language-plaintext highlighter-rouge">/</code>, and asterisk, <code class="language-plaintext highlighter-rouge">*</code>, mark the beginning of a multiline comment. It ends when a asterisk, <code class="language-plaintext highlighter-rouge">*</code>, followed by a backslash, <code class="language-plaintext highlighter-rouge">/</code>.</p>
+
+<pre><code class="language-CSharp">/* This is a
+multi-line
+comment. */
+</code></pre>
+
+<hr />
+
+<h2 id="variables-and-constants">Variables and Constants</h2>
+
+<p>A <em>variable</em> is a container for data that can change when a program is run. Depending on the <em>type</em> of data, different labels, <em>data types</em>, are used when the container is created to explain how the data should be treated or stored when a program is run.</p>
+
+<pre><code class="language-CSharp">example = 5;
+</code></pre>
+
+<p>Variable <em>names</em> can contain letters, numbers, and the underscore. They <strong>cannot</strong> contain any spaces.</p>
+
+<p>The following are valid variables names:</p>
+
+<pre><code class="language-CSharp">example = 5;
+example2 = 6;
+_example = 7;
+anotherExample = 8;
+</code></pre>
+
+<blockquote>
+  <p><strong>Note:</strong> Because variable names cannot contain spaces, it is very common to write variable names in a pattern using uppercase and lowercase letters to mark where the next word starts.</p>
+</blockquote>
+
+<h3 id="common-data-types">Common Data Types</h3>
+
+<p>There are many different <em>data types</em>. These identify the <em>type</em> of data in the variable. They also appear <em>before</em> the name of the variable when it is created.</p>
+
+<p>Some of the more common types are <strong>Integers</strong>, <strong>Floats</strong>, <strong>Booleans</strong>, and <strong>Characters</strong>.</p>
+
+<h4 id="integers">Integers</h4>
+
+<p>An <strong>Integer</strong> is a whole number. It does not contain a decimal point. Examples include numbers like <code class="language-plaintext highlighter-rouge">5</code>, <code class="language-plaintext highlighter-rouge">15</code>, and <code class="language-plaintext highlighter-rouge">899999</code>.</p>
+
+<p>An Integer can be any number within the range of <code class="language-plaintext highlighter-rouge">-2,147,483,648</code> to <code class="language-plaintext highlighter-rouge">2,147,483,647</code>.</p>
+
+<p><strong>Integers</strong> are created in C# through the keyword <code class="language-plaintext highlighter-rouge">int</code>.</p>
+
+<pre><code class="language-CSharp">int example = 5;
+</code></pre>
+
+<h4 id="floats">Floats</h4>
+
+<p>A <strong>Float</strong> is a value containing a decimal point. They are named “floats” based on the term “floating point,” which is the technical name for any decimal point values represented digitally. They are called this because decimal point can “float.”</p>
+
+<p>Float value can be between <code class="language-plaintext highlighter-rouge">-3.4 x 1038</code> to <code class="language-plaintext highlighter-rouge">+3.4 x 1038</code>.</p>
+
+<p><strong>Floats</strong> are created through the keyword <code class="language-plaintext highlighter-rouge">float</code>.</p>
+
+<pre><code class="language-CSharp">float example = 3.14f;
+</code></pre>
+
+<blockquote>
+  <p><strong>Note:</strong> The use of the letter <code class="language-plaintext highlighter-rouge">f</code> after a <strong>Float</strong> value is part of how decimal numbers are written. It lets C# know not to convert the value into something else and leave it a “float” value.</p>
+</blockquote>
+
+<h4 id="booleans">Booleans</h4>
+
+<p>A <strong>Boolean</strong> value is named after George Boole, who invented a way to write algebra using only <code class="language-plaintext highlighter-rouge">true</code> (1) and <code class="language-plaintext highlighter-rouge">false</code> (0) values.</p>
+
+<p>Boolean values can be either <code class="language-plaintext highlighter-rouge">true</code> or <code class="language-plaintext highlighter-rouge">false</code>.</p>
+
+<p>They are created using the keyword <code class="language-plaintext highlighter-rouge">bool</code>.</p>
+
+<pre><code class="language-CSharp">bool example = true;
+</code></pre>
+
+<blockquote>
+  <p><strong>Note:</strong> A Boolean variable can <strong>only</strong> use the special keywords <code class="language-plaintext highlighter-rouge">true</code> and <code class="language-plaintext highlighter-rouge">false</code> for its values.</p>
+</blockquote>
+
+<h4 id="characters">Characters</h4>
+
+<p>A <strong>Character</strong> is a single letter, number, or other symbol enclosed in single quotation marks.</p>
+
+<p>Characters are created through the keyword <code class="language-plaintext highlighter-rouge">char</code>.</p>
+
+<pre><code class="language-CSharp">char example = '3';
+</code></pre>
+
+<blockquote>
+  <p><strong>Note:</strong> Characters <strong>must</strong> be a single letter, number, or other symbol. Their values also <strong>must</strong> be enclosed in <em>single</em> quotation marks.</p>
+</blockquote>
+
+<h3 id="constants">Constants</h3>
+
+<p>Variables change. However, there is a special type of variable called a <em>constant</em> that does not. In C#, a <em>constant</em>, once created, cannot ever change its value.</p>
+
+<p>Constants are created using the keyword <code class="language-plaintext highlighter-rouge">const</code>. It appears <em>before</em> the label for any other data type.</p>
+
+<pre><code class="language-CSharp">const float PI = 3.14159f;
+</code></pre>
+
+<blockquote>
+  <p><strong>Note:</strong> A common pattern when creating constants is to write it using only capital letters. This signals its visual importance in the code.</p>
+</blockquote>
+
+<h3 id="type-inference-with-var">Type Inference with <code class="language-plaintext highlighter-rouge">var</code></h3>
+
+<p>Modern C# (since version 3.0, enhanced in later versions) supports <em>type inference</em> using the keyword <code class="language-plaintext highlighter-rouge">var</code>. When a variable is declared with <code class="language-plaintext highlighter-rouge">var</code>, the compiler automatically determines the type based on the value assigned to it.</p>
+
+<pre><code class="language-CSharp">var example = 5;          // Inferred as int
+var pi = 3.14f;           // Inferred as float
+var greeting = "Hello!";  // Inferred as string
+var isActive = true;      // Inferred as bool
+</code></pre>
+
+<blockquote>
+  <p><strong>Note:</strong> While <code class="language-plaintext highlighter-rouge">var</code> is convenient and widely used in modern C#, it can only be used when the type can be clearly inferred from the assignment. The variable is still <em>strongly typed</em> - it doesn’t change the type, just lets the compiler figure it out for you.</p>
+</blockquote>
+
+<h2 id="collections">Collections</h2>
+
+<p>Many programming languages define <em>types</em> of data that can hold others. In C#, these are known as <em>collections</em> because they “collect” other data types.</p>
+
+<h3 id="arrays">Arrays</h3>
+
+<p>The most common type of <em>collection</em> in any programming language is an <strong>Array</strong>. It defines a sequence of values where <strong>order is important</strong>.</p>
+
+<pre><code class="language-CSharp">int[] exampleArray;
+</code></pre>
+
+<p>Arrays are created using the name of a data type and then opening (<code class="language-plaintext highlighter-rouge">[</code>]) and closing (<code class="language-plaintext highlighter-rouge">]</code>) square brackets after it. They appear <em>before</em> the name of the variable.</p>
+
+<p>Values are created with an Array in C# through specifying its data type, <em>length</em> (number of entries), and then its initial values in opening (<code class="language-plaintext highlighter-rouge">{</code><code class="language-plaintext highlighter-rouge">) and closing (</code>}`) curly brackets.</p>
+
+<pre><code class="language-CSharp">int[] example = new int[5]{1,2,3,4,6};
+</code></pre>
+
+<blockquote>
+  <p><strong>Note:</strong> The <code class="language-plaintext highlighter-rouge">new</code> keyword signals that an <em>object</em> is being created. Classes and objects are explained in the chapter on <a href="../chapter3/index.md">Object-Oriented Programming</a>.</p>
+</blockquote>
+
+<p><strong>Modern C# (9.0+) also supports target-typed <code class="language-plaintext highlighter-rouge">new</code> expressions</strong>, which lets you omit the type on the right side when it’s obvious:</p>
+
+<pre><code class="language-CSharp">int[] example = new[]{1,2,3,4,6};      // Simpler syntax
+int[] example2 = [1,2,3,4,6];          // Collection expression (C# 12.0+)
+</code></pre>
+
+<p>Values within an array are defined in reference to their position called their <em>index</em>. To access data within an array, its index is needed. In C#, indices start with 0 and increase up to (1 - <em>length</em>).</p>
+
+<pre><code class="language-CSharp">int[] example = new int[5]{1,2,3,4,6};
+// 2
+example[1];
+// 1
+example[0]
+</code></pre>
+
+<h3 id="lists">Lists</h3>
+
+<p>A <strong>List</strong> is like an <strong>Array</strong>, but provides the ability to search, sort, and manipulate its entries. Order is <strong>not</strong> important to a <strong>List</strong>.</p>
+
+<p>Lists are created using a notation of <code class="language-plaintext highlighter-rouge">&lt;Type&gt;</code> where each “Type” is a known data type following the keyword <code class="language-plaintext highlighter-rouge">List</code>.</p>
+
+<pre><code class="language-CSharp">List&lt;char&gt; exampleList = new List&lt;char&gt;();
+</code></pre>
+
+<p><strong>In modern C#</strong>, you can use simpler syntax:</p>
+
+<pre><code class="language-CSharp">var exampleList = new List&lt;char&gt;();    // Target-typed new
+List&lt;char&gt; exampleList2 = [];         // Collection expression (C# 12.0+)
+</code></pre>
+
+<p>Values are accessed through using opening (<code class="language-plaintext highlighter-rouge">[</code>) and closing (<code class="language-plaintext highlighter-rouge">]</code>) square brackets for their <em>index</em>.</p>
+
+<pre><code class="language-CSharp">List&lt;char&gt; exampleList = new List&lt;char&gt;();
+exampleList.Add('A');
+exampleList.Add('B');
+// 'A'
+exampleList[0];
+</code></pre>
+
+<h3 id="dictionaries">Dictionaries</h3>
+
+<p>A <em>Dictionary</em> is a set of key-value pairs. A key is used to refer to a <em>value</em>. A <em>dictionary</em> is named as much because, like its namesake, something is looked up (a key) to get something else (a value).</p>
+
+<p>Dictionaries are created using a notation of <code class="language-plaintext highlighter-rouge">&lt;Type, Type&gt;</code> where each “Type” is a known data type following the keyword <code class="language-plaintext highlighter-rouge">Dictionary</code>.</p>
+
+<pre><code class="language-CSharp">Dictionary&lt;int, char&gt; dict = new Dictionary&lt;int, char&gt;();
+</code></pre>
+
+<p><strong>In modern C#</strong>, you can use simpler syntax:</p>
+
+<pre><code class="language-CSharp">var dict = new Dictionary&lt;int, char&gt;();  // Target-typed new
+</code></pre>
+
+<p>In the above example, the key would be an <strong>Integer</strong> and any values associated with it <strong>Characters</strong>.</p>
+
+<p>Values are accessed through using opening (<code class="language-plaintext highlighter-rouge">[</code>) and closing (<code class="language-plaintext highlighter-rouge">]</code>) square brackets for their <em>key</em>.</p>
+
+<pre><code class="language-CSharp">Dictionary&lt;int, char&gt; dict = new Dictionary&lt;int, char&gt;();
+dict.Add(99, 'A');
+// 'A'
+dict[99];
+</code></pre>
+
+<blockquote>
+  <p><strong>Note:</strong> In order to be accessed by their key, values must be added to a dictionary through the method <strong>Add()</strong>. Methods are explained as part of the Object-Oriented Programming chapter.</p>
+</blockquote>
+
+<h3 id="strings">Strings</h3>
+
+<p>A <em>String</em> is a special type of collection that can only contain <strong>Characters</strong>.</p>
+
+<p>Strings are created using the keyword <code class="language-plaintext highlighter-rouge">string</code></p>
+
+<pre><code class="language-CSharp">string example = "Hi!";
+</code></pre>
+
+<blockquote>
+  <p><strong>Note:</strong> String values are <em>always</em> enclosed in double-quotation marks.</p>
+</blockquote>
+
+<p><strong>Modern C# (11.0+) also supports raw string literals</strong> using triple quotes, which is especially useful for multiline strings or strings containing quotes:</p>
+
+<pre><code class="language-CSharp">string json = """
+    {
+        "name": "Fred",
+        "age": 25
+    }
+    """;
+</code></pre>

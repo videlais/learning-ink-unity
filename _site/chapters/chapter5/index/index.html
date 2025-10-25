@@ -1,0 +1,167 @@
+<h2 id="objectives">Objectives</h2>
+
+<ul>
+  <li><strong>Define</strong> fundamental Unity terms: Project, Scene, Asset, GameObject, and Component</li>
+  <li><strong>Explain</strong> the Entity-Component model and its advantages</li>
+  <li><strong>Describe</strong> how game loops function in Unity</li>
+  <li><strong>Understand</strong> the principle of composition over inheritance in Unity development</li>
+  <li><strong>Identify</strong> modern Unity project templates (URP, HDRP) and their use cases</li>
+</ul>
+
+<h2 id="table-of-contents">Table of Contents</h2>
+
+<ul>
+  <li><a href="#common-terms">Common Terms</a>
+    <ul>
+      <li><a href="#project">Project</a></li>
+      <li><a href="#scene">Scene</a></li>
+      <li><a href="#asset">Asset</a></li>
+      <li><a href="#gameobject">GameObject</a></li>
+      <li><a href="#component">Component</a></li>
+    </ul>
+  </li>
+  <li><a href="#concepts">Concepts</a>
+    <ul>
+      <li><a href="#entity-component-model">Entity-Component Model</a></li>
+      <li><a href="#game-loops">Game Loops</a></li>
+      <li><a href="#composition-over-inheritance">Composition Over Inheritance</a></li>
+    </ul>
+  </li>
+</ul>
+
+<hr />
+
+<h2 id="common-terms">Common Terms</h2>
+
+<h3 id="project">Project</h3>
+
+<p>Everything in Unity starts with <em>projects</em>. These are configurations, files, and builds based on their name as created in Unity or through the Unity Hub. They contain scenes, assets, game objects, and components needed to create, run, and build the project.</p>
+
+<p>It is often helpful to think of each project as its own <em>game</em>, but the name “project” is a general description for any collection of settings and files used to create something in Unity.</p>
+
+<p>When creating a project in Unity Hub (the standard way to create projects in 2025), there are multiple templates available including 2D, 3D, High Definition Render Pipeline (HDRP), Universal Render Pipeline (URP), and others. These templates provide different starting configurations optimized for specific types of projects.</p>
+
+<blockquote>
+  <p><strong>Note:</strong> As of 2025, Unity Hub is the primary method for creating and managing Unity projects. It allows you to manage multiple Unity versions and easily switch between projects.</p>
+</blockquote>
+
+<p>The choice of template determines initial project settings, but projects can be reconfigured later. URP (Universal Render Pipeline) has become the recommended choice for most projects as it provides a good balance between visual quality and performance across platforms.</p>
+
+<p>A single Unity project will often have multiple scenes.</p>
+
+<h3 id="scene">Scene</h3>
+
+<p>Unity organizes projects into units called <em>scenes</em>. In order to use Unity, a scene must be <em>open</em>, and running anything means running a scene.</p>
+
+<p>It is often helpful to think of a scene as a level, environment, or other section of a larger game. Because they contain other useful functionality such as cameras and game objects, Unity starts with scenes and then then breaks organization down into other concepts.</p>
+
+<p>A single scene will often have many assets.</p>
+
+<h3 id="asset">Asset</h3>
+
+<p>An <em>asset</em> is any file or data that is added to a project. These can be images, text files, or more complicated things such as character models or multiple scenes.</p>
+
+<p>Unity has an <em>Asset Store</em> where signed-in users can download and use <em>assets</em> created by others for different purposes. These include everything from plugins for working with different languages and tools to 3D models or even templates for creating games.</p>
+
+<blockquote>
+  <p><strong>Note:</strong> As of 2025, Unity also has a Package Manager that provides access to both official Unity packages and community packages. Many essential tools and features are now distributed as packages rather than being built into the core editor.</p>
+</blockquote>
+
+<p>Assets are used when working with GameObjects.</p>
+
+<h3 id="gameobject">GameObject</h3>
+
+<p>Anything that appears in or is used as part of a scene is a <em>GameObject</em>. This includes cameras, 3D models, text, and many other things. In Unity, GameObjects are the fundamental entities of any project. Adding or changing <em>anything</em> to a scene means working with a GameObject in some form or another.</p>
+
+<p>While the foundation of scenes, GameObjects are actually containers for Components.</p>
+
+<h3 id="component">Component</h3>
+
+<p>Every GameObject has its own set of <em>Components</em>. Each is used to change or augment functionality associated with that GameObject. Each, in turn, has <em>properties</em> that describe its relationship to the project and often other GameObjects in the scene.</p>
+
+<p><strong>Every</strong> GameObject has a built-in component called <em>Transform</em> that represents its position, rotation, and scale. Every GameObject, then, has a position in the project, even if not visible to the player or as part of the current view.</p>
+
+<h2 id="concepts">Concepts</h2>
+
+<h3 id="entity-component-model">Entity-Component Model</h3>
+
+<p>Unity is based on the <em>Entity-Component Model</em>. Generally, the Entity-Component Model is broken up into three terms that can also be used to help understand Unity.</p>
+
+<ul>
+  <li>
+    <p><strong>Entity</strong>: The smallest unit in a project. In Unity, every GameObject is an <em>entity</em>. This means that it has a unique identification. For example, every character added to a scene would have a different name.</p>
+  </li>
+  <li>
+    <p><strong>Component</strong>: these are properties, relationships, or other data that describes the entity. In Unity, because every GameObject has a Transform component among others depending on its type, values are adjusted in a component to influence its relationships to the project and other GameObjects in the scene.</p>
+  </li>
+  <li>
+    <p><strong>System</strong>: one or more processes that work on entities. For example, in Unity, there are rendering and physics systems. These each work separately, but understand a scene through its GameObjects and the components each has that define itself and its relationships.</p>
+  </li>
+</ul>
+
+<blockquote>
+  <p><strong>Note:</strong> Unity has also introduced the Entity Component System (ECS) as an alternative architecture for high-performance scenarios. While traditional GameObjects with MonoBehaviour scripts remain the standard approach (especially for beginners), ECS provides a data-oriented approach for projects requiring maximum performance. This textbook focuses on the traditional GameObject-Component model, which is more intuitive for learning and suitable for most projects.</p>
+</blockquote>
+
+<h3 id="game-loops">Game Loops</h3>
+
+<p>Unity is based on different <em>systems</em>. As a project runs, each one performs different tasks, and they all have the possibility of influencing each other.</p>
+
+<p>Consider, for example, a 2D platformer game where a player presses a button and a character moves on the screen. Such an interaction, while seemingly simple, works through these different systems. These could include a physics system that performed calculations that kept the character from passing through the floor of a level. It would also include an event system that accepted keyboard presses and translated those into character movement.</p>
+
+<p>In game design terms, this is known as a <em>game loop</em>. While a game “runs,” it is actually performing a loop (in programming terms) of the same systems as a series of steps each time. One runs, the next runs, and then then loop resets and they all run again.</p>
+
+<p>Unity uses the term “order of execution” to describe these steps. In general terms, the following steps are run for <strong>every</strong> GameObject in the scene.</p>
+
+<p>1) <strong>Initialization</strong>: Values are created and if the GameObject has a <strong>Start()</strong> method, it is run.</p>
+
+<p>1) <strong>Physics</strong>: Any internal physics calculations are run and the properties of the Transform component of any affected GameObjects are updated.</p>
+
+<p>1) <strong>Input Events</strong>: Input values are collected from devices such as keyboard, mice, or controllers.</p>
+
+<p>1) <strong>Game Logic</strong>: If the GameObject should react to input or other existing values, it does.</p>
+
+<p>1) <strong>Renderering</strong>: If a GameObject’s Transform component is changed and have a visual element, it is updated.</p>
+
+<p>1) <strong>Decommissioning</strong>: As a GameObject is removed (destroyed), it can perform final actions.</p>
+
+<p>As a scene is running, the Physics, Input Events, Game Logic, and Rendering systems run in sequence each loop. In fact, they run every <em>frame</em>.</p>
+
+<p>In animation terms, a <em>frame</em> is a single image that is part of a sequence that creates the illusion of motion. Depending on the frames per second (FPS), Unity will perform calculations to match the visual frequency of the images shown.</p>
+
+<p>As a scene is running, Unity creates the visual elements of the game through using a <em>camera</em> (a select area of a larger possible game space). The camera’s view is what a player would see as the game runs. Images (frames) are created based on what the camera is viewing and if any GameObjects are within the selected area of the camera. If they are, the player can “see” them; if not, the player cannot.</p>
+
+<p>A game loop runs different systems (Physics, Input Events, Game Logic, and Rendering) on the GameObjects that are active in the scene to calculate their interactions and relationships, updating each frame to create motion on screen.</p>
+
+<h3 id="composition-over-inheritance">Composition Over Inheritance</h3>
+
+<p>Unity understands the programming language C#. However, while it uses this object-oriented programming language (OOP), Unity strongly prefers <em>composition</em> over using inheritance. In the object-oriented programming model, objects can <em>inherit</em> from each other through creating a more generic version and then inheriting its properties and methods to create a more specific object.</p>
+
+<p>Unity uses scenes to organize GameObjects. Each, in turn, has its own components. Any of these could be <em>scripted components</em> that are C# code that are used to adjust the behavior of that GameObject. In fact, these are what Unity calls <em>Behavior Scripts</em>.</p>
+
+<p>Any GameObject can have a behavior script. Any created inherit from an object called <strong>MonoBehavior</strong> that provides a set of basic methods that allow a script to interact with the GameObject.</p>
+
+<p><strong>Example Behavior Script:</strong></p>
+
+<pre><code class="language-CSharp">using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class NewBehaviourScript : MonoBehaviour
+{
+    // Start is called before the first frame update
+    void Start()
+    {
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+    }
+}
+
+</code></pre>
+
+<p>When using these scripts (C# code), Unity strongly prefers that developers <em>compose</em> projects that start from scene, move to GameObjects, and then use scripted components on those objects. Instead of creating new objects that are used to create more specific ones, Unity strongly prefers the Entity-Component Model where GameObjects are the entities and any scripting (C# programming) is scripted components on those entities.</p>
+
+<p>In other words, instead of starting with code building up, Unity starts with GameObjects within a scene. If a GameObject needs some extra scripting, it is added as a <em>scripted component</em>. Otherwise, no new code is added and components, such as the built-in Transform component, are used to adjust properties and relationships.</p>

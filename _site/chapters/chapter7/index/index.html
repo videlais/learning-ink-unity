@@ -1,0 +1,399 @@
+<h2 id="objectives">Objectives</h2>
+
+<ul>
+  <li><strong>Navigate</strong> the Unity Editor using the Hierarchy, Inspector, and Project windows</li>
+  <li><strong>Manipulate</strong> GameObjects using Transform tools (move, rotate, scale)</li>
+  <li><strong>Configure</strong> Scene and Game views for effective development</li>
+  <li><strong>Utilize</strong> Unity’s search and filtering capabilities</li>
+  <li><strong>Apply</strong> modern Unity services including Version Control and Gaming Services</li>
+  <li><strong>Organize</strong> project layouts for efficient workflow</li>
+</ul>
+
+<h2 id="table-of-contents">Table of Contents</h2>
+
+<ul>
+  <li><a href="#windows">Windows</a>
+    <ul>
+      <li><a href="#hierarchy">Hierarchy</a>
+        <ul>
+          <li><a href="#visibility-and-picking">Visibility and Picking</a></li>
+          <li><a href="#searching">Searching</a></li>
+        </ul>
+      </li>
+      <li><a href="#inspector">Inspector</a>
+        <ul>
+          <li><a href="#transform-component">Transform Component</a></li>
+          <li><a href="#adding-components">Adding Components</a>
+            <ul>
+              <li><a href="#adding-scripting-components">Adding Scripting Components</a></li>
+            </ul>
+          </li>
+          <li><a href="#inspecting-assets">Inspecting Assets</a></li>
+        </ul>
+      </li>
+      <li><a href="#project">Project</a></li>
+    </ul>
+  </li>
+  <li><a href="#views">Views</a>
+    <ul>
+      <li><a href="#scene">Scene</a>
+        <ul>
+          <li><a href="#draw-mode">Draw Mode</a></li>
+          <li><a href="#2d--3d">2D / 3D</a></li>
+          <li><a href="#scene-lighting">Scene Lighting</a></li>
+          <li><a href="#scene-audio">Scene Audio</a></li>
+          <li><a href="#effects">Effects</a></li>
+          <li><a href="#hidden-objects">Hidden Objects</a></li>
+          <li><a href="#grid-visibility">Grid Visibility</a></li>
+        </ul>
+      </li>
+      <li><a href="#game">Game</a>
+        <ul>
+          <li><a href="#displays">Displays</a></li>
+          <li><a href="#resolution-aspect">Resolution Aspect</a></li>
+          <li><a href="#scale">Scale</a></li>
+          <li><a href="#maximize-on-play">Maximize on Play</a></li>
+          <li><a href="#mute-audio">Mute Audio</a></li>
+          <li><a href="#stats">Stats</a></li>
+          <li><a href="#gizmo-options">Gizmo Options</a></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li><a href="#tools">Tools</a>
+    <ul>
+      <li><a href="#transform">Transform</a></li>
+      <li><a href="#gizmo-settings">Gizmo Settings</a>
+        <ul>
+          <li><a href="#position">Position</a></li>
+          <li><a href="#rotation">Rotation</a></li>
+        </ul>
+      </li>
+      <li><a href="#play-pause-and-step">Play, Pause, and Step</a>
+        <ul>
+          <li><a href="#runtime-editing">Runtime Editing</a></li>
+        </ul>
+      </li>
+      <li><a href="#collaborate">Collaborate</a></li>
+      <li><a href="#cloud">Cloud</a></li>
+      <li><a href="#account">Account</a></li>
+      <li><a href="#layers">Layers</a></li>
+      <li><a href="#layout">Layout</a></li>
+    </ul>
+  </li>
+</ul>
+
+<hr />
+
+<p>The user interface of the Unity Editor is divided up into three central metaphors: windows, views, and tools.</p>
+
+<h2 id="windows">Windows</h2>
+
+<h3 id="hierarchy">Hierarchy</h3>
+
+<p><img src="./Hierarchy.png" alt="alt text" title="Hierarchy" /></p>
+
+<p>The Hierarchy window lists every GameObject in the Scene.</p>
+
+<p>The name “hierarchy” also comes from the representation of relationships between GameObjects in the Scene. If one GameObject is the parent or container of one or more GameObjects, their names will be under their parent’s name in the listing.</p>
+
+<p>Through dragging-and-dropping one or more GameObjects, they can be placed under a parent or removed from that parent through moving them out from “under” their name.</p>
+
+<h4 id="visibility-and-picking">Visibility and Picking</h4>
+
+<p><img src="./VisibilityandPicking.png" alt="alt text" title="Visibility and Picking" /></p>
+
+<p>As the number of GameObjects can potentially be quite large, the Hierarchy window also includes visibility settings for every GameObject. Through clicking on the eye icon to the left of one or more GameObjects, it will be hidden in the Scene view.</p>
+
+<p>Next to the Scene Visibility icon is also the Picking icon. Through clicking on a GameObject’s picking icon, it becomes selected in the Scene View. This allows for quickly selecting certain GameObjects without also potentially excluding others.</p>
+
+<h4 id="searching">Searching</h4>
+
+<p><img src="./Searching.png" alt="alt text" title="Searching" /></p>
+
+<p>To help with finding a GameObject by its name, the Hierarchy window includes a search bar. As the name of a GameObject is typed, the results are shown under the name of the current Scene.</p>
+
+<h3 id="inspector">Inspector</h3>
+
+<p><img src="./Inspector.png" alt="alt text" title="Inspector" /></p>
+
+<p>When a GameObject or Asset is selected in the Hierarchy window, its components will appear in the Inspector window.</p>
+
+<p>Depending on the type of object, it may have multiple built-in components whose values can be adjusted directly.</p>
+
+<h4 id="transform-component">Transform Component</h4>
+
+<p><img src="./TransformComponent.png" alt="alt text" title="Transform Component" /></p>
+
+<p>All GameObjects have a Transform Component for adjusting their Position, Rotation, and Scale.</p>
+
+<h4 id="adding-components">Adding Components</h4>
+
+<p><img src="./AddComponent.png" alt="alt text" title="Transform Component" /></p>
+
+<p>Clicking on the “Add Component” button open a menu for selecting new components to add.</p>
+
+<h5 id="adding-scripting-components">Adding Scripting Components</h5>
+
+<p><img src="./AddingScriptComponent.png" alt="alt text" title="Adding Scripting Component" /></p>
+
+<p>Selecting “New script” from the “Add Component” menu prompts for the new of a new behavior script.</p>
+
+<p>Clicking “Create and Add” (assuming a script does not already exist with the same name) will create the script in the Project window and attach it as a scripting component to the current GameObject.</p>
+
+<p>Double-clicking the file will open it in Visual Studio.</p>
+
+<h4 id="inspecting-assets">Inspecting Assets</h4>
+
+<p><img src="./AssetInspector.png" alt="alt text" title="Asset Inspector" /></p>
+
+<p>If an Asset is selected from the Project window, its properties and contents will be shown in the Inspector window. Depending on the type, different settings, properties, and options will be available.</p>
+
+<h3 id="project">Project</h3>
+
+<p><img src="./ProjectWindow.png" alt="alt text" title="Project Window" /></p>
+
+<p>The Project window shows all assets that are part of the current project. This also includes any imported assets or files added to the asset folder outside of using the Unity Editor to create them.</p>
+
+<p>The contents of the Project Window can be sorted through creating new folders using either the “+” menu under its title or using the right-click context menu. By default, the Project window includes a folder “Scenes” containing the current scene. (This is “SampleScene” by default).</p>
+
+<blockquote>
+  <p><strong>Note:</strong> As of 2025, Unity’s Project window supports two view modes: one-column and two-column layouts. You can switch between these using the icon in the lower-right corner of the Project window. The two-column layout provides a folder tree on the left and contents on the right, which many developers find more efficient for navigation.</p>
+</blockquote>
+
+<p>It is recommended to create folders for all types of Assets used in the Project sorted by either scene or by type of data. In a project with multiple scenes, for example, sorting assets by scene can help in organizing them. For smaller projects, or those with only one scene, sorting by type is a good approach. Creating a folder called “Scripts” for all files related to scripting components and another for “Sprites” or “Prefabs”, for example.</p>
+
+<h2 id="views">Views</h2>
+
+<p>In the default layout, there are two views in the center of the Unity Editor window: Scene and Game.</p>
+
+<h3 id="scene">Scene</h3>
+
+<p><img src="./Scene.png" alt="alt text" title="Scene View" /></p>
+
+<p>As GameObjects are added to the scene, they appear in both the Hierarchy window and Scene view. Through selecting GameObjects in the Scene view, they can be manipulated through their gizmos or using the toolbar.</p>
+
+<h4 id="draw-mode">Draw Mode</h4>
+
+<p><img src="./DrawMode.png" alt="alt text" title="Draw Mode" /></p>
+
+<p>Under the Scene title is the Draw Mode. By default “Shaded” is selected. However, other shading and baked lighting options can be chosen if the GameObjects in the scene support them.</p>
+
+<h4 id="2d--3d">2D / 3D</h4>
+
+<p><img src="./2D.png" alt="alt text" title="2D" /></p>
+
+<p>If a project is created in 2D, the 2D option and button will be selected.</p>
+
+<p><img src="./3D.png" alt="alt text" title="3D" /></p>
+
+<p>If the project is using 3D, the 2D option will be disabled and an additional 3D gizmo is added to the scene for changing the viewing orientation and perspective.</p>
+
+<h4 id="scene-lighting">Scene Lighting</h4>
+
+<p><img src="./SceneLighting.png" alt="alt text" title="Scene Lighting" /></p>
+
+<p>Depending on toggle, the scene will use the scene lighting or a light attached to the Scene camera view.</p>
+
+<h4 id="scene-audio">Scene Audio</h4>
+
+<p><img src="./SceneAudio.png" alt="alt text" title="Scene Audio" /></p>
+
+<p>Depending on the toggle, audio will play in the scene or not.</p>
+
+<h4 id="effects">Effects</h4>
+
+<p><img src="./SceneEffects.png" alt="alt text" title="Scene Effects" /></p>
+
+<p>Different scene effects such as the Skybox, Fog, and Particle Systems can be toggled on and off.</p>
+
+<h4 id="hidden-objects">Hidden Objects</h4>
+
+<p><img src="./SceneVisibility.png" alt="alt text" title="Hidden Objects" /></p>
+
+<p>If any GameObjects have been hidden in the Hierarchy window, the current count is shown. The entire scene can also be hidden.</p>
+
+<h4 id="grid-visibility">Grid Visibility</h4>
+
+<p><img src="./GridVisibility.png" alt="alt text" title="Grid Visibility" /></p>
+
+<p>Depending on the orientation, the visibility of the axis (X, Y, or Z) can be adjusted along with its opacity.</p>
+
+<h3 id="game">Game</h3>
+
+<p><img src="./GameView.png" alt="alt text" title="GameView" /></p>
+
+<p>When a Scene is running, the Game View shows a simulation of what the rendered game would look like using the Scene camera.</p>
+
+<p>If the Play button is clicked, the Unity Editor will automatically shift from the Scene View to the Game View.</p>
+
+<h4 id="displays">Displays</h4>
+
+<p><img src="./GameDisplays.png" alt="alt text" title="Game Displays" /></p>
+
+<p>Depending on the cameras and their settings used in the scene, Unity supports up to eight different displays.</p>
+
+<h4 id="resolution-aspect">Resolution Aspect</h4>
+
+<p><img src="./ResolutionAspect.png" alt="alt text" title="Resolution Aspect" /></p>
+
+<p>The current resolution and aspect ration can be adjusted when simulating the rendering of the scene.</p>
+
+<h4 id="scale">Scale</h4>
+
+<p><img src="./Scale.png" alt="alt text" title="Scale" /></p>
+
+<p>The current scaling of the game View can be adjusted.</p>
+
+<h4 id="maximize-on-play">Maximize on Play</h4>
+
+<p><img src="./MaximizeonPlay.png" alt="alt text" title="Maximize on Play" /></p>
+
+<p>If Maximize on Play is selected, the Game View will fill all available horizontal and vertical space in the Unity Editor while the scene is running.</p>
+
+<h4 id="mute-audio">Mute Audio</h4>
+
+<p><img src="./MuteAudio.png" alt="alt text" title="Mute Audio" /></p>
+
+<p>Scene audio can be muted.</p>
+
+<h4 id="stats">Stats</h4>
+
+<p><img src="./Stats.png" alt="alt text" title="Stats" /></p>
+
+<p>Clicking on the “Stats” button shows the current graphical and computational statistics of the scene.</p>
+
+<h4 id="gizmo-options">Gizmo Options</h4>
+
+<p><img src="./GizmoOptions.png" alt="alt text" title="Gizmo Options" /></p>
+
+<p>The Gizmos menu allows for enabling or disabling the gizmos for types of GameObjects.</p>
+
+<h2 id="tools">Tools</h2>
+
+<h3 id="transform">Transform</h3>
+
+<p><img src="./TransformTools.png" alt="alt text" title="Transform Tools" /></p>
+
+<p>When a GameObject is selected, it can be manipulated through the Transform tools. This allows for moving, positioning, rotating, selecting multiple GameObjects (Rect Tool), and then adjusting those GameObjects.</p>
+
+<p>If any custom tools have been added, they can also be accessed through the Custom Tool menu button.</p>
+
+<h3 id="gizmo-settings">Gizmo Settings</h3>
+
+<p><img src="./GizmoSettings.png" alt="alt text" title="Gizmo Settings" /></p>
+
+<blockquote>
+  <p><strong>Note:</strong> In Unity terminology, a <em>gizmo</em> is a graphical overlay associated with a GameObject when selected in the Scene view.</p>
+</blockquote>
+
+<h4 id="position">Position</h4>
+
+<p>The Pivot/Center button adjusts the position of the Gizmo.</p>
+
+<p>When Pivot is selected, the Gizmo is positioned at the pivot point of the GameObject as defined by the Transform component.</p>
+
+<p>If Center is selected, the Gizmo position is set to the center position of the GameObject.</p>
+
+<h4 id="rotation">Rotation</h4>
+
+<p>The Local/Global button adjusts rotation of the Gizmo in relation to the GameObject.</p>
+
+<ul>
+  <li>
+    <p>When Local is selected, the Gizmo’s rotation is relative to the GameObject.</p>
+  </li>
+  <li>
+    <p>When Global is selected, the Gizmo is oriented to the world space.</p>
+  </li>
+</ul>
+
+<h3 id="play-pause-and-step">Play, Pause, and Step</h3>
+
+<p><img src="./PlayPauseStep.png" alt="alt text" title="Play, Pause, and Step" /></p>
+
+<p>The Play, Pause, and Step buttons control if the scene is running and its current status.</p>
+
+<ul>
+  <li>
+    <p>Clicking on the Play button will start to play the scene and will continue until clicked again or an error occurs that prevents the scene from continuing.</p>
+  </li>
+  <li>
+    <p>The Pause button stops the scene from playing. It can be resumed through clicking on the Pause button a second time or clicking on the Play button.</p>
+  </li>
+  <li>
+    <p>If debugging is being used, the Step button will move to the next debugging point, if available. If there are no debugging points in the current scene, the Step button will not be available.</p>
+  </li>
+</ul>
+
+<h4 id="runtime-editing">Runtime Editing</h4>
+
+<p>When a scene is running, GameObjects can be manipulated and the values of its properties and components changed. However, <strong>these changes are not saved.</strong> Any changes made while a scene is running only affect that scene. They are not saved.</p>
+
+<h3 id="collaborate">Collaborate</h3>
+
+<p><img src="./Collab.png" alt="alt text" title="Collaborate" /></p>
+
+<blockquote>
+  <p><strong>Note:</strong> Unity Collaborate was deprecated in 2021 and replaced by Unity Version Control (formerly Plastic SCM). As of 2025, most Unity developers use either:</p>
+
+  <ul>
+    <li><strong>Unity Version Control</strong> (built into Unity Hub for cloud-based version control)</li>
+    <li><strong>Git</strong> with services like GitHub, GitLab, or Bitbucket</li>
+    <li><strong>Perforce</strong> for larger team projects</li>
+  </ul>
+
+  <p>For new projects, it’s recommended to use Git with a <code class="language-plaintext highlighter-rouge">.gitignore</code> file configured for Unity, or Unity Version Control for integrated cloud collaboration.</p>
+</blockquote>
+
+<h3 id="cloud">Cloud</h3>
+
+<p><img src="./Cloud.png" alt="alt text" title="Cloud" /></p>
+
+<p>Unity Cloud services have evolved significantly. As of 2025, Unity provides various cloud services including Unity Gaming Services (UGS) which includes:</p>
+
+<ul>
+  <li><strong>Unity Authentication</strong>: Player identity management</li>
+  <li><strong>Cloud Save</strong>: Save game data in the cloud</li>
+  <li><strong>Matchmaker</strong>: Multiplayer matchmaking</li>
+  <li><strong>Lobby</strong>: Multiplayer lobby management</li>
+</ul>
+
+<p>These services can be accessed through the Services window in Unity or the Unity Dashboard.</p>
+
+<h3 id="account">Account</h3>
+
+<p><img src="./Account.png" alt="alt text" title="Account" /></p>
+
+<p>Clicking on the Account button shows the current signed-in Unity ID user and account information. As of 2025, Unity uses:</p>
+
+<ul>
+  <li><strong>Unity ID</strong>: Single sign-on for all Unity services</li>
+  <li><strong>Unity Cloud</strong>: Access to cloud-based features and services</li>
+  <li><strong>License Management</strong>: View and manage your Unity subscription (Personal, Plus, Pro, Enterprise, Student)</li>
+</ul>
+
+<p>You can manage your account, access Unity Cloud Dashboard, and configure license settings from this menu.</p>
+
+<h3 id="layers">Layers</h3>
+
+<p><img src="./Layers.png" alt="alt text" title="Layers" /></p>
+
+<p>The “Layers” menu allows access to which objects appear in the Scene view. If a GameObject is associated with the layer and that layer is hidden, those GameObjects will not be shown.</p>
+
+<h3 id="layout">Layout</h3>
+
+<p><img src="./Layout.png" alt="alt text" title="Layout" /></p>
+
+<p>Clicking on the “Layout” button allows for quickly changing the layout of the windows and views within the Unity Editor.</p>
+
+<p>Unity includes several built-in layout presets:</p>
+
+<ul>
+  <li><strong>Default</strong>: Standard 2-column layout</li>
+  <li><strong>Tall</strong>: Optimized for vertical monitors</li>
+  <li><strong>Wide</strong>: Optimized for ultrawide displays</li>
+  <li><strong>2 by 3</strong>: Game view focused layout</li>
+</ul>
+
+<p>Once windows and views are arranged, custom layouts can be saved and recalled. This is particularly useful when switching between different workflows (coding, level design, animation, etc.).</p>

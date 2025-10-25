@@ -1,0 +1,317 @@
+<h2 id="objectives">Objectives</h2>
+
+<ul>
+  <li><strong>Define</strong> object-oriented programming and its core concepts</li>
+  <li><strong>Analyze</strong> class relationships using “is a” and “has a” patterns</li>
+  <li><strong>Implement</strong> inheritance to create child classes from parent classes</li>
+  <li><strong>Apply</strong> the <code class="language-plaintext highlighter-rouge">static</code> keyword to create class-level members</li>
+  <li><strong>Demonstrate</strong> polymorphism through method overriding</li>
+  <li><strong>Utilize</strong> <code class="language-plaintext highlighter-rouge">virtual</code> and <code class="language-plaintext highlighter-rouge">abstract</code> methods for run-time polymorphism</li>
+  <li><strong>Access</strong> base class members using the <code class="language-plaintext highlighter-rouge">base</code> keyword</li>
+</ul>
+
+<h2 id="table-of-contents">Table of Contents</h2>
+
+<ul>
+  <li><a href="#inheritance">Inheritance</a>
+    <ul>
+      <li><a href="#inheriting-fields-properties-and-methods">Inheriting Fields, Properties, and Methods</a></li>
+      <li><a href="#using-static">Using <code class="language-plaintext highlighter-rouge">static</code></a>
+        <ul>
+          <li><a href="#main"><strong>Main()</strong></a></li>
+          <li><a href="#cannot-access-this">Cannot Access <code class="language-plaintext highlighter-rouge">this</code></a></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li><a href="#polymorphism">Polymorphism</a>
+    <ul>
+      <li><a href="#run-time-polymorphism">Run-Time Polymorphism</a></li>
+      <li><a href="#accessing-base">Accessing <code class="language-plaintext highlighter-rouge">base</code></a></li>
+      <li><a href="#overriding-base-methods">Overriding Base Methods</a>
+        <ul>
+          <li><a href="#virtual-methods">Virtual Methods</a></li>
+          <li><a href="#abstract-methods">Abstract Methods</a></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<hr />
+
+<p>C# is <em>object-oriented</em>. This means that all interactions between code happens between <em>objects</em>. This also means that classes, as the “blueprints” of an object, are written to include fields, properties, and methods in order to calculate values and potentially communicate between objects.</p>
+
+<p>Object-oriented <em>programming</em> is a paradigm (way of thinking) that breaks up coding problems into their objects and how those objects relate to each other. The possible relationships exist in three options covering the options of “is a”, “has a”, and none.</p>
+
+<p>To help understand these relationships, the metaphor of parents, children, and toys are used:</p>
+
+<ul>
+  <li>A child, being based on a parent, exists in a “is a” relationship to the parent.</li>
+  <li>A child, whose has a toy, is in a “has a” relationship to the toy.</li>
+  <li>Because the child has a toy, and the parent does not, there is no relationship between the parent and the toy.</li>
+</ul>
+
+<h2 id="inheritance">Inheritance</h2>
+
+<p>Classes that exists in a “is a” relationship to another are often called <em>child classes</em> to the <em>parent class</em>. In fact, this metaphor is also extended into an important concept for object-oriented programming: <em>inheritance</em>.</p>
+
+<p>A class is said to <em>inherit</em> from another class in C# when a colon and then the name of another class follows its own when being defined.</p>
+
+<pre><code class="language-CSharp">class Person {
+}
+
+class Fred : Person {
+}
+</code></pre>
+
+<p>In the above code, for example, the parent class is <em>Person</em> and the child is <strong>Fred</strong>.</p>
+
+<h3 id="inheriting-fields-properties-and-methods">Inheriting Fields, Properties, and Methods</h3>
+
+<p>If a class <em>inherits</em> from another class, it gains all of its fields, properties, and methods. In fact, this design is how objects should be treated when programming in C#! A more generic object of, for example, <strong>Person</strong> is created with fields, properties, and methods, and then a more specific version of the <strong>Person</strong> class is created (<strong>Fred</strong>) that builds on that original blueprint.</p>
+
+<pre><code class="language-CSharp">class Person {
+  public string Name;
+  public float Height;
+}
+
+class Fred : Person {
+
+  Fred() {
+    this.Name = "Fred";
+    this.Height = 5.4f;
+  }
+
+}
+</code></pre>
+
+<h3 id="using-static">Using <code class="language-plaintext highlighter-rouge">static</code></h3>
+
+<p>The keyword <code class="language-plaintext highlighter-rouge">static</code> creates a field, property, or method that is “static” to a single class. It <strong>cannot</strong> be inherited.</p>
+
+<p>Any method with the keyword <code class="language-plaintext highlighter-rouge">static</code> can also be called from outside of a class <em>without</em> creating an object.</p>
+
+<pre><code class="language-CSharp">class Example {
+  
+  static public int Add(int x, int y) {
+    return x + y;
+  }
+
+}
+
+Example.Add(2, 2);
+</code></pre>
+
+<h4 id="main"><strong>Main()</strong></h4>
+
+<p>In C#, the special combination of <code class="language-plaintext highlighter-rouge">public</code>, <code class="language-plaintext highlighter-rouge">static</code> and <code class="language-plaintext highlighter-rouge">void Main()</code> signals that this is the <em>starting</em> method of the entire project. This will be <em>called first</em> before any other method.</p>
+
+<pre><code class="language-CSharp">class Example {
+
+  public static void Main () {
+  }
+
+}
+</code></pre>
+
+<blockquote>
+  <p><strong>Note:</strong> The data type <code class="language-plaintext highlighter-rouge">void</code> is special. It cannot be used with variables, but signals that a method <em>does not return a value</em>.</p>
+</blockquote>
+
+<p><strong>Modern C# (9.0+) supports top-level statements</strong>, which eliminates the need for the Main method boilerplate in simple programs:</p>
+
+<pre><code class="language-CSharp">// Old way
+class Example {
+  public static void Main() {
+    Console.WriteLine("Hello!");
+  }
+}
+
+// Modern way (C# 9.0+)
+Console.WriteLine("Hello!");
+</code></pre>
+
+<blockquote>
+  <p><strong>Note:</strong> While Unity doesn’t use top-level statements for MonoBehaviour scripts, you might encounter them in modern C# console applications or tools.</p>
+</blockquote>
+
+<h4 id="cannot-access-this">Cannot Access <code class="language-plaintext highlighter-rouge">this</code></h4>
+
+<p>Any method with the keyword <code class="language-plaintext highlighter-rouge">static</code> within a class cannot access the keyword <code class="language-plaintext highlighter-rouge">this</code>.</p>
+
+<h2 id="polymorphism">Polymorphism</h2>
+
+<p>In object-oriented programming, one object can be converted into another if they both share the same parent class. This is known as <em>polymorphism</em>.</p>
+
+<h3 id="run-time-polymorphism">Run-Time Polymorphism</h3>
+
+<pre><code class="language-CSharp">public class Person {
+  public string Name;
+}
+
+public class Alice : Person {
+  public Alice() {
+    this.Name = "Alice";
+  }
+}
+
+public class Bob: Person {
+  public Bob() {
+    this.Name = "Bob";
+  }
+}
+
+public class MainClass {
+
+  public static void Main () {
+
+    Person a = new Alice();
+    Person b = new Bob();
+
+    Console.WriteLine("Hi!");
+
+  }
+
+}
+</code></pre>
+
+<p>In the above example, the variables <em>a</em> and <em>b</em> inside of the method <strong>Main()</strong> have the data type of <strong>Person</strong>. However, when created, the variable <em>a</em> is the object of the type <strong>Alice</strong> and <em>b</em> is an object of the type <strong>Bob</strong>.</p>
+
+<p>The variables are <em>polymorphed</em> during run-time from their parent <strong>Person</strong> into <strong>Alice</strong> and <strong>Bob</strong> individually.</p>
+
+<h3 id="accessing-base">Accessing <code class="language-plaintext highlighter-rouge">base</code></h3>
+
+<p>A child class can access its parents fields, properties, and methods through the keyword <code class="language-plaintext highlighter-rouge">base</code>. This references its <em>base</em> class.</p>
+
+<pre><code class="language-CSharp">public class Person {
+  
+  public string Name;
+
+  public string Greeting() {
+    return "Hi!";
+  }
+
+}
+
+public class Alice : Person {
+  
+  public Alice() {
+    this.Name = "Alice";
+  }
+
+}
+
+public class Bob: Person {
+  
+  public Bob() {
+    this.Name = "Bob";
+  }
+
+  public string BobGreeting() {
+    return base.Greeting();
+  }
+
+}
+</code></pre>
+
+<h3 id="overriding-base-methods">Overriding Base Methods</h3>
+
+<p>A child class can also <em>override</em> any fields, properties, and methods if a parent’s methods use <code class="language-plaintext highlighter-rouge">virtual</code> or <code class="language-plaintext highlighter-rouge">abstract</code> and the child uses <code class="language-plaintext highlighter-rouge">override</code> on a method named the same.</p>
+
+<h4 id="virtual-methods">Virtual Methods</h4>
+
+<p>Any method marked as <code class="language-plaintext highlighter-rouge">virtual</code> can be overridden in a child class. This <em>allows</em> future child classes the ability to override them as needed instead of using the keyword <code class="language-plaintext highlighter-rouge">base</code> to call it directly.</p>
+
+<pre><code class="language-CSharp">public class Person {
+  
+  public string Name;
+
+  public virtual string Greeting() {
+    return "Hi!";
+  }
+
+}
+
+public class Alice : Person {
+  
+  public Alice() {
+    this.Name = "Alice";
+  }
+
+}
+
+public class Bob: Person {
+  
+  public Bob() {
+    this.Name = "Bob";
+  }
+
+  public override string Greeting() {
+    return "Hello!";
+  }
+
+}
+</code></pre>
+
+<h4 id="abstract-methods">Abstract Methods</h4>
+
+<p>Any method marked as <code class="language-plaintext highlighter-rouge">abstract</code> can be overridden in a child class. However, this <em>forces</em> future child classes to override it and does (and should) not provide its own method body.</p>
+
+<p>Abstract methods <strong>must</strong> be used in classes that are also <em>abstract</em>.</p>
+
+<pre><code class="language-CSharp">public abstract class Person {
+  
+  public string Name;
+
+  public abstract string Greeting();
+
+}
+
+public class Bob: Person {
+  
+  public Bob() {
+    this.Name = "Bob";
+  }
+
+  public override string Greeting() {
+    return "Hello!";
+  }
+
+}
+</code></pre>
+
+<h3 id="sealed-classes-and-methods">Sealed Classes and Methods</h3>
+
+<p>The <code class="language-plaintext highlighter-rouge">sealed</code> keyword prevents a class from being inherited or a method from being overridden. This is useful when you want to prevent further derivation:</p>
+
+<pre><code class="language-CSharp">// Sealed class - cannot be inherited
+public sealed class FinalPerson {
+  public string Name { get; set; }
+}
+
+// This would cause an error:
+// public class ExtendedPerson : FinalPerson { }
+
+// Sealed method - can override but cannot be overridden further
+public class Person {
+  public virtual string Greeting() {
+    return "Hi!";
+  }
+}
+
+public class Bob : Person {
+  public sealed override string Greeting() {
+    return "Hello!";
+  }
+}
+
+// Alice can inherit from Person but cannot override Bob's sealed Greeting
+public class Alice : Bob {
+  // Cannot override sealed method
+}
+</code></pre>
+
+<blockquote>
+  <p><strong>Note:</strong> In Unity, many built-in classes like <code class="language-plaintext highlighter-rouge">MonoBehaviour</code> cannot be sealed as they’re designed to be inherited, but you might use sealed classes for data containers or utility classes that shouldn’t be extended.</p>
+</blockquote>

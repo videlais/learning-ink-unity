@@ -1,0 +1,758 @@
+<h2 id="objectives">Objectives</h2>
+
+<ul>
+  <li><strong>Apply</strong> the Continue() and ContinueMaximally() methods to load story content</li>
+  <li><strong>Utilize</strong> the canContinue property to detect story continuation</li>
+  <li><strong>Implement</strong> choice loading using currentChoices</li>
+  <li><strong>Execute</strong> player choices with ChooseChoiceIndex()</li>
+  <li><strong>Access</strong> tags from Ink stories using currentTags</li>
+  <li><strong>Analyze</strong> the canContinue-ContinueMaximally-currentChoices pattern</li>
+</ul>
+
+<h2 id="table-of-contents">Table of Contents</h2>
+
+<ul>
+  <li><a href="#loading-story-chunks">Loading Story Chunks</a>
+    <ul>
+      <li><a href="#continue"><strong>Continue()</strong></a></li>
+      <li><a href="#continuemaximally"><strong>ContinueMaximally()</strong></a></li>
+      <li><a href="#end-of-story">End of Story</a></li>
+      <li><a href="#cancontinue"><em>canContinue</em></a></li>
+    </ul>
+  </li>
+  <li><a href="#loading-choices">Loading Choices</a>
+    <ul>
+      <li><a href="#currentchoices"><em>currentChoices</em></a></li>
+      <li><a href="#choice-objects"><strong>Choice</strong> Objects</a></li>
+      <li><a href="#the-cancontinue-continuemaximally-currentchoices-pattern">The <em>canContinue</em>-<strong>ContinueMaximally()</strong>-<em>currentChoices</em> Pattern</a></li>
+      <li><a href="#making-choices">Making Choices</a>
+        <ul>
+          <li><a href="#choosechoiceindex"><strong>ChooseChoiceIndex()</strong></a></li>
+          <li><a href="#choice-out-of-range-error">Choice Out of Range Error</a></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li><a href="#loading-tags">Loading Tags</a>
+    <ul>
+      <li><a href="#currenttags"><em>currentTags</em></a></li>
+      <li><a href="#continue-versus-continuemaximally-with-tags"><strong>Continue()</strong> versus <strong>ContinueMaximally()</strong> with Tags</a></li>
+      <li><a href="#dialogue-tags">Dialogue Tags</a></li>
+    </ul>
+  </li>
+</ul>
+
+<hr />
+
+<h2 id="loading-story-chunks">Loading Story Chunks</h2>
+
+<p>There are two methods for loading the next part of the story: <strong>Continue()</strong> and <strong>ContinueMaximally()</strong>. Using this methods are also affected by End of Story and the <em>canContinue</em> property of the Story API.</p>
+
+<h3 id="continue"><strong>Continue()</strong></h3>
+
+<p>The method <strong>Continue()</strong> will load the next story chunk from the current point until the next newline character in the story. In other words, it will load a “paragraph” until there is a line between what it loaded and the next part of the story.</p>
+
+<p><strong>New Ink.ink:</strong></p>
+
+<pre><code class="language-ink">First chunk.
+
+Second chunk.
+
+Third chunk.
+</code></pre>
+
+<p><strong>NewBehaviourScript.cs:</strong></p>
+
+<pre><code class="language-CSharp">using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+// Add the Ink Runtime
+using Ink.Runtime;
+
+public class NewBehaviourScript : MonoBehaviour
+{
+    // Add a TextAsset representing the compiled Ink Asset
+    [SerializeField] private TextAsset inkJSONAsset;
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        // Create a new Story object using the compiled (JSON) Ink story text
+        /* Lines 642-670 omitted */
+        }
+    }
+}
+</code></pre>
+
+<p><img src="./ContinueConsole.png" alt="alt text" title="Continue Console" /></p>
+
+<p>In the above code example, the repeated uses of the <strong>Continue()</strong> method will load the story. The Console window will show “First chunk.”, “Second chunk.”, and then “Third chunk.”.</p>
+
+<blockquote>
+  <p><strong>Note:</strong> As of 2025, it’s considered best practice to use <code class="language-plaintext highlighter-rouge">[SerializeField] private</code> fields instead of public fields for Unity Editor exposure. This encapsulates the data while still allowing Inspector access.</p>
+</blockquote>
+
+<h3 id="continuemaximally"><strong>ContinueMaximally()</strong></h3>
+
+<p>The <strong>ContinueMaximally()</strong> method will load all text content until it encounters a set of choices or the end of the story.</p>
+
+<p><strong>New Ink.ink:</strong></p>
+
+<pre><code class="language-ink">First chunk.
+
+Second chunk.
+
+Third chunk.
+</code></pre>
+
+<p><strong>NewBehaviourScript.cs:</strong></p>
+
+<pre><code class="language-CSharp">using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+// Add the Ink Runtime
+using Ink.Runtime;
+
+public class NewBehaviourScript : MonoBehaviour
+{
+    // Add a TextAsset representing the compiled Ink Asset
+    [SerializeField] private TextAsset inkJSONAsset;
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        // Create a new Story object using the compiled (JSON) Ink story text
+        Story exampleStory = new Story(inkJSONAsset.text);
+
+        Debug.Log(exampleStory.ContinueMaximally());
+
+        Debug.Log(exampleStory.ContinueMaximally());
+
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+
+    }
+}
+</code></pre>
+
+<p><img src="./ContinueMaximallyConsole.png" alt="alt text" title="ContinueMaximally() Console" /></p>
+
+<p>In the above code, the text “First chunk. / Second chunk.” will be loaded first. With the second call to <strong>ContinueMaximally()</strong>, the End of the Story will be encountered.</p>
+
+<h3 id="end-of-story">End of Story</h3>
+
+<p>Attempting to load story content after a story has ended will result in an error.</p>
+
+<p><strong>New Ink.ink:</strong></p>
+
+<pre><code class="language-ink">First chunk.
+</code></pre>
+
+<p><strong>NewBehaviourScript.cs:</strong></p>
+
+<pre><code class="language-CSharp">using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+// Add the Ink Runtime
+using Ink.Runtime;
+
+public class NewBehaviourScript : MonoBehaviour
+{
+    // Add a TextAsset representing the compiled Ink Asset
+    [SerializeField] private TextAsset inkJSONAsset;
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        // Create a new Story object using the compiled (JSON) Ink story text
+        Story exampleStory = new Story(inkJSONAsset.text);
+
+        Debug.Log(exampleStory.Continue());
+
+        Debug.Log(exampleStory.Continue());
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+    }
+}
+</code></pre>
+
+<p><img src="./CantContinue.png" alt="alt text" title="Can't Continue" /></p>
+
+<p>To help with this, the Story API provides a property named <em>canContinue</em>.</p>
+
+<h3 id="cancontinue"><em>canContinue</em></h3>
+
+<p>Attempting to load more story when it does not exists will produce an error. However, as this is a common problem, the Story API provides a Boolean property called <em>canContinue</em> that will always be <code class="language-plaintext highlighter-rouge">true</code> if there is more story to load.</p>
+
+<p>Used as part of a looping structure, the Boolean value can be tested. As long as it is <code class="language-plaintext highlighter-rouge">true</code>, the next part of the story will be loaded.</p>
+
+<p><strong>New Ink.ink:</strong></p>
+
+<pre><code class="language-ink">First chunk.
+
+Second chunk.
+
+Third chunk.
+
+Fourth chunk.
+</code></pre>
+
+<p><strong>NewBehaviourScript.cs:</strong></p>
+
+<pre><code class="language-CSharp">using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+// Add the Ink Runtime
+using Ink.Runtime;
+
+public class NewBehaviourScript : MonoBehaviour
+{
+    // Add a TextAsset representing the compiled Ink Asset
+    [SerializeField] private TextAsset inkJSONAsset;
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        // Create a new Story object using the compiled (JSON) Ink story text
+        Story exampleStory = new Story(inkJSONAsset.text);
+
+        // Each loop, check if there is more story to load
+        while(exampleStory.canContinue)
+        {
+            // As long as there is story, show the text in the Console window
+            Debug.Log(exampleStory.Continue());
+        }
+    }
+}
+</code></pre>
+
+<p><img src="./canContinueUsage.png" alt="alt text" title="canContinue Usage" /></p>
+
+<p>Moving into more advanced uses of the Story API, the property <em>canContinue</em>, and looping structures using it, are foundational to creating a game loop where more story is dynamically loaded as players make choices in the story.</p>
+
+<h2 id="loading-choices">Loading Choices</h2>
+
+<p>So far in this chapter, text has been loaded using the methods of <strong>Continue()</strong> and <strong>ContinueMaximally()</strong>. These can be helpful when working with simple stories. However, most Ink project use choices. To load those, additional properties and object types are needed.</p>
+
+<h3 id="currentchoices"><em>currentChoices</em></h3>
+
+<p>The property <em>currentChoices</em> of the Story API will always contain any current choices. If any choices exist within the current chunk of the loaded story, they will exist within a <strong>List&lt;Choice&gt;</strong> structure as provided by the Story API property.</p>
+
+<p><strong>New Ink.ink:</strong></p>
+
+<pre><code class="language-ink">The princess sighed. "Could this day get any worse?" She was lost, scared, and wanted nothing more than to get back to her home in the castle.
+
+She suddenly heard a noise in the woods before her. She stopped and tried to listen for its source.
+
+* She stayed where she was.
+* She attempted to communicate. "Hello? Are you with the king's knights?"
+-
+</code></pre>
+
+<p><strong>NewBehaviourScript.cs:</strong></p>
+
+<pre><code class="language-CSharp">using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+// Add the Ink Runtime
+using Ink.Runtime;
+
+public class NewBehaviourScript : MonoBehaviour
+{
+    // Add a TextAsset representing the compiled Ink Asset
+    public TextAsset InkJSONAsset;
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        // Create a new Story object using the compiled (JSON) Ink story text
+        Story exampleStory = new Story(InkJSONAsset.text);
+
+        // Each loop, check if there is more story to load
+        while(exampleStory.canContinue)
+        {
+            // As long as there is story, show the text in the Console window
+            Debug.Log(exampleStory.ContinueMaximally());
+
+            Debug.Log(exampleStory.currentChoices);
+        }
+    }
+}
+</code></pre>
+
+<p><img src="./currentChoices.png" alt="alt text" title="currentChoices" /></p>
+
+<h3 id="choice-objects"><strong>Choice</strong> Objects</h3>
+
+<p>The <em>currentChoices</em> property is a <strong>List&lt;Choice&gt;</strong>. This means that each object in the <strong>List</strong> is of the type <strong>Choice</strong>.</p>
+
+<p>Each <strong>Choice</strong> object is composed of multiple properties, but two important ones are its <em>text</em> and <em>index</em>. When loaded by the Ink Runtime, this means that every choice has access to the text shown to the player as well as its position (index) in the current collection of choices.</p>
+
+<p><strong>New Ink.ink:</strong></p>
+
+<pre><code class="language-ink">The princess sighed. "Could this day get any worse?" She was lost, scared, and wanted nothing more than to get back to her home in the castle.
+
+She suddenly heard a noise in the woods before her. She stopped and tried to listen for its source.
+
+* She stayed where she was.
+* She attempted to communicate. "Hello? Are you with the king's knights?"
+-
+</code></pre>
+
+<p><strong>NewBehaviourScript.cs:</strong></p>
+
+<pre><code class="language-CSharp">using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+// Add the Ink Runtime
+using Ink.Runtime;
+
+public class NewBehaviourScript : MonoBehaviour
+{
+    // Add a TextAsset representing the compiled Ink Asset
+    public TextAsset InkJSONAsset;
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        // Create a new Story object using the compiled (JSON) Ink story text
+        Story exampleStory = new Story(InkJSONAsset.text);
+
+        // Each loop, check if there is more story to load
+        while(exampleStory.canContinue)
+        {
+            // As long as there is story, show the text in the Console window
+            Debug.Log(exampleStory.ContinueMaximally());
+
+            // Show the first (0) choice's text
+            Debug.Log(exampleStory.currentChoices[0].text);
+
+            // Show the first (0) choice's index
+            Debug.Log(exampleStory.currentChoices[0].index);
+        }
+    }
+}
+</code></pre>
+
+<p><img src="./ChoiceTextAndIndex.png" alt="alt text" title="Choice Text and Index" /></p>
+
+<p>In the above example, the property <em>canContinue</em> is tested. If there is more story to load, the method <strong>ContinueMaximally()</strong> is run. Next, the <em>text</em> and <em>index</em> properties of first (0-position) choice in the <em>currentChoices</em> property are shown. These are <code class="language-plaintext highlighter-rouge">She stayed where she was.</code> and <code class="language-plaintext highlighter-rouge">0</code> as shown in the Console window.</p>
+
+<p>The usages of <em>canContinue</em>, <strong>ContinueMaximally()</strong>, and then <em>currentChoices</em> is, in fact, very common and an important pattern for using the Ink Story API in Unity.</p>
+
+<h3 id="the-cancontinue-continuemaximally-currentchoices-pattern">The <em>canContinue</em>-<strong>ContinueMaximally()</strong>-<em>currentChoices</em> Pattern</h3>
+
+<p>Previously, the methods <strong>ContinueMaximally()</strong> and <strong>Continue()</strong> were explained as “loading the next story chunk.” While they have been used as part of showing text chunks of stories with the <strong>Debug.Log()</strong> method, an important part of their definitions and usage fall on the word <em>load</em> as part of that explanation. They <strong>load</strong> the next part of the story. As a result, they return the text chunk, but their primary focus is actually the loading of the next story chunk.</p>
+
+<p>In the previous examples in this chapter, the combination of <em>canContinue</em> and then <strong>ContinueMaximally()</strong> and <strong>Continue()</strong> were key to preventing the error of attempting to load more story after it had ended. They are and should always be used in connection with each other.</p>
+
+<p>Generally, the property <em>canContinue</em> is used first and then followed by one of the method calls to load the next part of the story. Most of the time, the method <strong>ContinueMaximally()</strong> is a good option because it will “load all text content until it encounters a set of choices or the end of the story.” (There are important cases where <strong>Continue()</strong> is a better option, but they will be explained as part of working with tags later in this chapter.)</p>
+
+<p>Because <strong>ContinueMaximally()</strong> handles the loading, the next in the pattern is using the <em>currentChoices</em> property, as it will be populated with the choices loaded by the previous loading cycle. In other words, the pattern starts with using <em>canContinue</em>, moves into loading with <strong>ContinueMaximally()</strong>, and then moves to working with any choices within the current story chunk with the property <em>currentChoices</em>.</p>
+
+<p>In fact, as <em>currentChoices</em> is a <strong>List&lt;Choice&gt;</strong> this means that a second loop can be created inside of the existing use of <code class="language-plaintext highlighter-rouge">while(canContinue)</code> that uses the <code class="language-plaintext highlighter-rouge">foreach()</code> statement to iterate through the members of the <strong>List</strong> of <strong>Choice</strong> objects.</p>
+
+<p>Using the previous code in this chapter as an extended example, the outer and inter-loop structure of the <em>canContinue</em>-<strong>ContinueMaximally()</strong>-<em>currentChoices</em> pattern would look like the following:</p>
+
+<p><strong>NewBehaviourScript.cs:</strong></p>
+
+<pre><code class="language-CSharp">using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+// Add the Ink Runtime
+using Ink.Runtime;
+
+public class NewBehaviourScript : MonoBehaviour
+{
+    // Add a TextAsset representing the compiled Ink Asset
+    public TextAsset InkJSONAsset;
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        // Create a new Story object using the compiled (JSON) Ink story text
+        Story exampleStory = new Story(InkJSONAsset.text);
+
+        // Each loop, check if there is more story to load
+        while(exampleStory.canContinue)
+        {
+            // Load the next story chunk and return the current text
+            string currentTextChunk = exampleStory.ContinueMaximally();
+
+            // Show the current story text in the Console window
+            Debug.Log(currentTextChunk);
+
+            // Iterate through the current choices
+            // For each choice in currentChoice, set its values to the new variable 'choice'
+            foreach (Choice choice in exampleStory.currentChoices)
+            {
+                // Show choice's text
+                Debug.Log(choice.text);
+
+                // Show choice's index
+                Debug.Log(choice.index);
+            }
+
+        }
+    }
+}
+</code></pre>
+
+<p><img src="./canContinuePattern.png" alt="alt text" title="canContinue-ContinueMaximally()-currentChoices Pattern" /></p>
+
+<h3 id="making-choices">Making Choices</h3>
+
+<p>Loading text content and showing choices are the first step toward making an interactive project. The next is using that data to “make choices” that affect the Ink story.</p>
+
+<p>As was reviewed in the previous section, each <strong>Choice</strong> object has two (among other) key properties: <em>text</em> and <em>index</em>. Previously, the emphasis was on the <em>text</em> property. In order to make choices using <strong>Choice</strong> object, their <em>index</em> becomes the focus.</p>
+
+<h4 id="choosechoiceindex"><strong>ChooseChoiceIndex()</strong></h4>
+
+<p>The method <strong>ChooseChoiceIndex()</strong> accepts a valid index from the current set of choices. When given this index, it triggers internal code to shift to that branch of the story that moves to the next loading position. This method is how “choices” are made.</p>
+
+<p><strong>New Ink.ink:</strong></p>
+
+<pre><code class="language-ink">The princess sighed. "Could this day get any worse?" She was lost, scared, and wanted nothing more than to get back to her home in the castle.
+
+She suddenly heard a noise in the woods before her. She stopped and tried to listen for its source.
+
+* She stayed where she was.
+    The princess stopped moving and looked around again.
+
+* She attempted to communicate. "Hello? Are you with the king's knights?"
+    At her words, the forest went silent.
+-
+</code></pre>
+
+<p><strong>NewBehaviourScript.cs:</strong></p>
+
+<pre><code class="language-CSharp">using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+// Add the Ink Runtime
+using Ink.Runtime;
+
+public class NewBehaviourScript : MonoBehaviour
+{
+    // Add a TextAsset representing the compiled Ink Asset
+    public TextAsset InkJSONAsset;
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        // Create a new Story object using the compiled (JSON) Ink story text
+        Story exampleStory = new Story(InkJSONAsset.text);
+
+        // Each loop, check if there is more story to load
+        while(exampleStory.canContinue)
+        {
+            // Load the next story chunk and return the current text
+            string currentTextChunk = exampleStory.ContinueMaximally();
+
+            // Show the current story text in the Console window
+            Debug.Log(currentTextChunk);
+
+            // Iterate through the current choices
+            // For each choice in currentChoice, set its values to the new variable 'choice'
+            foreach (Choice choice in exampleStory.currentChoices)
+            {
+                // Show choice's text
+                Debug.Log(choice.text);
+
+                // Show choice's index
+                Debug.Log(choice.index);
+            }
+
+            // Pick the first (0) choice based on its index in the currentChoices List&lt;Choice&gt;
+            exampleStory.ChooseChoiceIndex(0);
+
+        }
+    }
+}
+</code></pre>
+
+<p><img src="./ChoiceOutOfRange.png" alt="alt text" title="Choice Out of Range" /></p>
+
+<p>In the above code, the <em>canContinue</em>-<strong>ContinueMaximally()</strong>-<em>currentChoices</em> pattern is used. Following that, the method <strong>ChooseChoiceIndex()</strong> is used. For the first set of choices, this produces the out of the <em>text</em> of the <strong>Choice</strong>: <code class="language-plaintext highlighter-rouge">She stayed where she was.</code> This is then followed by the method <strong>ContinueMaximally()</strong>, loading the result of the choice <code class="language-plaintext highlighter-rouge">The princess stopped moving and looked around again.</code></p>
+
+<p>However, this produces an error on the second major loop. The exception “Choice Out of Range” is raised when the method <strong>ChooseChoiceIndex()</strong> is called a second time when there are no choices to “choose” from via the property <em>currentChoices</em>.</p>
+
+<h4 id="choice-out-of-range-error">Choice Out of Range Error</h4>
+
+<p>The exception “choice out of range” is raised when the method <strong>ChooseChoiceIndex()</strong> attempts to “choose” a choice that is outside of the range of the current length of the <em>currentChoices</em> property.</p>
+
+<p>To protect against this, there are a number of different solutions. One quick way would be to test the <em>Count</em> of the <em>currentChoices</em> property. If it is greater than 0, that would mean there is at least one <strong>Choice</strong> in the <strong>List&lt;Choice&gt;</strong> that could be “chosen.”</p>
+
+<pre><code class="language-CSharp">using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+// Add the Ink Runtime
+using Ink.Runtime;
+
+public class NewBehaviourScript : MonoBehaviour
+{
+    // Add a TextAsset representing the compiled Ink Asset
+    public TextAsset InkJSONAsset;
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        // Create a new Story object using the compiled (JSON) Ink story text
+        Story exampleStory = new Story(InkJSONAsset.text);
+
+        // Each loop, check if there is more story to load
+        while(exampleStory.canContinue)
+        {
+            // Load the next story chunk and return the current text
+            string currentTextChunk = exampleStory.ContinueMaximally();
+
+            // Show the current story text in the Console window
+            Debug.Log(currentTextChunk);
+
+            // Iterate through the current choices
+            // For each choice in currentChoice, set its values to the new variable 'choice'
+            foreach (Choice choice in exampleStory.currentChoices)
+            {
+                // Show choice's text
+                Debug.Log(choice.text);
+
+                // Show choice's index
+                Debug.Log(choice.index);
+            }
+
+            // Is the number of choices in the List&lt;Choice&gt; (its Count) greater than 0?
+            if(exampleStory.currentChoices.Count &gt; 0)
+            {
+                // Pick the first (0) choice based on its index in the currentChoices List&lt;Choice&gt;
+                exampleStory.ChooseChoiceIndex(0);
+            }
+        }
+    }
+}
+</code></pre>
+
+<h2 id="loading-tags">Loading Tags</h2>
+
+<p>In Ink, tags are processed on a per-line basis. Since they are associated with the line they follow, or the preceding line when used by themselves, they require understanding their placement, parsing them, and then proceeding with loading the story.</p>
+
+<h3 id="currenttags"><em>currentTags</em></h3>
+
+<p>The Story API property <em>currentTags</em> is a <strong>List&lt;String&gt;</strong> of all current tags collected during the last loading event (from calling the methods <strong>Continue()</strong> or <strong>ContinueMaximally()</strong>).</p>
+
+<p><strong>New Ink.ink:</strong></p>
+
+<pre><code class="language-ink">"What do you think of this?" #Dan
+
+"I'm not sure." #Liam
+</code></pre>
+
+<p><strong>NewBehaviourScript.cs:</strong></p>
+
+<pre><code class="language-CSharp">using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+// Add the Ink Runtime
+using Ink.Runtime;
+
+public class NewBehaviourScript : MonoBehaviour
+{
+    // Add a TextAsset representing the compiled Ink Asset
+    public TextAsset InkJSONAsset;
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        // Create a new Story object using the compiled (JSON) Ink story text
+        Story exampleStory = new Story(InkJSONAsset.text);
+
+        // Each loop, check if there is more story to load
+        while(exampleStory.canContinue)
+        {
+            // Load the next story chunk and return the current text
+            string currentTextChunk = exampleStory.ContinueMaximally();
+
+            // Get any tags loaded in the current story chunk
+            List&lt;string&gt; currentTags = exampleStory.currentTags;
+
+            // For each tag in currentTag, set its values to the new variable 'tag'
+            foreach (string tag in currentTags)
+            {
+                // Print current tag
+                Debug.Log(tag);
+            }
+
+            // Show the current story text in the Console window
+            Debug.Log(currentTextChunk);
+        }
+    }
+}
+</code></pre>
+
+<p><img src="./TagParsing.png" alt="alt text" title="Tag Parsing" /></p>
+
+<p>Following code examples from earlier in this chapter, the method <strong>ContinueMaximally()</strong> is used to load all content to the next set of choices or until the end of the story.</p>
+
+<p>However, as the screenshot shows, this presents a problem. When <strong>ContinueMaximally()</strong> is used, it loads everything. This means that the use of the tag <code class="language-plaintext highlighter-rouge">#Dan</code> is overwritten with the story chunk that follows it.</p>
+
+<p>In order to parse tags per line, the method <strong>Continue()</strong> is needed.</p>
+
+<h3 id="continue-versus-continuemaximally-with-tags"><strong>Continue()</strong> versus <strong>ContinueMaximally()</strong> with Tags</h3>
+
+<p>While <strong>ContinueMaximally()</strong> can be very useful when loading large chunks of a Ink story, the method <strong>Continue()</strong> allows for a more fine-tuned usage. Paired with the Story API property <em>canContinue</em>, and the internally loops of parsing tags and choices, each part of a line can be processed individually.</p>
+
+<p><strong>New Ink.ink:</strong></p>
+
+<pre><code class="language-ink">"What do you think of this?" #Dan
+
+"I'm not sure." #Liam
+</code></pre>
+
+<p><strong>NewBehaviourScript.cs:</strong></p>
+
+<pre><code class="language-CSharp">using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+// Add the Ink Runtime
+using Ink.Runtime;
+
+public class NewBehaviourScript : MonoBehaviour
+{
+    // Add a TextAsset representing the compiled Ink Asset
+    public TextAsset InkJSONAsset;
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        // Create a new Story object using the compiled (JSON) Ink story text
+        Story exampleStory = new Story(InkJSONAsset.text);
+
+        // Each loop, check if there is more story to load
+        while (exampleStory.canContinue)
+        {
+            // Load the next story chunk and return the current text
+            string currentTextChunk = exampleStory.Continue();
+
+            // Get any tags loaded in the current story chunk
+            List&lt;string&gt; currentTags = exampleStory.currentTags;
+
+            // Create a blank line of dialogue
+            string line = "";
+
+            // For each tag in currentTag, set its values to the new variable 'tag'
+            foreach (string tag in currentTags)
+            {
+                // Concatenate the tag and a colon
+                line += tag + ": ";
+            }
+
+            // Concatenate the current text chunk
+            // (This will either have a tag before it or be by itself.)
+            line += currentTextChunk;
+
+            // Print the current line using the combined string
+            //  created from the current tag and story chunk.
+            Debug.Log(line);
+        }
+    }
+}
+</code></pre>
+
+<p><img src="./UsingTags.png" alt="alt text" title="Using Tags" /></p>
+
+<p>Now, in the above code, a “line” of dialogue is created using <strong>string</strong> <em>line</em> that is then used as part of parsing the tags of the current story chunk. If there is a tag, it is concatenated to the current line. Next, the current text chunk is also concatenated.</p>
+
+<p>Based on the tag usage in the example story, this creates the output of the following:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Dan: "What do you think of this?"
+
+Liam: "I'm not sure."
+</code></pre></div></div>
+
+<h3 id="dialogue-tags">Dialogue Tags</h3>
+
+<p>There are many different ways to use tags in Ink. Their purpose is not clearly defined in part to give developers and writers the option to use them as they would like. However, one common way to use tags is as <em>dialogue tags</em>. That is, dialogue is written in the story and then the speaker of any particular line is named in the tag of that line. This allows, as later chapters will demonstrate, to use the value of the “speaker” to react in different ways programmatically.</p>
+
+<p>For example, a line of dialogue might look like the following:</p>
+
+<pre><code class="language-ink">"I want a dialogue system!" #Dan
+</code></pre>
+
+<p>In the above example, the tag <code class="language-plaintext highlighter-rouge">#Dan</code> is used to signal that Dan (whomever that might be in the story) is speaking that line. In order to parse it, the code from the previous section can be re-used.</p>
+
+<p><strong>NewBehaviourScript.cs:</strong></p>
+
+<pre><code class="language-CSharp">using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+// Add the Ink Runtime
+using Ink.Runtime;
+
+public class NewBehaviourScript : MonoBehaviour
+{
+    // Add a TextAsset representing the compiled Ink Asset
+    [SerializeField] private TextAsset inkJSONAsset;
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        // Create a new Story object using the compiled (JSON) Ink story text
+        Story exampleStory = new Story(inkJSONAsset.text);
+
+        // Each loop, check if there is more story to load
+        while (exampleStory.canContinue)
+        {
+            // Load the next story chunk and return the current text
+            string currentTextChunk = exampleStory.Continue();
+
+            // Get any tags loaded in the current story chunk
+            List&lt;string&gt; currentTags = exampleStory.currentTags;
+
+            // Create a blank line of dialogue
+            string line = "";
+
+            // For each tag in currentTag, set its values to the new variable 'tag'
+            foreach (string tag in currentTags)
+            {
+                // Concatenate the tag and a colon
+                line += tag + ": ";
+            }
+
+            // Concatenate the current text chunk
+            // (This will either have a tag before it or be by itself.)
+            line += currentTextChunk;
+
+            // Print the current line using the combined string
+            //  created from the current tag and story chunk.
+            Debug.Log(line);
+        }
+    }
+}
+</code></pre>
+
+<p>A more advanced Ink example, using the same C# code, might look like the following:</p>
+
+<pre><code class="language-ink">The genie waited as the person in front of them considered their wording.
+
+"I want a dialogue system!" #Dan
+
+The genie nodded and then snapped their fingers.
+</code></pre>
+
+<p><img src="./DialogeTags.png" alt="alt text" title="Dialogue Tags" /></p>
+
+<p>When run, the advanced Ink example would produce the following three lines:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>The genie waited as the person in front of them considered their wording.
+
+Dan: "I want a dialogue system!"
+
+The genie nodded and then snapped their fingers.
+</code></pre></div></div>
+
+<p>The tag <code class="language-plaintext highlighter-rouge">#Dan</code> would be changed into the string value “Dan: “ and added to the existing line <em>before</em> the current text chunk. Additionally, if no tags are used, the text would be added to <em>line</em>.</p>

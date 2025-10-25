@@ -1,0 +1,727 @@
+<h2 id="objectives">Objectives</h2>
+
+<ul>
+  <li><strong>Implement</strong> event listeners using AddListener() for Button onClick events</li>
+  <li><strong>Utilize</strong> UnityAction delegates and lambda expressions for event handling</li>
+  <li><strong>Execute</strong> ChooseChoiceIndex() through button interactions</li>
+  <li><strong>Destroy</strong> dynamically created GameObjects to refresh UI</li>
+  <li><strong>Create</strong> text elements dynamically to display story content</li>
+  <li><strong>Apply</strong> the event-driven pattern for interactive storytelling</li>
+</ul>
+
+<h2 id="table-of-contents">Table of Contents</h2>
+
+<ul>
+  <li><a href="#user-events">User Events</a>
+    <ul>
+      <li><a href="#adding-event-listeners">Adding Event Listeners</a></li>
+      <li><a href="#choosing-choices">Choosing Choices</a></li>
+    </ul>
+  </li>
+  <li><a href="#refreshing-user-interfaces">Refreshing User Interfaces</a>
+    <ul>
+      <li><a href="#destroying-buttons">Destroying Buttons</a></li>
+      <li><a href="#creating-text">Creating Text</a></li>
+    </ul>
+  </li>
+</ul>
+
+<hr />
+
+<h2 id="user-events">User Events</h2>
+
+<p>All user interface GameObjects have access to user events. In fact, in a previous chapter when a <strong>Canvas</strong> GameObject was added to the Scene, an additional GameObject, <strong>Event System</strong>, was added to the Scene. This provides access to user events and helps in responding to them internally.</p>
+
+<p>Like GameObjects have access to the methods <strong>Start()</strong> and <strong>Update()</strong>, user interface GameObjects have access to different user event properties. For a <a href="https://docs.unity3d.com/Packages/com.unity.ugui@1.0/manual/script-Button.html">Button</a>, the event is <em>OnClick</em>. If a method is used with this property, it will be called when the user clicks the button.</p>
+
+<p><img src="./OnClickPropertyValue.png" alt="alt text" title="OnCLick Property Value" /></p>
+
+<p>In the Inspector window of a <strong>Button</strong> is an area named “On Click ()” and lists all methods that are called when the user event happens to the <strong>Button</strong>.</p>
+
+<p>However, as was changed in the last chapter, the <strong>Button</strong> is a Prefab and is created dynamically as part of the code that was added at the end of the last chapter.</p>
+
+<pre><code class="language-CSharp">// For each choice in currentChoices, set its values to the new variable 'choice'
+foreach (Choice choice in exampleStory.currentChoices)
+{
+    // Create a new GameObject based on a Prefab and set its parent to this.transform
+    Button choiceButton = Instantiate(ButtonPrefab, this.transform);
+
+    // From choiceButton, look in its children for a component of the type "Text".
+    // Return a reference to this component and save it locally.
+    Text choiceText = choiceButton.GetComponentInChildren&lt;Text&gt;();
+
+    // Set the button's text to the choice's text
+    choiceText.text = choice.text;
+}
+</code></pre>
+
+<h3 id="adding-event-listeners">Adding Event Listeners</h3>
+
+<p>In Unity terminology, an <em>event listener</em> is a method or other section of code that “listens” for an event and then acts in some way. Event listeners are <em>added</em> to an event so that they are called when the event happens.</p>
+
+<p>The method <a href="https://docs.unity3d.com/ScriptReference/Events.UnityEvent.AddListener.html"><strong>AddListener()</strong></a> is available on all objects that inherit from <a href="https://docs.unity3d.com/ScriptReference/Events.UnityEvent.html"><strong>UnityEvent</strong></a>. The property of all <strong>Buttons</strong>, <em>onClick</em>, is a <strong>UnityEvent</strong>, which means it has access to this method.</p>
+
+<blockquote>
+  <p><strong>Note:</strong> As of 2025, while delegates and UnityActions remain valid, many developers also use lambda expressions and action delegates for cleaner, more modern code patterns.</p>
+</blockquote>
+
+<pre><code class="language-CSharp">// Create a new GameObject based on a Prefab and set its parent to this.transform
+Button choiceButton = Instantiate(ButtonPrefab, this.transform);
+
+choiceButton.onClick.AddListener();
+</code></pre>
+
+<p>The method <strong>AddListener()</strong> accepts the parameter of a data type called <strong>UnityAction</strong>. This is a special object that allows for concentrating methods into a list and then calling them in sequence when an event happens.</p>
+
+<p>Internally, all <strong>UnityAction</strong> objects are <em>delegates</em>. In C#, a <a href="https://learn.microsoft.com/en-us/dotnet/csharp/programming-guide/delegates/"><code class="language-plaintext highlighter-rouge">delegate</code></a> is a special keyword that allows for passing a method <em>as a parameter</em>. In other words, instead of passing a value to a method, another method is passed to it instead.</p>
+
+<blockquote>
+  <p><strong>Note:</strong> As of C# 9.0 (2025), modern patterns often use lambda expressions (<code class="language-plaintext highlighter-rouge">() =&gt; {}</code>) or local functions instead of explicit delegate declarations for cleaner, more readable code.</p>
+</blockquote>
+
+<p>However, in using <code class="language-plaintext highlighter-rouge">delegate</code>, there is an important requirement to remember: using a <code class="language-plaintext highlighter-rouge">delegate</code> means the method cannot have a return type. Any method used with the keyword returns a <code class="language-plaintext highlighter-rouge">delegate</code>. This allows for methods to be chained, but also, in practice, means methods used with the keyword return <code class="language-plaintext highlighter-rouge">void</code>.</p>
+
+<p>In C#, a method cannot be defined inside of another method. This means that a method needs to be added to the <strong>NewBehaviourScript</strong> object and <em>delegated</em> to the <strong>AddListener()</strong> method to be called when the event happens.</p>
+
+<pre><code class="language-CSharp">void ButtonClickListener()
+{
+  Debug.Log("Testing");
+}
+</code></pre>
+
+<p>In the above method <strong>ButtonClickListener()</strong>, its internal code will call <strong>Debug.Log()</strong> and write the word “Testing” in the Console window. This will serve as evidence tha the method is being called corrected.</p>
+
+<p>With the use of <code class="language-plaintext highlighter-rouge">delegate</code>, the new code inside of the choice-parsing loop will call the new method <strong>ButtonClickListener()</strong>.</p>
+
+<pre><code class="language-CSharp">// For each choice in currentChoices, set its values to the new variable 'choice'
+foreach (Choice choice in exampleStory.currentChoices)
+{
+    // Create a new GameObject based on a Prefab and set its parent to this.transform
+    Button choiceButton = Instantiate(ButtonPrefab, this.transform);
+
+    // Add a delegate as an event listener
+    choiceButton.onClick.AddListener(delegate {
+
+      // Call the method ButtonClickListener()
+      ButtonClickListener();
+
+    });
+
+    // From choiceButton, look in its children for a component of the type "Text".
+    // Return a reference to this component and save it locally.
+    Text choiceText = choiceButton.GetComponentInChildren&lt;Text&gt;();
+
+    // Set the button's text to the choice's text
+    choiceText.text = choice.text;
+}
+</code></pre>
+
+<p>Put together with the code from the last chapter, it is the following:</p>
+
+<pre><code class="language-CSharp">using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+// Add the Ink Runtime
+using Ink.Runtime;
+// Add Unity UI
+using UnityEngine.UI;
+
+public class NewBehaviourScript : MonoBehaviour
+{
+    // Add a TextAsset representing the compiled Ink Asset
+    public TextAsset InkJSONAsset;
+
+    // Add a Button representing the ButtonPrefab
+    public Button ButtonPrefab;
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        // Create a new Story object using the compiled (JSON) Ink story text
+        Story exampleStory = new Story(InkJSONAsset.text);
+
+        // From this GameObject, look in its children for a component of the type "Text".
+        // Return a reference to this component and save it locally.
+        Text childText = GetComponentInChildren&lt;Text&gt;();
+
+        // Reset the existing text of "New Text" to an empty string
+        childText.text = "";
+
+        // Each loop, check if there is more story to load
+        while (exampleStory.canContinue)
+        {
+            // Load the next story chunk and return the current text
+            string currentTextChunk = exampleStory.Continue();
+
+            // Get any tags loaded in the current story chunk
+            List&lt;string&gt; currentTags = exampleStory.currentTags;
+
+            // Create a blank line of dialogue
+            string line = "";
+
+            // For each tag in currentTag, set its values to the new variable 'tag'
+            foreach (string tag in currentTags)
+            {
+                // Concatenate the tag and a colon
+                line += tag + ": ";
+            }
+
+            // Concatenate the current text chunk
+            // (This will either have a tag before it or be by itself.)
+            line += currentTextChunk;
+
+            // Concatenate the content of 'line' to the existing text
+            childText.text += line;
+
+            // For each choice in currentChoices, set its values to the new variable 'choice'
+            foreach (Choice choice in exampleStory.currentChoices)
+            {
+                // Create a new GameObject based on a Prefab and set its parent to this.transform
+                Button choiceButton = Instantiate(ButtonPrefab, this.transform);
+
+                // Add a delegate as an event listener
+                choiceButton.onClick.AddListener(delegate {
+
+                    // Call the method ButtonClickListener()
+                    ButtonClickListener();
+
+                });
+
+                // From choiceButton, look in its children for a component of the type "Text".
+                // Return a reference to this component and save it locally.
+                Text choiceText = choiceButton.GetComponentInChildren&lt;Text&gt;();
+
+                // Set the button's text to the choice's text
+                choiceText.text = choice.text;
+            }
+
+        }
+    }
+
+    void ButtonClickListener()
+    {
+        Debug.Log("Testing");
+    }
+}
+</code></pre>
+
+<p><img src="./ConsoleWindowTesting.png" alt="alt text" title="Console Window 'Testing'" /></p>
+
+<p>When any of the generated <strong>Button</strong> GameObjects are clicked, the method <strong>ButtonClickListener()</strong> is called. This produces the <strong>string</strong> value “Testing” in the Console window.</p>
+
+<h3 id="choosing-choices">Choosing Choices</h3>
+
+<p>In a previous chapter, the Ink Story API method <strong>ChooseChoiceIndex()</strong> was introduced. When given an <strong>Choice</strong> <em>index</em> within the current set of choice, it will branch the story to that point.</p>
+
+<p>Building from the previous code, a new method <strong>ButtonClickListener()</strong> was added. This was used in connection with <strong>Debug.Log()</strong> to show how a <code class="language-plaintext highlighter-rouge">delegate</code> could call a method (that called a method). This testing method is no longer needed. Instead, the method <strong>ChooseChoiceIndex()</strong> can be called from inside of the <code class="language-plaintext highlighter-rouge">delegate</code> itself.</p>
+
+<p>There is now a problem. <strong>ChooseChoiceIndex()</strong> needs an <em>index</em> value. To fix this, the current <strong>Choice</strong> <em>index</em> can be passed to it.</p>
+
+<pre><code class="language-CSharp">// Add a delegate as an event listener
+choiceButton.onClick.AddListener(delegate {
+
+  // Call the method ChooseChoiceIndex() with the current choice index
+  exampleStory.ChooseChoiceIndex(choice.index);
+
+});
+</code></pre>
+
+<p>While valid, the new code will also eventually produce a problem. A <strong>Button</strong> can be clicked, and the Ink story will branch, but there is no evidence the change has happened.</p>
+
+<p>The current story will be loaded up to the first set of choices. These will, in turn, be parsed and new <strong>Button</strong> GameObjects created. Each will have its own <code class="language-plaintext highlighter-rouge">delegate</code> tied to its index and allowing a user to click it and branch the story. However, there is no evidence this happens. The <strong>Text</strong> does not update!</p>
+
+<h2 id="refreshing-user-interfaces">Refreshing User Interfaces</h2>
+
+<p>In the current code, there is no way to signal that a new chunk of the Ink story should be loaded based on a branching event. Things are loaded and, if there are choices, <strong>Buttons</strong> are created. There needs to be a way to refresh the <strong>Text</strong> and <strong>Buttons</strong>.</p>
+
+<p>As there is now a need for a section of code that will be used in different places, it is time to create a new method, <strong>Refresh()</strong>, in the <strong>NewBehaviourScript</strong> class. Its purpose will be to load the next story chunk, updating the <strong>Text</strong>, and creating any <strong>Buttons</strong> as needed.</p>
+
+<p>In fact, all of the outer loop, <code class="language-plaintext highlighter-rouge">while()</code> code, can be cut and pasted into this new method.</p>
+
+<pre><code class="language-CSharp">void Refresh()
+{
+  // Each loop, check if there is more story to load
+  while (exampleStory.canContinue)
+  {
+    // Load the next story chunk and return the current text
+    string currentTextChunk = exampleStory.Continue();
+
+    // Get any tags loaded in the current story chunk
+    List&lt;string&gt; currentTags = exampleStory.currentTags;
+
+    // Create a blank line of dialogue
+    string line = "";
+
+    // For each tag in currentTag, set its values to the new variable 'tag'
+    foreach (string tag in currentTags)
+    {
+      // Concatenate the tag and a colon
+      line += tag + ": ";
+    }
+
+    // Concatenate the current text chunk
+    // (This will either have a tag before it or be by itself.)
+    line += currentTextChunk;
+
+    // Concatenate the content of 'line' to the existing text
+    childText.text += line;
+
+    // For each choice in currentChoices, set its values to the new variable 'choice'
+    foreach (Choice choice in exampleStory.currentChoices)
+    {
+      // Create a new GameObject based on a Prefab and set its parent to this.transform
+      Button choiceButton = Instantiate(ButtonPrefab, this.transform);
+
+      // Add a delegate as an event listener
+      choiceButton.onClick.AddListener(delegate {
+
+        // Call the method ChooseChoiceIndex() with the current choice index
+        exampleStory.ChooseChoiceIndex(choice.index);
+
+      });
+
+      // From choiceButton, look in its children for a component of the type "Text".
+      // Return a reference to this component and save it locally.
+      Text choiceText = choiceButton.GetComponentInChildren&lt;Text&gt;();
+
+      // Set the button's text to the choice's text
+      choiceText.text = choice.text;
+    }
+
+  }
+}
+</code></pre>
+
+<p>However, in trying to run the new code, a new issue appears. The object <strong>exampleStory</strong> does not exist inside of the context of <strong>Refresh()</strong>. After all, it appears <em>before</em> the outer loop and its definition was not copied over.</p>
+
+<p>While it may make sense to just copy the line into <strong>Refresh()</strong>, its purpose is to “refresh”, not reload the story. Instead, to fix this issue, the object <strong>exampleStory</strong> needs to become a private property of the <strong>NewBehaviourScript</strong> class. This would change its <em>scope</em> (level of access) and allow both the <strong>Start()</strong> and newer <strong>Refresh()</strong> methods access to it.</p>
+
+<p>This is an easy change.</p>
+
+<pre><code class="language-CSharp">public class NewBehaviourScript : MonoBehaviour
+{
+    // Add a TextAsset representing the compiled Ink Asset
+    public TextAsset InkJSONAsset;
+
+    // Add a Button representing the ButtonPrefab
+    public Button ButtonPrefab;
+
+    // Add a Story
+    private Story exampleStory;
+
+    //...
+}
+</code></pre>
+
+<p>Following this change, another develops. The object <strong>childText</strong> does not exist in the method <strong>Refresh()</strong>. It is created in the <strong>Start()</strong> method.</p>
+
+<p>This can be fixed in the same way as <strong>exampleStory</strong> was. It can be added as a private property of the class.</p>
+
+<pre><code class="language-CSharp">public class NewBehaviourScript : MonoBehaviour
+{
+    // Add a TextAsset representing the compiled Ink Asset
+    public TextAsset InkJSONAsset;
+
+    // Add a Button representing the ButtonPrefab
+    public Button ButtonPrefab;
+
+    // Add a Story
+    private Story exampleStory;
+
+    // Add a Text
+    private Text childText;
+}
+</code></pre>
+
+<p>Now, with the new method <strong>Refresh()</strong> and the two new private properties, one final change is needed. The method <strong>Refresh()</strong> needs to be called from <strong>Start()</strong>.</p>
+
+<pre><code class="language-CSharp">// Start is called before the first frame update
+void Start()
+{
+  // Create a new Story object using the compiled (JSON) Ink story text
+  exampleStory = new Story(InkJSONAsset.text);
+
+  // From this GameObject, look in its children for a component of the type "Text".
+  // Return a reference to this component and save it locally.
+  childText = GetComponentInChildren&lt;Text&gt;();
+
+  // Reset the existing text of "New Text" to an empty string
+  childText.text = "";
+
+  // Load the story for the first time
+  Refresh();
+}
+</code></pre>
+
+<p>Now, running the Scene will produce the same outcome it did before.</p>
+
+<p><img src="./MultipleChoiceOutput.png" alt="alt text" title="Multiple Choice Output" /></p>
+
+<p>The Ink story will be loaded and its text and choices will be parsed. However, clicking on a button more than once will cause an error: “choice out of range.”</p>
+
+<p>This is happening because the content of the <strong>Canvas</strong> is not being updated. The method <strong>Refresh()</strong> needs to be called after a choice is made.</p>
+
+<pre><code class="language-CSharp">// Add a delegate as an event listener
+choiceButton.onClick.AddListener(delegate {
+
+  // Call the method ChooseChoiceIndex() with the current choice index
+  exampleStory.ChooseChoiceIndex(choice.index);
+
+  // Refresh the text and choices
+  Refresh();
+
+});
+</code></pre>
+
+<p>Running the Scene with this change shows that the initial text of “This example has multiple choices.” is shown along with the text of any choice when clicked.</p>
+
+<p><img src="./ChoiceOutput.png" alt="alt text" title="Choice Output" /></p>
+
+<p>However, the issue still remains. Clicking a button multiple time produces an error: “choice out of range.” The problem this time is not with refreshing the text content. That now works. The issue is with the buttons. After being clicked, they should not still exist. Once used, they should be destroyed.</p>
+
+<h3 id="destroying-buttons">Destroying Buttons</h3>
+
+<p>In Unity, all of the children of a parent GameObject are part of its <em>transform</em>. One way to access them, therefore, is to iterate over them using a <code class="language-plaintext highlighter-rouge">foreach()</code> statement.</p>
+
+<pre><code class="language-CSharp">// For each Transform object in transform, set its values to the new variable 'child'
+foreach (Transform child in transform)
+{
+}
+</code></pre>
+
+<p>The method <strong>Destroy()</strong>, like <strong>Instantiate()</strong>, is available to all GameObjects. However, instead of creating new GameObjects like <strong>Instantiate()</strong>, the method <strong>Destroy()</strong> removes them from the Scene.</p>
+
+<p>Each <strong>Transform</strong> object also has access to a property <em>gameObject</em> that is the GameObject it is attached to.</p>
+
+<p>Using these two bits of information, the method <strong>Destroy()</strong> can be called to remove a GameObject via an existing <strong>Transform</strong> object through referring to its <em>gameObject</em> property.</p>
+
+<pre><code class="language-CSharp">// For each Transform object in transform, set its values to the new variable 'child'
+foreach (Transform child in transform)
+{
+  // Destroy the GameObject associated with the transform
+  Destroy(child.gameObject);
+}
+</code></pre>
+
+<p>Placing this new code inside of the <code class="language-plaintext highlighter-rouge">delegate</code>, the operations are now to make a choice, remove the current children of the <strong>Canvas</strong>, and then load the next part of the Story.</p>
+
+<p><strong>NewBehaviourScript.cs:</strong></p>
+
+<pre><code class="language-CSharp">using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+// Add the Ink Runtime
+using Ink.Runtime;
+// Add Unity UI
+using UnityEngine.UI;
+
+public class NewBehaviourScript : MonoBehaviour
+{
+    // Add a TextAsset representing the compiled Ink Asset
+    public TextAsset InkJSONAsset;
+
+    // Add a Button representing the ButtonPrefab
+    public Button ButtonPrefab;
+
+    // Add a Story
+    private Story exampleStory;
+
+    // Add a Text
+    private Text childText;
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        // Create a new Story object using the compiled (JSON) Ink story text
+        exampleStory = new Story(InkJSONAsset.text);
+
+        // From this GameObject, look in its children for a component of the type "Text".
+        // Return a reference to this component and save it locally.
+        childText = GetComponentInChildren&lt;Text&gt;();
+
+        // Reset the existing text of "New Text" to an empty string
+        childText.text = "";
+
+        // Load the story for the first time
+        Refresh();
+    }
+
+    void Refresh()
+    {
+        // Each loop, check if there is more story to load
+        while (exampleStory.canContinue)
+        {
+            // Load the next story chunk and return the current text
+            string currentTextChunk = exampleStory.Continue();
+
+            // Get any tags loaded in the current story chunk
+            List&lt;string&gt; currentTags = exampleStory.currentTags;
+
+            // Create a blank line of dialogue
+            string line = "";
+
+            // For each tag in currentTag, set its values to the new variable 'tag'
+            foreach (string tag in currentTags)
+            {
+                // Concatenate the tag and a colon
+                line += tag + ": ";
+            }
+
+            // Concatenate the current text chunk
+            // (This will either have a tag before it or be by itself.)
+            line += currentTextChunk;
+
+            // Concatenate the content of 'line' to the existing text
+            childText.text += line;
+
+            // For each choice in currentChoices, set its values to the new variable 'choice'
+            foreach (Choice choice in exampleStory.currentChoices)
+            {
+                // Create a new GameObject based on a Prefab and set its parent to this.transform
+                Button choiceButton = Instantiate(ButtonPrefab, this.transform);
+
+                // Add a delegate as an event listener
+                choiceButton.onClick.AddListener(delegate {
+
+                    // Call the method ChooseChoiceIndex() with the current choice index
+                    exampleStory.ChooseChoiceIndex(choice.index);
+
+                    // For each Transform object in transform, set its values to the new variable 'child'
+                    foreach (Transform child in transform)
+                    {
+                        // Destroy the GameObject associated with the transform
+                        Destroy(child.gameObject);
+                    }
+
+                    // Refresh the text and choices
+                    Refresh();
+
+                });
+
+                // From choiceButton, look in its children for a component of the type "Text".
+                // Return a reference to this component and save it locally.
+                Text choiceText = choiceButton.GetComponentInChildren&lt;Text&gt;();
+
+                // Set the button's text to the choice's text
+                choiceText.text = choice.text;
+            }
+
+        }
+    }
+}
+</code></pre>
+
+<p>When run and a choice made (through clicking on a button) does just that. The <strong>Canvas</strong> is cleared after the user clicks on a <strong>Button</strong>.</p>
+
+<p><img src="./ChildrenCleared.png" alt="alt text" title="Children Cleared" /></p>
+
+<p>Currently, however, there is no more story to load in the Ink file. That can be fixed through adding more to load.</p>
+
+<p><strong>New Ink.ink:</strong></p>
+
+<pre><code class="language-ink">This example has four choices.
+
+* Choice 1
+* Choice 2
+* Choice 3
+* Choice 4
+-
+
+This example has three choices
+
+* First
+* Second
+* Third
+-
+
+This example has two choices
+
+* 1st
+* 2nd
+-
+</code></pre>
+
+<p>With more story to load, the new code will load the next part of the story after a choice is made.</p>
+
+<p><img src="./SecondSetOfChoices.png" alt="alt text" title="Second Set of Choices" /></p>
+
+<p>This time, the code only seems to load the choices and not the text. Internally, though, the text is being loaded. It is just that the code no longer has access to <strong>Text</strong>. It was destroyed along with all of the other children.</p>
+
+<h3 id="creating-text">Creating Text</h3>
+
+<p>One solution to the problem would be to prevent <strong>Text</strong> from being destroyed along with all of the other children. However, there is also another solution: make <strong>Text</strong> a Prefab. That way, along with <strong>Button</strong>, it could be created and destroyed as needed.</p>
+
+<p><img src="./TextPrefab.png" alt="alt text" title="Text Prefab" /></p>
+
+<p>To make this change, drag and drop the existing <strong>Text</strong> GameObject into the Project window.</p>
+
+<p><img src="./DeleteText.png" alt="alt text" title="Delete Text" /></p>
+
+<p>Then, right-click on the <strong>Text</strong> GameObject and click on “Delete”.</p>
+
+<p>Next, add a public property to represent the <strong>Text</strong> Prefab in the existing code.</p>
+
+<pre><code class="language-CSharp">public class NewBehaviourScript : MonoBehaviour
+{
+    // Add a TextAsset representing the compiled Ink Asset
+    public TextAsset InkJSONAsset;
+
+    // Add a Button representing the ButtonPrefab
+    public Button ButtonPrefab;
+
+    // Add a Text representing the Text Prefab
+    public Text TextPrefab;
+
+    // Add a Story
+    private Story exampleStory;
+
+    // Add a Text
+    private Text childText;
+}
+</code></pre>
+
+<p>Like was done with the <strong>Button</strong> Prefab in a previous chapter, drag and drop the <strong>Text</strong> Prefab from the Project window onto the new property in the <strong>Canvas</strong> Inspector window.</p>
+
+<p><img src="./TextPrefabProperty.png" alt="alt text" title="Text Prefab Property" /></p>
+
+<p>With the <strong>Text</strong> Prefab associated with the property, it is time to change the rest of the code.</p>
+
+<p>Two major changes need to be made around how <strong>Text</strong> is now handled. Previously, the method <strong>GetComponentInChildren&lt;Text&gt;()</strong> was used to search for the <strong>Text</strong> GameObject as part of <strong>Start()</strong>. This is no longer needed and should be removed.</p>
+
+<p>Second, the method <strong>Instantiate()</strong> needs to be used as part of the <strong>Refresh()</strong> method to create a new <strong>Text</strong> GameObject. The object <strong>childText</strong> is already part of the class, so code can be changed to use this existing object without changing other lines of code.</p>
+
+<pre><code class="language-CSharp">// Start is called before the first frame update
+void Start()
+{
+  // Create a new Story object using the compiled (JSON) Ink story text
+  exampleStory = new Story(InkJSONAsset.text);
+
+  // Load the story for the first time
+  Refresh();
+}
+
+void Refresh()
+{
+  // Create a new GameObject based on a Prefab and set its parent to this.transform
+  childText = Instantiate(TextPrefab, this.transform);
+
+  // Reset the existing text of "New Text" to an empty string
+  childText.text = "";
+
+  // ...
+}
+</code></pre>
+
+<p>In the updated code, the <strong>Start()</strong> method loads the compiled Ink (JSON) file and calls <strong>Refresh()</strong>, which handles parsing the Ink story and creating <strong>Text</strong> and <strong>Button</strong> GameObjects as needed.</p>
+
+<p><img src="./DynamicGameObjects.png" alt="alt text" title="Dynamic GameObjects" /></p>
+
+<p>The new code dynamically creates GameObjects, destroys them when they are no longer needed, and will use the Ink Story API to load and parse both text content and choices as they are encountered.</p>
+
+<p><strong>NewBehaviourScript.cs:</strong></p>
+
+<pre><code class="language-CSharp">using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+// Add the Ink Runtime
+using Ink.Runtime;
+// Add Unity UI
+using UnityEngine.UI;
+
+public class NewBehaviourScript : MonoBehaviour
+{
+    // Add a TextAsset representing the compiled Ink Asset
+    public TextAsset InkJSONAsset;
+
+    // Add a Button representing the Button Prefab
+    public Button ButtonPrefab;
+
+    // Add a Text representing the Text Prefab
+    public Text TextPrefab;
+
+    // Add a Story
+    private Story exampleStory;
+
+    // Add a Text
+    private Text childText;
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        // Create a new Story object using the compiled (JSON) Ink story text
+        exampleStory = new Story(InkJSONAsset.text);
+
+        // Load the story for the first time
+        Refresh();
+    }
+
+    void Refresh()
+    {
+        // Create a new GameObject based on a Prefab and set its parent to this.transform
+        childText = Instantiate(TextPrefab, this.transform);
+
+        // Reset the existing text of "New Text" to an empty string
+        childText.text = "";
+
+        // Each loop, check if there is more story to load
+        while (exampleStory.canContinue)
+        {
+            // Load the next story chunk and return the current text
+            string currentTextChunk = exampleStory.Continue();
+
+            // Get any tags loaded in the current story chunk
+            List&lt;string&gt; currentTags = exampleStory.currentTags;
+
+            // Create a blank line of dialogue
+            string line = "";
+
+            // For each tag in currentTag, set its values to the new variable 'tag'
+            foreach (string tag in currentTags)
+            {
+                // Concatenate the tag and a colon
+                line += tag + ": ";
+            }
+
+            // Concatenate the current text chunk
+            // (This will either have a tag before it or be by itself.)
+            line += currentTextChunk;
+
+            // Concatenate the content of 'line' to the existing text
+            childText.text += line;
+
+            // For each choice in currentChoices, set its values to the new variable 'choice'
+            foreach (Choice choice in exampleStory.currentChoices)
+            {
+                // Create a new GameObject based on a Prefab and set its parent to this.transform
+                Button choiceButton = Instantiate(ButtonPrefab, this.transform);
+
+                // Add a delegate as an event listener
+                choiceButton.onClick.AddListener(delegate {
+
+                    // Call the method ChooseChoiceIndex() with the current choice index
+                    exampleStory.ChooseChoiceIndex(choice.index);
+
+                    // For each Transform object in transform, set its values to the new variable 'child'
+                    foreach (Transform child in transform)
+                    {
+                        // Destroy the GameObject associated with the transform
+                        Destroy(child.gameObject);
+                    }
+
+                    // Refresh the text and choices
+                    Refresh();
+
+                });
+
+                // From choiceButton, look in its children for a component of the type "Text".
+                // Return a reference to this component and save it locally.
+                Text choiceText = choiceButton.GetComponentInChildren&lt;Text&gt;();
+
+                // Set the button's text to the choice's text
+                choiceText.text = choice.text;
+            }
+
+        }
+    }
+}
+</code></pre>

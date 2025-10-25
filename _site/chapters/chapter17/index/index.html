@@ -1,0 +1,314 @@
+<h2 id="objectives">Objectives</h2>
+
+<ul>
+  <li><strong>Apply</strong> EvaluateFunction() to call Ink functions from C#</li>
+  <li><strong>Implement</strong> function calls with arguments passed from Unity to Ink</li>
+  <li><strong>Capture</strong> function return values and text output from Ink functions</li>
+  <li><strong>Utilize</strong> buttons to trigger Ink function execution</li>
+  <li><strong>Integrate</strong> function results into Unity UI dynamically</li>
+  <li><strong>Analyze</strong> the three general forms of EvaluateFunction() usage</li>
+</ul>
+
+<h2 id="table-of-contents">Table of Contents</h2>
+
+<ul>
+  <li><a href="#evaluatefunction"><strong>EvaluateFunction()</strong></a>
+    <ul>
+      <li><a href="#function-call">Function Call</a></li>
+      <li><a href="#function-call-and-arguments">Function Call and Arguments</a></li>
+      <li><a href="#function-call-text-output-and-arguments">Function Call, Text Output, and Arguments</a></li>
+    </ul>
+  </li>
+  <li><a href="#buttons-to-functions">Buttons to Functions</a>
+    <ul>
+      <li><a href="#calling-a-function-as-a-result-of-clicking">Calling A Function As A Result of Clicking</a></li>
+      <li><a href="#calling-a-function-and-saving-its-results-as-a-result-of-clicking">Calling A Function and Saving Its Results As A Result of Clicking</a></li>
+    </ul>
+  </li>
+</ul>
+
+<hr />
+
+<h2 id="evaluatefunction"><strong>EvaluateFunction()</strong></h2>
+
+<p>In Ink, functions are globally accessible. This means that, once defined, they can be accessed from anywhere inside of an Ink story. To help in accessing these functions <em>outside</em> of a story, the Ink Story API provides the method <strong>EvaluateFunction()</strong>. This allows for <em>evaluating</em> Ink functions and receiving their output in C#.</p>
+
+<p>Internally, there are two versions of <strong>EvaluateFunction()</strong>. The initial argument of both methods is the same: the name of the Ink function to call. Where they differentiate is on their second and third arguments. In practice, there are three general forms of using <strong>EvaluateFunction()</strong>.</p>
+
+<blockquote>
+  <p><strong>Note:</strong> As of 2025, the <strong>EvaluateFunction()</strong> API remains the standard way to call Ink functions from C#. The patterns shown here are current and widely used in Ink-Unity integration.</p>
+</blockquote>
+
+<h3 id="function-call">Function Call</h3>
+
+<p>In the first general form of using <strong>EvaluateFunction()</strong>, only the first argument is used. As this is the name of an Ink function, it should be a <strong>string</strong> value.</p>
+
+<p><strong>New Ink.ink:</strong></p>
+
+<pre><code class="language-Ink">What is it?
+
+== function ExampleFunction() ==
+~ return "It's it!"
+</code></pre>
+
+<p><strong>NewBehaviourScript.cs:</strong></p>
+
+<pre><code class="language-CSharp">using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+// Add the Ink Runtime namespace
+using Ink.Runtime;
+// Add UnityEngine.UI
+using UnityEngine.UI;
+
+public class NewBehaviourScript : MonoBehaviour
+{
+    // Add a TextAsset for the compiled (JSON) file
+    public TextAsset InkJSONFile;
+
+    // Load the Story using the compiled file
+    Story localStory;
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        // Load the Story using the compiled file
+        localStory = new Story(InkJSONFile.text);
+
+        // Call the "ExampleFunction" function in Ink
+        //
+        // This will print "It's it!" using Debug.Log()
+        Debug.Log(localStory.EvaluateFunction("ExampleFunction"));
+
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+    }
+}
+</code></pre>
+
+<p>In the above example, the Ink function <strong>ExampleFunction()</strong> is called and its return value is used as part of the <strong>Debug.Log()</strong> method.</p>
+
+<h3 id="function-call-and-arguments">Function Call and Arguments</h3>
+
+<p>In the second form, both the name of the function (a <strong>string</strong> value) and arguments to that function are passed from C# to Ink. Passing arguments is done through using additional parameters to the <strong>ExampleFunction()</strong> method.</p>
+
+<p><strong>New Ink.ink:</strong></p>
+
+<pre><code class="language-Ink">Story content.
+
+== function ExampleFunction(a, b) ==
+~ return a + b
+</code></pre>
+
+<p><strong>NewBehaviourScript.cs:</strong></p>
+
+<pre><code class="language-CSharp">using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+// Add the Ink Runtime namespace
+using Ink.Runtime;
+// Add UnityEngine.UI
+using UnityEngine.UI;
+
+public class NewBehaviourScript : MonoBehaviour
+{
+    // Add a TextAsset for the compiled (JSON) file
+    public TextAsset InkJSONFile;
+
+    // Load the Story using the compiled file
+    Story localStory;
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        // Load the Story using the compiled file
+        localStory = new Story(InkJSONFile.text);
+
+        // Call the "ExampleFunction" function in Ink
+        //
+        // Pass it 1 (first argument) and 2 (second argument)
+        //
+        // Print the result of adding the numbers: 3
+        Debug.Log(localStory.EvaluateFunction("ExampleFunction", 1, 2));
+
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+    }
+}
+</code></pre>
+
+<h3 id="function-call-text-output-and-arguments">Function Call, Text Output, and Arguments</h3>
+
+<p>In the third form, the Ink function, its text output, and optional arguments are used. In this case, the special keyword <code class="language-plaintext highlighter-rouge">out</code> needs to be used with the <strong>string</strong> parameter value, specifying that it should be retained inside the method call and returned.</p>
+
+<p><strong>New Ink.ink:</strong></p>
+
+<pre><code class="language-Ink">Story content.
+
+== function ExampleFunction() ==
+This is text output.
+</code></pre>
+
+<p><strong>NewBehaviourScript.cs:</strong></p>
+
+<pre><code class="language-CSharp">using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+// Add the Ink Runtime namespace
+using Ink.Runtime;
+// Add UnityEngine.UI
+using UnityEngine.UI;
+
+public class NewBehaviourScript : MonoBehaviour
+{
+    // Add a TextAsset for the compiled (JSON) file
+    public TextAsset InkJSONFile;
+
+    // Load the Story using the compiled file
+    Story localStory;
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        // Load the Story using the compiled file
+        localStory = new Story(InkJSONFile.text);
+
+        // Create string to save future function output
+        string functionOutput = "";
+
+        // Call the "ExampleFunction" function in Ink
+        //
+        // Pass a out string value to record its output
+        localStory.EvaluateFunction("ExampleFunction", out functionOutput);
+
+        // Print the text output
+        Debug.Log(functionOutput);
+
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+    }
+}
+</code></pre>
+
+<h2 id="buttons-to-functions">Buttons to Functions</h2>
+
+<p>When working with <strong>Button</strong> GameObjects, the <em>onClick</em> event can be used as part of working with the Ink Story API. Often, it can be useful to call an Ink function as a result of clicking a <strong>Button</strong>.</p>
+
+<h3 id="calling-a-function-as-a-result-of-clicking">Calling A Function As A Result of Clicking</h3>
+
+<p>An new project was created. To this, the Ink Unity Integration plugin was added.</p>
+
+<p>Following a pattern created earlier in this book, a <strong>Button</strong> was added to an empty project. This created a <strong>Canvas</strong> GameObject as a result. A scripting component was then added to <strong>Canvas</strong>, <code class="language-plaintext highlighter-rouge">NewBehaviourScript.cs</code>.</p>
+
+<p><strong>New Ink.ink:</strong></p>
+
+<pre><code class="language-Ink">Story content.
+
+== function ExampleFunction() ==
+~ return "This is text output."
+</code></pre>
+
+<p><strong>NewBehaviourScript.cs:</strong></p>
+
+<pre><code class="language-CSharp">using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+// Add the Ink Runtime namespace
+using Ink.Runtime;
+// Add UnityEngine.UI
+using UnityEngine.UI;
+
+public class NewBehaviourScript : MonoBehaviour
+{
+    // Add a TextAsset for the compiled (JSON) file
+    public TextAsset InkJSONFile;
+
+    // Load the Story using the compiled file
+    Story localStory;
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        // Load the Story using the compiled file
+        localStory = new Story(InkJSONFile.text);
+
+        // Find a Button in the children of the Canvas
+        Button localButton = GetComponentInChildren&lt;Button&gt;();
+
+        // Listen for the onClick event
+        localButton.onClick.AddListener(delegate
+        {
+            // Call the "ExampleFunction" function in Ink
+            Debug.Log(localStory.EvaluateFunction("ExampleFunction"));
+        });
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+    }
+}
+</code></pre>
+
+<p>In the above example, the code listens for the <em>onClick</em> event of the added <strong>Button</strong>. When it is clicked, it uses the Ink Story API method <strong>EvaluateFunction()</strong>. This, in turn, calls the Ink function <strong>ExampleFunction()</strong>. When this function returns internally, it passes this value back from Ink to C# and is printed to the Console window.</p>
+
+<h3 id="calling-a-function-and-saving-its-results-as-a-result-of-clicking">Calling A Function and Saving Its Results As A Result of Clicking</h3>
+
+<p>An new project was created. To this, the Ink Unity Integration plugin was added.</p>
+
+<p>Following a pattern created earlier in this book, a <strong>Button</strong> was added to an empty project. This created a <strong>Canvas</strong> GameObject as a result. A scripting component was then added to <strong>Canvas</strong>, <code class="language-plaintext highlighter-rouge">NewBehaviourScript.cs</code>.</p>
+
+<p>A <strong>Text</strong> GameObject was also added.</p>
+
+<p><strong>New Ink.ink:</strong></p>
+
+<pre><code class="language-Ink">Story content.
+
+== function ExampleFunction() ==
+This is text output.
+</code></pre>
+
+<p>To help with better organizing the project, public properties were added for the compiled JSON, <strong>Button</strong>, and <strong>Text</strong> GameObjects. (This was used in place of trying to find them via the <strong>GetComponentsInChildren&lt;GameObject&gt;()</strong> method in previous examples.)</p>
+
+<p><strong>NewBehaviourScript.cs:</strong></p>
+
+<pre><code class="language-CSharp">using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+// Add the Ink Runtime namespace
+using Ink.Runtime;
+// Add UnityEngine.UI
+using UnityEngine.UI;
+
+public class NewBehaviourScript : MonoBehaviour
+{
+    // Add a TextAsset for the compiled (JSON) file
+    [SerializeField] private TextAsset inkJSONFile;
+
+    // Add Button reference
+    [SerializeField] private Button buttonExample;
+
+    // Add Text reference
+    [SerializeField] private Text textExample;
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        // Load the Story using the compiled file
+        /* Lines 302-317 omitted */
+    }
+}
+</code></pre>
+
+<p>In the above code, when the <strong>Button</strong> is clicked, its text output is saved via the variable  <em>textOutput</em>. This is then used as part of the <em>text</em> property.</p>
+
+<p>In an extended example, such a pattern could be used to load different parts of a story or run Ink functions that performed calculations and return or use their text output.</p>

@@ -1,0 +1,65 @@
+# Site settings
+title: Learning Ink + Unity
+description: >-
+  An online, open-source textbook designed for those who may not have used Ink, Unity, or any other programming language or engine before. Learn to create projects combining Ink interactive storytelling with Unity game development.
+
+baseurl: "/learning-ink-unity-1"
+url: "https://videlais.github.io"
+
+author:
+  name: Dan Cox
+
+# License information
+license:
+  text: "Creative Commons Attribution-ShareAlike 4.0 International License"
+  url: "https://creativecommons.org/licenses/by-sa/4.0/"
+  code: "Public Domain (CC0 1.0 Universal)"
+  code_url: "https://creativecommons.org/publicdomain/zero/1.0/"
+
+# Remote theme
+remote_theme: videlais/opentextbook-theme
+
+# Collections
+collections:
+  chapters:
+    output: true
+    permalink: /:collection/:path/
+
+# Defaults
+defaults:
+  - scope:
+      path: ""
+      type: "chapters"
+    values:
+      layout: "chapter"
+  - scope:
+      path: ""
+      type: "pages"
+    values:
+      layout: "page"
+
+# Plugins
+plugins:
+  - jekyll-feed
+  - jekyll-sitemap
+  - jekyll-seo-tag
+
+# Build settings
+markdown: kramdown
+highlighter: rouge
+sass:
+  style: compressed
+
+# Exclude from processing
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - node_modules
+  - vendor/bundle/
+  - vendor/cache/
+  - vendor/gems/
+  - vendor/ruby/
+  - .sass-cache/
+  - .jekyll-cache/
+  - .git/
+  - README.md
