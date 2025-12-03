@@ -21,49 +21,49 @@ This book is organized into thematic sections that build upon each other:
 
 > *Note*: For readers new to programming or C#
 
-- [Chapter 1: Variables, Data Types, and Collections](/chapters/chapter1/)
-- [Chapter 2: Classes](/chapters/chapter2/)
-- [Chapter 3: Object-Oriented Programming](/chapters/chapter3/)
-- [Chapter 4: Operators](/chapters/chapter4/)
+- [Chapter 1: Variables, Data Types, and Collections]({{ site.baseurl }}/chapters/chapter1/)
+- [Chapter 2: Classes]({{ site.baseurl }}/chapters/chapter2/)
+- [Chapter 3: Object-Oriented Programming]({{ site.baseurl }}/chapters/chapter3/)
+- [Chapter 4: Operators]({{ site.baseurl }}/chapters/chapter4/)
 
 If you're already comfortable with C# basics, you can skip ahead to Unity Fundamentals.
 
 ### Unity Fundamentals
 
-> Note:* Understanding the Unity engine and development environment
+> *Note:* Understanding the Unity engine and development environment
 
-- [Chapter 5: Unity Terms and Concepts](/chapters/chapter5/)
-- [Chapter 6: Unity Scripting Basics](/chapters/chapter6/)
-- [Chapter 7: Unity Windows, Views, and Tools](/chapters/chapter7/)
+- [Chapter 5: Unity Terms and Concepts]({{ site.baseurl }}/chapters/chapter5/)
+- [Chapter 6: Unity Scripting Basics]({{ site.baseurl }}/chapters/chapter6/)
+- [Chapter 7: Unity Windows, Views, and Tools]({{ site.baseurl }}/chapters/chapter7/)
 
 ### Ink Integration
 
 > *Note:* Connecting interactive narratives to Unity
 
-- [Chapter 8: Loading Ink-Unity Plugin](/chapters/chapter8/)
-- [Chapter 9: Introducing Story API](/chapters/chapter9/)
-- [Chapter 10: Introducing Canvas and Text](/chapters/chapter10/)
+- [Chapter 8: Loading Ink-Unity Plugin]({{ site.baseurl }}/chapters/chapter8/)
+- [Chapter 9: Introducing Story API]({{ site.baseurl }}/chapters/chapter9/)
+- [Chapter 10: Introducing Canvas and Text]({{ site.baseurl }}/chapters/chapter10/)
 
 ### Unity UI & Interactivity
 
 > *Note:* Building user interfaces for interactive stories
 
-- [Chapter 11: Buttons and User Input](/chapters/chapter11/)
-- [Chapter 12: User Events and Dynamic Story Loading](/chapters/chapter12/)
+- [Chapter 11: Buttons and User Input]({{ site.baseurl }}/chapters/chapter11/)
+- [Chapter 12: User Events and Dynamic Story Loading]({{ site.baseurl }}/chapters/chapter12/)
 
 ### Project Organization & Advanced Techniques
 
 > *Note:* Professional workflows and advanced features
 
-- [Chapter 13: Selective Output and Story Organization](/chapters/chapter13/)
-- [Chapter 14: Organizing Project Files](/chapters/chapter14/)
-- [Chapter 15: Line Breaks and Rich Text Support](/chapters/chapter15/)
-- [Chapter 16: Accessing and Observing Ink Variables](/chapters/chapter16/)
-- [Chapter 17: Calling Ink Functions](/chapters/chapter17/)
+- [Chapter 13: Selective Output and Story Organization]({{ site.baseurl }}/chapters/chapter13/)
+- [Chapter 14: Organizing Project Files]({{ site.baseurl }}/chapters/chapter14/)
+- [Chapter 15: Line Breaks and Rich Text Support]({{ site.baseurl }}/chapters/chapter15/)
+- [Chapter 16: Accessing and Observing Ink Variables]({{ site.baseurl }}/chapters/chapter16/)
+- [Chapter 17: Calling Ink Functions]({{ site.baseurl }}/chapters/chapter17/)
 
 ## Getting Started
 
-Start with the [Introduction](/chapters/introduction/) to learn about the book's goals and structure, then choose your path based on your experience level.
+Start with the [Introduction]({{ site.baseurl }}/chapters/introduction/) to learn about the book's goals and structure, then choose your path based on your experience level.
 
 ## Found a Problem?
 

@@ -13,6 +13,7 @@ group :jekyll_plugins do
   gem "jekyll-feed", "~> 0.12"
   gem "jekyll-sitemap"
   gem "jekyll-seo-tag"
+  gem "jekyll-remote-theme", github: "benbalter/jekyll-remote-theme", branch: "master"
 end
 
 # Performance-booster for watching directories on Windows

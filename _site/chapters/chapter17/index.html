@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <link rel="icon" href="/learning-ink-unity/favicon.svg" type="image/svg+xml">
+  <link rel="alternate icon" href="/learning-ink-unity/favicon.ico"><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Ink + Unity: Calling Ink Functions | Learning Ink + Unity</title>
+<meta name="generator" content="Jekyll v4.3.4" />
+<meta property="og:title" content="Ink + Unity: Calling Ink Functions" />
+<meta name="author" content="Dan Cox" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Objectives" />
+<meta property="og:description" content="Objectives" />
+<link rel="canonical" href="http://localhost:4000/learning-ink-unity/chapters/chapter17/" />
+<meta property="og:url" content="http://localhost:4000/learning-ink-unity/chapters/chapter17/" />
+<meta property="og:site_name" content="Learning Ink + Unity" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2025-12-03T11:33:48-06:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Ink + Unity: Calling Ink Functions" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Dan Cox"},"dateModified":"2025-12-03T11:33:48-06:00","datePublished":"2025-12-03T11:33:48-06:00","description":"Objectives","headline":"Ink + Unity: Calling Ink Functions","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/learning-ink-unity/chapters/chapter17/"},"url":"http://localhost:4000/learning-ink-unity/chapters/chapter17/"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/learning-ink-unity/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/learning-ink-unity/feed.xml" title="Learning Ink + Unity" /><title>Ink + Unity: Calling Ink Functions | Learning Ink + Unity</title>
+</head>
+
+<body>
+  <!-- Skip to main content link for keyboard users -->
+  <a class="skip-link screen-reader-text" href="#main-content">Skip to main content</a><header class="site-header" role="banner">
+  <div class="wrapper"><div class="site-header-inner">
+      <a class="site-title" rel="author" href="/learning-ink-unity/" aria-label="Learning Ink + Unity - Home">
+        Learning Ink + Unity
+      </a>
+
+      <nav class="site-nav" role="navigation" aria-label="Main navigation">
+        <div class="trigger">
+          <a class="page-link" href="/learning-ink-unity/" 
+             >
+            Home
+          </a>
+          <a class="page-link" href="/learning-ink-unity/chapters/"
+             aria-current="page">
+            All Chapters
+          </a>
+        </div>
+      </nav>
+    </div>
+  </div>
+</header>
+<main id="main-content" class="page-content" role="main" aria-label="Main content">
+    <div class="wrapper">
+      <article class="chapter">
+  <header class="chapter-header">
+    <h1 class="chapter-title">Chapter 17:</br> Ink + Unity: Calling Ink Functions</h1>
+  </header>
+
+  <div class="chapter-content">
+    <h2 id="objectives">Objectives</h2>
+
+<ul>
+  <li><strong>Apply</strong> EvaluateFunction() to call Ink functions from C#</li>
+  <li><strong>Implement</strong> function calls with arguments passed from Unity to Ink</li>
+  <li><strong>Capture</strong> function return values and text output from Ink functions</li>
+  <li><strong>Utilize</strong> buttons to trigger Ink function execution</li>
+  <li><strong>Integrate</strong> function results into Unity UI dynamically</li>
+  <li><strong>Analyze</strong> the three general forms of EvaluateFunction() usage</li>
+</ul>
+
+<h2 id="table-of-contents">Table of Contents</h2>
+
+<ul>
+  <li><a href="#evaluatefunction"><strong>EvaluateFunction()</strong></a>
+    <ul>
+      <li><a href="#function-call">Function Call</a></li>
+      <li><a href="#function-call-and-arguments">Function Call and Arguments</a></li>
+      <li><a href="#function-call-text-output-and-arguments">Function Call, Text Output, and Arguments</a></li>
+    </ul>
+  </li>
+  <li><a href="#buttons-to-functions">Buttons to Functions</a>
+    <ul>
+      <li><a href="#calling-a-function-as-a-result-of-clicking">Calling A Function As A Result of Clicking</a></li>
+      <li><a href="#calling-a-function-and-saving-its-results-as-a-result-of-clicking">Calling A Function and Saving Its Results As A Result of Clicking</a></li>
+    </ul>
+  </li>
+</ul>
+
+<hr />
+
+<h2 id="evaluatefunction"><strong>EvaluateFunction()</strong></h2>
+
+<p>In Ink, functions are globally accessible. This means that, once defined, they can be accessed from anywhere inside of an Ink story. To help in accessing these functions <em>outside</em> of a story, the Ink Story API provides the method <strong>EvaluateFunction()</strong>. This allows for <em>evaluating</em> Ink functions and receiving their output in C#.</p>
+
+<p>Internally, there are two versions of <strong>EvaluateFunction()</strong>. The initial argument of both methods is the same: the name of the Ink function to call. Where they differentiate is on their second and third arguments. In practice, there are three general forms of using <strong>EvaluateFunction()</strong>.</p>
+
+<blockquote>
+  <p><strong>Note:</strong> As of 2025, the <strong>EvaluateFunction()</strong> API remains the standard way to call Ink functions from C#. The patterns shown here are current and widely used in Ink-Unity integration.</p>
+</blockquote>
+
+<h3 id="function-call">Function Call</h3>
+
+<p>In the first general form of using <strong>EvaluateFunction()</strong>, only the first argument is used. As this is the name of an Ink function, it should be a <strong>string</strong> value.</p>
+
+<p><strong>New Ink.ink:</strong></p>
+
+<pre><code class="language-Ink">What is it?
+
+== function ExampleFunction() ==
+~ return "It's it!"
+</code></pre>
+
+<p><strong>NewBehaviourScript.cs:</strong></p>
+
+<pre><code class="language-CSharp">using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+// Add the Ink Runtime namespace
+using Ink.Runtime;
+// Add UnityEngine.UI
+using UnityEngine.UI;
+
+public class NewBehaviourScript : MonoBehaviour
+{
+    // Add a TextAsset for the compiled (JSON) file
+    public TextAsset InkJSONFile;
+
+    // Load the Story using the compiled file
+    Story localStory;
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        // Load the Story using the compiled file
+        localStory = new Story(InkJSONFile.text);
+
+        // Call the "ExampleFunction" function in Ink
+        //
+        // This will print "It's it!" using Debug.Log()
+        Debug.Log(localStory.EvaluateFunction("ExampleFunction"));
+
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+    }
+}
+</code></pre>
+
+<p>In the above example, the Ink function <strong>ExampleFunction()</strong> is called and its return value is used as part of the <strong>Debug.Log()</strong> method.</p>
+
+<h3 id="function-call-and-arguments">Function Call and Arguments</h3>
+
+<p>In the second form, both the name of the function (a <strong>string</strong> value) and arguments to that function are passed from C# to Ink. Passing arguments is done through using additional parameters to the <strong>ExampleFunction()</strong> method.</p>
+
+<p><strong>New Ink.ink:</strong></p>
+
+<pre><code class="language-Ink">Story content.
+
+== function ExampleFunction(a, b) ==
+~ return a + b
+</code></pre>
+
+<p><strong>NewBehaviourScript.cs:</strong></p>
+
+<pre><code class="language-CSharp">using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+// Add the Ink Runtime namespace
+using Ink.Runtime;
+// Add UnityEngine.UI
+using UnityEngine.UI;
+
+public class NewBehaviourScript : MonoBehaviour
+{
+    // Add a TextAsset for the compiled (JSON) file
+    public TextAsset InkJSONFile;
+
+    // Load the Story using the compiled file
+    Story localStory;
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        // Load the Story using the compiled file
+        localStory = new Story(InkJSONFile.text);
+
+        // Call the "ExampleFunction" function in Ink
+        //
+        // Pass it 1 (first argument) and 2 (second argument)
+        //
+        // Print the result of adding the numbers: 3
+        Debug.Log(localStory.EvaluateFunction("ExampleFunction", 1, 2));
+
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+    }
+}
+</code></pre>
+
+<h3 id="function-call-text-output-and-arguments">Function Call, Text Output, and Arguments</h3>
+
+<p>In the third form, the Ink function, its text output, and optional arguments are used. In this case, the special keyword <code class="language-plaintext highlighter-rouge">out</code> needs to be used with the <strong>string</strong> parameter value, specifying that it should be retained inside the method call and returned.</p>
+
+<p><strong>New Ink.ink:</strong></p>
+
+<pre><code class="language-Ink">Story content.
+
+== function ExampleFunction() ==
+This is text output.
+</code></pre>
+
+<p><strong>NewBehaviourScript.cs:</strong></p>
+
+<pre><code class="language-CSharp">using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+// Add the Ink Runtime namespace
+using Ink.Runtime;
+// Add UnityEngine.UI
+using UnityEngine.UI;
+
+public class NewBehaviourScript : MonoBehaviour
+{
+    // Add a TextAsset for the compiled (JSON) file
+    public TextAsset InkJSONFile;
+
+    // Load the Story using the compiled file
+    Story localStory;
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        // Load the Story using the compiled file
+        localStory = new Story(InkJSONFile.text);
+
+        // Create string to save future function output
+        string functionOutput = "";
+
+        // Call the "ExampleFunction" function in Ink
+        //
+        // Pass a out string value to record its output
+        localStory.EvaluateFunction("ExampleFunction", out functionOutput);
+
+        // Print the text output
+        Debug.Log(functionOutput);
+
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+    }
+}
+</code></pre>
+
+<h2 id="buttons-to-functions">Buttons to Functions</h2>
+
+<p>When working with <strong>Button</strong> GameObjects, the <em>onClick</em> event can be used as part of working with the Ink Story API. Often, it can be useful to call an Ink function as a result of clicking a <strong>Button</strong>.</p>
+
+<h3 id="calling-a-function-as-a-result-of-clicking">Calling A Function As A Result of Clicking</h3>
+
+<p>An new project was created. To this, the Ink Unity Integration plugin was added.</p>
+
+<p>Following a pattern created earlier in this book, a <strong>Button</strong> was added to an empty project. This created a <strong>Canvas</strong> GameObject as a result. A scripting component was then added to <strong>Canvas</strong>, <code class="language-plaintext highlighter-rouge">NewBehaviourScript.cs</code>.</p>
+
+<p><strong>New Ink.ink:</strong></p>
+
+<pre><code class="language-Ink">Story content.
+
+== function ExampleFunction() ==
+~ return "This is text output."
+</code></pre>
+
+<p><strong>NewBehaviourScript.cs:</strong></p>
+
+<pre><code class="language-CSharp">using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+// Add the Ink Runtime namespace
+using Ink.Runtime;
+// Add UnityEngine.UI
+using UnityEngine.UI;
+
+public class NewBehaviourScript : MonoBehaviour
+{
+    // Add a TextAsset for the compiled (JSON) file
+    public TextAsset InkJSONFile;
+
+    // Load the Story using the compiled file
+    Story localStory;
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        // Load the Story using the compiled file
+        localStory = new Story(InkJSONFile.text);
+
+        // Find a Button in the children of the Canvas
+        Button localButton = GetComponentInChildren&lt;Button&gt;();
+
+        // Listen for the onClick event
+        localButton.onClick.AddListener(delegate
+        {
+            // Call the "ExampleFunction" function in Ink
+            Debug.Log(localStory.EvaluateFunction("ExampleFunction"));
+        });
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+    }
+}
+</code></pre>
+
+<p>In the above example, the code listens for the <em>onClick</em> event of the added <strong>Button</strong>. When it is clicked, it uses the Ink Story API method <strong>EvaluateFunction()</strong>. This, in turn, calls the Ink function <strong>ExampleFunction()</strong>. When this function returns internally, it passes this value back from Ink to C# and is printed to the Console window.</p>
+
+<h3 id="calling-a-function-and-saving-its-results-as-a-result-of-clicking">Calling A Function and Saving Its Results As A Result of Clicking</h3>
+
+<p>An new project was created. To this, the Ink Unity Integration plugin was added.</p>
+
+<p>Following a pattern created earlier in this book, a <strong>Button</strong> was added to an empty project. This created a <strong>Canvas</strong> GameObject as a result. A scripting component was then added to <strong>Canvas</strong>, <code class="language-plaintext highlighter-rouge">NewBehaviourScript.cs</code>.</p>
+
+<p>A <strong>Text</strong> GameObject was also added.</p>
+
+<p><strong>New Ink.ink:</strong></p>
+
+<pre><code class="language-Ink">Story content.
+
+== function ExampleFunction() ==
+This is text output.
+</code></pre>
+
+<p>To help with better organizing the project, public properties were added for the compiled JSON, <strong>Button</strong>, and <strong>Text</strong> GameObjects. (This was used in place of trying to find them via the <strong>GetComponentsInChildren&lt;GameObject&gt;()</strong> method in previous examples.)</p>
+
+<p><strong>NewBehaviourScript.cs:</strong></p>
+
+<pre><code class="language-CSharp">using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+// Add the Ink Runtime namespace
+using Ink.Runtime;
+// Add UnityEngine.UI
+using UnityEngine.UI;
+
+public class NewBehaviourScript : MonoBehaviour
+{
+    // Add a TextAsset for the compiled (JSON) file
+    [SerializeField] private TextAsset inkJSONFile;
+
+    // Add Button reference
+    [SerializeField] private Button buttonExample;
+
+    // Add Text reference
+    [SerializeField] private Text textExample;
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        // Load the Story using the compiled file
+        /* Lines 302-317 omitted */
+    }
+}
+</code></pre>
+
+<p>In the above code, when the <strong>Button</strong> is clicked, its text output is saved via the variable  <em>textOutput</em>. This is then used as part of the <em>text</em> property.</p>
+
+<p>In an extended example, such a pattern could be used to load different parts of a story or run Ink functions that performed calculations and return or use their text output.</p>
+
+  </div>
+
+  <nav class="chapter-navigation" role="navigation" aria-label="Chapter navigation">
+    <h2 class="screen-reader-text">Navigate between chapters</h2><div class="chapter-nav-links"><a href="/learning-ink-unity/chapters/chapter16/index.html" class="chapter-nav prev" aria-label="Previous chapter: Ink + Unity: Accessing and Observing Ink Variables">
+          <span aria-hidden="true">←</span> Previous
+        </a><span class="chapter-nav next disabled" aria-hidden="true"></span></div>
+  </nav>
+</article>
+
+    </div>
+  </main><footer class="site-footer h-card" role="contentinfo">
+  <data class="u-url" href="/learning-ink-unity/"></data>
+  
+  <div class="wrapper">
+    <h2 class="footer-heading">Learning Ink + Unity</h2>
+    
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <p>An online, open-source textbook designed for those who may not have used ink, Unity, or any other programming language or engine before.</p>
+      </div>
+      
+      <div class="footer-col footer-col-2">
+        <section class="license-info">
+          <h3 class="screen-reader-text">License Information</h3><p>
+            <small>
+              <strong>Text and images licensed under:</strong><br>
+              <a href="https://creativecommons.org/licenses/by-sa/4.0/" rel="license">Creative Commons Attribution-ShareAlike 4.0 International License</a>
+            </small>
+          </p><p>
+            <small>
+              <strong>Code examples licensed under:</strong><br>
+              <a href="https://creativecommons.org/publicdomain/zero/1.0/" rel="license">Public Domain (CC0 1.0 Universal)</a>
+            </small>
+          </p></section>
+      </div>
+      
+      <div class="footer-col footer-col-3">
+        <section class="accessibility-info">
+          <h3 class="screen-reader-text">Accessibility</h3>
+          <p>
+            <small>
+              This site is designed to meet 
+              <a href="https://www.w3.org/WAI/WCAG21/Understanding/conformance#level-aaa" 
+                 rel="external">WCAG 2.1 AAA accessibility standards</a>.
+              <br>
+              <a href="/learning-ink-unity/accessibility/" rel="accessibility">View accessibility statement</a>
+            </small>
+          </p>
+        </section>
+      </div>
+    </div>
+  </div>
+</footer>
+<!-- 
+Enhanced blockquote styling with accessibility
+Automatically detects blockquotes starting with specific keywords and applies:
+- CSS classes for visual styling (.info, .warning, .note, .tip, .example, .important)
+- ARIA roles and labels for screen readers
+- Icons and semantic meaning
+
+Usage: Start blockquotes with **Information**, **Warning**, **Note**, **Tip**, **Example**, or **Important**
+-->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  // Auto-detect and style blockquotes based on content
+  const blockquotes = document.querySelectorAll('blockquote');
+  
+  blockquotes.forEach(function(blockquote) {
+    const firstStrong = blockquote.querySelector('strong:first-child, p:first-child > strong:first-child');
+    
+    if (firstStrong) {
+      const text = firstStrong.textContent.toLowerCase().trim();
+      
+      // Add appropriate class based on the strong text content
+      if (text.includes('information')) {
+        blockquote.classList.add('info');
+        blockquote.setAttribute('role', 'note');
+        blockquote.setAttribute('aria-label', 'Information');
+      } else if (text.includes('warning')) {
+        blockquote.classList.add('warning');
+        blockquote.setAttribute('role', 'alert');
+        blockquote.setAttribute('aria-label', 'Warning');
+      } else if (text.includes('note')) {
+        blockquote.classList.add('note');
+        blockquote.setAttribute('role', 'note');
+        blockquote.setAttribute('aria-label', 'Note');
+      } else if (text.includes('tip')) {
+        blockquote.classList.add('tip');
+        blockquote.setAttribute('role', 'complementary');
+        blockquote.setAttribute('aria-label', 'Tip');
+      } else if (text.includes('example')) {
+        blockquote.classList.add('example');
+        blockquote.setAttribute('role', 'region');
+        blockquote.setAttribute('aria-label', 'Example');
+      } else if (text.includes('important')) {
+        blockquote.classList.add('important');
+        blockquote.setAttribute('role', 'alert');
+        blockquote.setAttribute('aria-label', 'Important');
+      }
+    }
+  });
+});
+</script><!-- 
+Copy Code Button functionality
+Adds copy buttons to all code blocks for better user experience
+Features:
+- Accessible copy buttons with ARIA labels
+- Visual feedback on copy success
+- Keyboard navigation support
+- Responsive design
+-->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  // Find all code blocks (both pre > code and .highlight pre)
+  const codeBlocks = document.querySelectorAll('pre code, .highlight pre code, pre:not(.highlight)');
+  
+  codeBlocks.forEach(function(codeBlock) {
+    // Skip if this code block already has a copy button
+    if (codeBlock.parentElement.querySelector('.copy-code-button')) return;
+    
+    // Create the copy button
+    const copyButton = document.createElement('button');
+    copyButton.className = 'copy-code-button';
+    copyButton.type = 'button';
+    copyButton.setAttribute('aria-label', 'Copy code to clipboard');
+    copyButton.innerHTML = `
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
+        <path d="M4 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V2zm2-1a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H6zM2 5a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1v-1h1v1a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h1v1H2z"/>
+      </svg>
+      <span class="copy-button-text">Copy</span>
+    `;
+    
+    // Find the appropriate container (pre or .highlight)
+    const container = codeBlock.closest('.highlight') || codeBlock.closest('pre');
+    if (!container) return;
+    
+    // Make the container relative for absolute positioning
+    container.style.position = 'relative';
+    
+    // Add the copy button to the container
+    container.appendChild(copyButton);
+    
+    // Add click event listener
+    copyButton.addEventListener('click', function() {
+      const codeText = codeBlock.textContent || codeBlock.innerText;
+      
+      // Try to use the modern clipboard API
+      if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(codeText).then(function() {
+          showCopySuccess(copyButton);
+        }).catch(function() {
+          // Fallback to older method
+          fallbackCopyToClipboard(codeText, copyButton);
+        });
+      } else {
+        // Fallback for older browsers or non-secure contexts
+        fallbackCopyToClipboard(codeText, copyButton);
+      }
+    });
+    
+    // Add keyboard event listener
+    copyButton.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        copyButton.click();
+      }
+    });
+  });
+  
+  // Fallback copy method for older browsers
+  function fallbackCopyToClipboard(text, button) {
+    const textArea = document.createElement('textarea');
+    textArea.value = text;
+    textArea.style.position = 'fixed';
+    textArea.style.left = '-999999px';
+    textArea.style.top = '-999999px';
+    document.body.appendChild(textArea);
+    textArea.focus();
+    textArea.select();
+    
+    try {
+      const successful = document.execCommand('copy');
+      if (successful) {
+        showCopySuccess(button);
+      } else {
+        showCopyError(button);
+      }
+    } catch (err) {
+      showCopyError(button);
+    }
+    
+    document.body.removeChild(textArea);
+  }
+  
+  // Show success feedback
+  function showCopySuccess(button) {
+    const originalHTML = button.innerHTML;
+    button.innerHTML = `
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
+        <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"/>
+      </svg>
+      <span class="copy-button-text">Copied!</span>
+    `;
+    button.classList.add('copy-success');
+    button.setAttribute('aria-label', 'Code copied to clipboard');
+    
+    setTimeout(function() {
+      button.innerHTML = originalHTML;
+      button.classList.remove('copy-success');
+      button.setAttribute('aria-label', 'Copy code to clipboard');
+    }, 2000);
+  }
+  
+  // Show error feedback
+  function showCopyError(button) {
+    const originalHTML = button.innerHTML;
+    button.innerHTML = `
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
+        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+        <path d="M7.002 11a1 1 0 1 1 2 0 1 1 0 0 1-2 0zM7.1 4.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 4.995z"/>
+      </svg>
+      <span class="copy-button-text">Error</span>
+    `;
+    button.classList.add('copy-error');
+    button.setAttribute('aria-label', 'Failed to copy code');
+    
+    setTimeout(function() {
+      button.innerHTML = originalHTML;
+      button.classList.remove('copy-error');
+      button.setAttribute('aria-label', 'Copy code to clipboard');
+    }, 2000);
+  }
+});
+</script></body>
+
+</html>

@@ -1,1 +1,1 @@
-Sitemap: https://videlais.github.io/learning-ink-unity-1/sitemap.xml
+Sitemap: http://localhost:4000/learning-ink-unity/sitemap.xml

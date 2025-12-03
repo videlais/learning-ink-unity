@@ -1,9 +1,9 @@
 # Site settings
 title: Learning Ink + Unity
 description: >-
-  An online, open-source textbook designed for those who may not have used Ink, Unity, or any other programming language or engine before. Learn to create projects combining Ink interactive storytelling with Unity game development.
+  An online, open-source textbook designed for those who may not have used ink, Unity, or any other programming language or engine before.
 
-baseurl: "/learning-ink-unity-1"
+baseurl: "/learning-ink-unity"
 url: "https://videlais.github.io"
 
 author:
@@ -23,7 +23,6 @@ remote_theme: videlais/opentextbook-theme
 collections:
   chapters:
     output: true
-    permalink: /:collection/:path/
 
 # Defaults
 defaults:
@@ -43,6 +42,7 @@ plugins:
   - jekyll-feed
   - jekyll-sitemap
   - jekyll-seo-tag
+  - jekyll-remote-theme
 
 # Build settings
 markdown: kramdown
